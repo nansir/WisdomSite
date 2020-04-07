@@ -1,0 +1,46 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    
+    repositories {
+        google()
+        jcenter()
+        
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.6.0'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+
+    //版本控制
+    ext {
+        COMPILE_SDK_VERSION = 29
+        BUILD_TOOLS_VERSION = "29.0.0"
+        MIN_SDK_VERSION = 21
+        TARGET_SDK_VERSION = 29
+
+        arouterAlibaba = "com.alibaba:arouter-api:1.4.1"
+        compilerAlibaba = "com.alibaba:arouter-compiler:1.2.1"
+        butterknife = "com.jakewharton:butterknife:10.0.0"
+        compilerButterknife = "com.jakewharton:butterknife-compiler:10.0.0"
+
+        paging = "android.arch.paging:runtime:1.0.1"
+        appcompat = "androidx.appcompat:appcompat:1.2.0-alpha01"
+        material = "com.google.android.material:material:1.0.0"
+        navigationUI = "androidx.navigation:navigation-ui:2.0.0"
+        lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:2.0.0"
+        navigationFragment = "androidx.navigation:navigation-fragment:2.0.0"
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

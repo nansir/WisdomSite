@@ -1,0 +1,87 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion COMPILE_SDK_VERSION
+    buildToolsVersion BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        applicationId "com.sir.app.wisdom"
+        minSdkVersion MIN_SDK_VERSION
+        targetSdkVersion TARGET_SDK_VERSION
+        versionCode 1
+        versionName "1.0"
+    }
+
+    //添加签名文件配置(将signingConfigs{}放到了buildType{}的后面,导致编译的时候无法找到)
+    signingConfigs {
+        debug {
+            try {
+                storeFile file("../\\keyStore\\wisdom.jks")
+                storePassword STORE_PASSWORD
+                keyAlias KEY_ALIAS
+                keyPassword KEY_PASSWORD
+            } catch (ex) {
+                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
+            }
+        }
+        release {
+            try {
+                storeFile file("../\\keyStore\\wisdom.jks")
+                storePassword STORE_PASSWORD
+                keyAlias KEY_ALIAS
+                keyPassword KEY_PASSWORD
+            } catch (ex) {
+                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            //指定release APK名称
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def fileName = "Wisdom_V${defaultConfig.versionName}.apk"
+                    outputFileName = fileName
+                }
+            }
+        }
+
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+
+    annotationProcessor compilerButterknife
+    implementation lifecycleExtensions
+    implementation butterknife
+    implementation appcompat
+    implementation material
+
+    implementation 'com.pgyersdk:sdk:3.0.10'
+    implementation 'com.sir.library:baseapp:1.5.2'
+    implementation 'android.arch.paging:runtime:1.0.1'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'pub.devrel:easypermissions:1.2.0'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
+    implementation 'com.squareup.retrofit2:retrofit-adapters:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.6.0'
+}
