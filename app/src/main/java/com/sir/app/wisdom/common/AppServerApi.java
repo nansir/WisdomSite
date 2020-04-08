@@ -10,6 +10,6 @@ import retrofit2.http.POST;
  */
 public interface AppServerApi {
 
-    @POST("api/v1/app/home/info")
-    Flowable<HttpResponse> singing();
+    @POST("api/SysLogin")
+    Flowable<HttpResponse> singing(String account,String password);
 }

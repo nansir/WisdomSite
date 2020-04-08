@@ -8,9 +8,10 @@ import com.sir.app.wisdom.contract.AccountContract;
  */
 public class AccountModel extends Repository implements AccountContract {
 
-
     @Override
     public void singIn(String account, String password) {
+        String json = "{\"type\":\"login\",\"obj\":{\"LoginName\":\"app\",\"Password\":\"123456\"}}";
+
 
     }
 
