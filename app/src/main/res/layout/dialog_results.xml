@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".dialog.ResultsDialog">
+
+
+    <TextView
+        android:id="@+id/tv_results_tile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="信息提交失败"
+        android:textColor="#ff000000"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/iv_results_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/ic_submit_failure" />
+
+    <TextView
+        android:id="@+id/tv_results_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="信息提交失敗，3S後自動跳轉回首頁"
+        android:textColor="#ff000000"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="26dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/shape_corner_black"
+        android:text="知道了"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+
+</LinearLayout>

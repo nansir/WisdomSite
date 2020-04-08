@@ -9,7 +9,7 @@ android {
         minSdkVersion MIN_SDK_VERSION
         targetSdkVersion TARGET_SDK_VERSION
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
     }
 
     //添加签名文件配置(将signingConfigs{}放到了buildType{}的后面,导致编译的时候无法找到)

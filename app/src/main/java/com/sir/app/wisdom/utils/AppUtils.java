@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
@@ -34,11 +36,27 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class AppUtils {
 
     /**
+     * 获取本地版本名称
+     */
+    public static String getLocalVersionName(Context ctx) {
+        String localVersion = "";
+        try {
+            PackageInfo packageInfo = ctx.getApplicationContext()
+                    .getPackageManager()
+                    .getPackageInfo(ctx.getPackageName(), 0);
+            localVersion = packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "V" + localVersion;
+    }
+
+    /**
      * 检查更新
      */
     public static void checkUpdate(@NonNull Activity context, int requestCode) {
         String[] perms = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.VIBRATE,};
+                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.VIBRATE};
         if (EasyPermissions.hasPermissions(context, perms)) {
             /** APP版本检测 **/
             new PgyUpdateManager.Builder()
@@ -154,28 +172,6 @@ public class AppUtils {
         }
 
         return m + ":" + s;
-    }
-
-    /**
-     * 获取WiFi名称
-     *
-     * @param context
-     * @return
-     */
-    public static String getWifiSSID(Context context) {
-        WifiManager manager = ((WifiManager) context.getApplicationContext().getSystemService(context.WIFI_SERVICE));
-        assert manager != null;
-        WifiInfo wifiInfo = manager.getConnectionInfo();
-        String SSID = wifiInfo.getSSID();
-        int networkId = wifiInfo.getNetworkId();
-        List<WifiConfiguration> configuredNetworks = manager.getConfiguredNetworks();
-        for (WifiConfiguration wifiConfiguration : configuredNetworks) {
-            if (wifiConfiguration.networkId == networkId) {
-                SSID = wifiConfiguration.SSID;
-                break;
-            }
-        }
-        return SSID.replace("\"", "").replace("\"", "");
     }
 
     /**

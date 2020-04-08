@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".adapter.PersonnelAdapter">
+
+    <TextView
+        android:id="@+id/tv_info_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="4dp"
+        android:text="2020/03/23 14:54"
+        android:textColor="#ff000000"
+        android:textSize="12sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+
+        <ImageView
+            android:id="@+id/iv_info_head"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@mipmap/ic_launcher_round" />
+
+        <TextView
+            android:id="@+id/tv_info_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/iv_info_head"
+            android:text="分判商：中建"
+            android:textColor="#ff000000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_info_plate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_info_name"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/iv_info_head"
+            android:text="姓名：张三"
+            android:textColor="#ff000000"
+            android:textSize="10sp" />
+
+
+        <TextView
+            android:id="@+id/tv_info_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_info_plate"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@id/iv_info_head"
+            android:text="员工编号：123321123"
+            android:textColor="#ff000000"
+            android:textSize="10sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/selector_click_oval"
+            android:padding="10dp"
+            android:text="编辑"
+            android:textColor="#ff2289ff"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
