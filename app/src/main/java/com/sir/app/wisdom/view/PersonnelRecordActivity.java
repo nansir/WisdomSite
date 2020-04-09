@@ -4,8 +4,6 @@ import android.os.Handler;
 
 import com.sir.app.wisdom.R;
 import com.sir.app.wisdom.adapter.PersonnelAdapter;
-import com.sir.app.wisdom.adapter.VehicleAdapter;
-import com.sir.library.com.AppBaseActivity;
 import com.sir.library.mvvm.HolderActivity;
 import com.sir.library.refresh.OnRefreshListener;
 import com.sir.library.refresh.holder.RecyclerSwipeViewHolder;

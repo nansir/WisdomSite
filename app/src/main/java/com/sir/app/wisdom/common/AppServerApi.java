@@ -3,6 +3,8 @@ package com.sir.app.wisdom.common;
 import com.sir.library.retrofit.response.HttpResponse;
 
 import io.reactivex.Flowable;
+import okhttp3.RequestBody;
+import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 /**
@@ -11,5 +13,12 @@ import retrofit2.http.POST;
 public interface AppServerApi {
 
     @POST("api/SysLogin")
-    Flowable<HttpResponse> singing(String account,String password);
+    Flowable<HttpResponse<String>> singing(@Body RequestBody body);
+
+    @POST("api/Staff")
+    Flowable<HttpResponse> addPersonnel(@Body RequestBody body);
+
+
+
+
 }

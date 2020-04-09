@@ -1,28 +1,31 @@
 package com.sir.app.wisdom.model;
 
+import com.sir.app.wisdom.common.AppKey;
 import com.sir.app.wisdom.common.Repository;
-import com.sir.app.wisdom.contract.AccountContract;
+import com.sir.app.wisdom.contract.PersonnelContract;
+import com.sir.library.com.utils.SPUtils;
 import com.sir.library.retrofit.callback.RxSubscriber;
 import com.sir.library.retrofit.exception.ResponseThrowable;
 import com.sir.library.retrofit.transformer.ComposeTransformer;
 
 /**
- * Created by zhuyinan on 2020/4/8.
+ * 人员管理模型
+ * Created by zhuyinan on 2020/4/9.
  */
-public class AccountModel extends Repository implements AccountContract {
+public class PersonnelModel extends Repository implements PersonnelContract {
 
-    public static String EVENT_LOGIN = getEventKey();
+    public static String EVENT_ADD_PERSONNEL = getEventKey();
 
     @Override
-    public void singIn(String account, String password) {
-        String json = "{\"type\":\"login\",\"obj\":{\"LoginName\":\"%s\",\"Password\":\"%s\"}}";
-        postState(ON_LOADING, "登录..");
-        addSubscribe(appServerApi.singing(createBody(String.format(json, account, password)))
-                .compose(ComposeTransformer.<String>Flowable())
+    public void addPersonnel(String code, String name, String photo) {
+        String json = "{\"type\":\"add\",\"obj\":{\"Tid\":\"1\",\"StaffCode\":\"%s\",\"CNFullName\":\"%s\",\"Photo\":\"%s\"}}";
+        postState(ON_LOADING, "正在提交..");
+        addSubscribe(appServerApi.addPersonnel(createBody(String.format(json, code, name, photo)))
+                .compose(ComposeTransformer.<String>FlowableMsg())
                 .subscribeWith(new RxSubscriber<String>() {
                     @Override
                     protected void onSuccess(String bean) {
-                        postData(EVENT_LOGIN, bean);
+                        postData(EVENT_ADD_PERSONNEL, bean);
                     }
 
                     @Override
@@ -32,14 +35,9 @@ public class AccountModel extends Repository implements AccountContract {
                 }));
     }
 
-    @Override
-    public void singOut() {
-
-    }
-
     public String getLoginMsg(int code) {
         switch (code) {
-            case 0:
+            case 1:
                 return "解析失败";
             case 2:
                 return "用户名密码不正确";

@@ -9,12 +9,17 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <!--网络权限-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!--相机权限-->
+    <uses-permission android:name="android.permission.CAMERA" />
+
 
     <application
         android:name=".common.MyApplication"
@@ -88,7 +93,6 @@
             android:name=".view.FaceRecognitionActivity"
             android:label="人臉識別"
             android:theme="@style/AppTheme.NoActionBar" />
-
 
     </application>
 
