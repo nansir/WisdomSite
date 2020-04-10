@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:text="信息提交失败"
+        android:text="信息提交失敗"
         android:textColor="#ff000000"
         android:textSize="16sp" />
 
@@ -42,7 +42,7 @@
         android:layout_marginTop="26dp"
         android:layout_marginBottom="6dp"
         android:background="@drawable/shape_corner_black"
-        android:text="知道了"
+        android:text="@string/got_it"
         android:textColor="@color/white"
         android:textSize="16sp" />
 

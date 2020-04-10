@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_toLeftOf="@id/iv_info_photo">
+            android:layout_toLeftOf="@id/iv_personnel_photo">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
                 android:textSize="13sp" />
 
             <EditText
-                android:id="@+id/et_name_cn"
+                android:id="@+id/et_personnel_name_cn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -51,7 +51,7 @@
             android:layout_height="0.5dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@id/iv_info_photo"
+            android:layout_toLeftOf="@id/iv_personnel_photo"
             android:background="@color/colorLine" />
 
 
@@ -60,19 +60,19 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ll"
             android:layout_marginTop="40dp"
-            android:layout_toLeftOf="@id/iv_info_photo">
+            android:layout_toLeftOf="@id/iv_personnel_photo">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/ic_required"
                 android:drawablePadding="4dp"
-                android:text="姓名(英文)："
+                android:text="员工编号："
                 android:textColor="#db000000"
                 android:textSize="13sp" />
 
             <EditText
-                android:id="@+id/et_name_en"
+                android:id="@+id/et_personnel_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -85,9 +85,8 @@
 
         </LinearLayout>
 
-
         <ImageView
-            android:id="@+id/iv_info_photo"
+            android:id="@+id/iv_personnel_photo"
             android:layout_width="68dp"
             android:layout_height="120dp"
             android:layout_alignParentRight="true"
@@ -95,7 +94,6 @@
 
 
     </RelativeLayout>
-
 
     <Button
         android:id="@+id/btn_submit"

@@ -9,7 +9,6 @@
 
     <include layout="@layout/item_toolbar" />
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="33dp"
@@ -30,7 +29,7 @@
             android:background="@color/white"
             android:drawableLeft="@mipmap/ic_search"
             android:drawablePadding="6dp"
-            android:hint="请输入分判商/车牌信息查找"
+            android:hint="@string/personnel_hint_a"
             android:padding="6dp"
             android:textSize="12sp" />
 
@@ -38,7 +37,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_click_oval"
-            android:text="搜索"
+            android:text="@string/search"
             android:textColor="#db2289ff"
             android:textSize="13sp" />
 

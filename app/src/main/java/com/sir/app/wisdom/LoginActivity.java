@@ -21,6 +21,7 @@ import com.sir.app.wisdom.common.AppKey;
 import com.sir.app.wisdom.model.AccountModel;
 import com.sir.app.wisdom.utils.AppUtils;
 import com.sir.app.wisdom.view.MainPersonnelActivity;
+import com.sir.app.wisdom.view.MainVehicleActivity;
 import com.sir.app.wisdom.vm.AccountViewModel;
 import com.sir.library.com.AppLogger;
 import com.sir.library.com.utils.SPUtils;
@@ -43,7 +44,7 @@ public class LoginActivity extends AppActivity<AccountViewModel> {
     EditText etLoginName;
     @BindView(R.id.cb_login_remember)
     CheckBox cbLoginRemember;
-
+    boolean flag;
     private Handler mHandler = new Handler(msg -> {
         if (1 == msg.what) {
             finish();
@@ -60,7 +61,7 @@ public class LoginActivity extends AppActivity<AccountViewModel> {
     public void doBusiness() {
         mViewHelper.setTextVal(R.id.et_login_name, SPUtils.getInstance().get(AppKey.ACCOUNT));
         mViewHelper.setTextVal(R.id.et_login_pwd, SPUtils.getInstance().get(AppKey.PASSWORD));
-        cbLoginRemember.setChecked(SPUtils.getInstance().get(AppKey.REMEMBER,false));
+        cbLoginRemember.setChecked(SPUtils.getInstance().get(AppKey.REMEMBER, false));
         AppUtils.checkUpdate(this, RC_WRITE);
     }
 
@@ -73,13 +74,12 @@ public class LoginActivity extends AppActivity<AccountViewModel> {
                         String account = etLoginName.getText().toString().trim();
                         String password = etLoginPwd.getText().toString().trim();
                         mViewModel.loginConfig(account, password, cbLoginRemember.isChecked());
-                        mOperation.forward(MainPersonnelActivity.class);
+                        mOperation.forward(flag ? MainPersonnelActivity.class : MainVehicleActivity.class);
                         finish();
                     }
                 });
 
     }
-
 
     @OnClick({R.id.btn_login, R.id.tv_login_admin, R.id.iv_logo})
     public void onViewClicked(View view) {
@@ -100,6 +100,7 @@ public class LoginActivity extends AppActivity<AccountViewModel> {
      * 登录账户验证
      */
     protected void loginVerify(boolean flag) {
+        this.flag = flag;
         String account = etLoginName.getText().toString().trim();
         String password = etLoginPwd.getText().toString().trim();
 
@@ -148,7 +149,6 @@ public class LoginActivity extends AppActivity<AccountViewModel> {
     protected boolean isUseFullScreenMode() {
         return true;
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

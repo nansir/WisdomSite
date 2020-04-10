@@ -1,9 +1,7 @@
 package com.sir.app.wisdom.model;
 
-import com.sir.app.wisdom.common.AppKey;
 import com.sir.app.wisdom.common.Repository;
 import com.sir.app.wisdom.contract.PersonnelContract;
-import com.sir.library.com.utils.SPUtils;
 import com.sir.library.retrofit.callback.RxSubscriber;
 import com.sir.library.retrofit.exception.ResponseThrowable;
 import com.sir.library.retrofit.transformer.ComposeTransformer;
@@ -25,7 +23,7 @@ public class PersonnelModel extends Repository implements PersonnelContract {
                 .subscribeWith(new RxSubscriber<String>() {
                     @Override
                     protected void onSuccess(String bean) {
-                        postData(EVENT_ADD_PERSONNEL, bean);
+                        postState(ON_SUCCESS, bean);
                     }
 
                     @Override
@@ -37,16 +35,20 @@ public class PersonnelModel extends Repository implements PersonnelContract {
 
     public String getLoginMsg(int code) {
         switch (code) {
-            case 1:
-                return "解析失败";
+            case 0:
+                return "解析失敗";
             case 2:
-                return "用户名密码不正确";
+                return "員工編號沒有填寫";
             case 3:
-                return "账号锁定";
+                return "姓名沒有填寫";
             case 4:
-                return "登陆权限不足";
+                return "登錄權限不足";
+            case 5:
+                return "照片解析失敗";
+            case 6:
+                return "員工編號已經存在";
             default:
-                return "未知错误";
+                return "未知錯誤";
         }
     }
 }

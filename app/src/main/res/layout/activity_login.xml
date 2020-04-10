@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="26dp"
-        android:text="歡迎來到智慧工地"
+        android:text="@string/login_hint_a"
         android:textColor="#000000"
         android:textSize="29sp" />
 
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="12dp"
-        android:text="勞務人員管理請登錄賬號密碼"
+        android:text="@string/login_hint_b"
         android:textColor="#636363"
         android:textSize="13sp" />
 
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:text="賬號"
+            android:text="@string/account"
             android:textColor="#73000000"
             android:textSize="15sp" />
 
@@ -65,12 +65,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/white"
-            android:hint="請輸入賬號"
+            android:hint="@string/login_hint_d"
             android:lines="1"
-            android:paddingLeft="20dp"
+            android:paddingLeft="30dp"
             android:textColor="#d6151515"
             android:textSize="14sp" />
-
 
     </LinearLayout>
 
@@ -87,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:text="密碼"
+            android:text="@string/password"
             android:textColor="#73000000"
             android:textSize="15sp" />
 
@@ -104,7 +103,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/white"
-            android:hint="請輸入密碼"
+            android:hint="@string/login_hint_f"
             android:inputType="textPassword"
             android:paddingLeft="20dp"
             android:textColor="#d6000000"
@@ -114,8 +113,9 @@
             android:id="@+id/cb_pwd_show"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:button="@drawable/selector_pwd_show"
-            android:padding="10dp" />
+            android:button="@null"
+            android:drawableLeft="@drawable/selector_pwd_show"
+            android:padding="12dp" />
 
     </LinearLayout>
 
@@ -129,7 +129,7 @@
             android:id="@+id/cb_login_remember"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="記住密碼"
+            android:text="@string/login_hint_g"
             android:textColor="#96000000"
             android:textSize="14sp" />
 
@@ -142,7 +142,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"
         android:background="@drawable/shape_corner_black"
-        android:text="登錄"
+        android:text="@string/log_in"
         android:textColor="@color/white" />
 
 
@@ -157,14 +157,14 @@
             android:id="@+id/tv_login_admin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="車閘管理員"
+            android:text="@string/login_hint_i"
             android:textColor="#12539d"
             android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="點擊直接登錄"
+            android:text="@string/login_hint_j"
             android:textColor="#636363"
             android:textSize="14sp" />
 

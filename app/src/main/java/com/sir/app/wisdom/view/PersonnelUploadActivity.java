@@ -7,7 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -15,13 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 
 import com.sir.app.wisdom.R;
-import com.sir.app.wisdom.common.AppKey;
 import com.sir.app.wisdom.dialog.ResultsDialog;
 import com.sir.app.wisdom.model.PersonnelModel;
 import com.sir.app.wisdom.utils.FileUtils;
 import com.sir.app.wisdom.vm.PersonnelViewModel;
 import com.sir.library.com.AppLogger;
-import com.sir.library.com.utils.SPUtils;
 import com.sir.library.mvvm.AppActivity;
 import com.sir.library.retrofit.event.ResState;
 
@@ -39,7 +39,7 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
 
     final int REQUEST_CODE_CAMERA = 101;//打开相机
 
-    @BindView(R.id.iv_info_photo)
+    @BindView(R.id.iv_personnel_photo)
     ImageView ivInfoPhoto;
     ResultsDialog resultsDialog;
     private Uri mImageUri;
@@ -73,9 +73,17 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
                     finish();
                 }
             });
+
+            //三秒后自动关闭
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    finish();
+                }
+            }, 3000);
         } else if (state.getCode() == PersonnelModel.ON_FAILURE) {
             resultsDialog.show();
-            resultsDialog.setFailure();
+            resultsDialog.setFailure(state.getMsg());
             resultsDialog.setBackListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -87,10 +95,10 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
         }
     }
 
-    @OnClick({R.id.iv_info_photo, R.id.btn_submit})
+    @OnClick({R.id.iv_personnel_photo, R.id.btn_submit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.iv_info_photo:
+            case R.id.iv_personnel_photo:
                 openCameraPermission();
                 break;
             case R.id.btn_submit:
@@ -125,23 +133,20 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
     }
 
     private void submitData() {
-        String cnName = mViewHelper.getEditVal(R.id.et_name_cn);
-        String enName = mViewHelper.getEditVal(R.id.et_name_en);
-//        if (TextUtils.isEmpty(cnName)) {
-//            mDialog.showError("未填写姓名");
-//        } else if (TextUtils.isEmpty(enName)) {
-//            mDialog.showError("未填写姓名");
-//        } else if (bitmap == null) {
-//            mDialog.showError("未添加照片");
-//        }
-
-
-
-
+        String name = mViewHelper.getEditVal(R.id.et_personnel_name_cn);
+        String code = mViewHelper.getEditVal(R.id.et_personnel_number);
+        if (TextUtils.isEmpty(name)) {
+            mDialog.showError("未填写姓名");
+            return;
+        } else if (TextUtils.isEmpty(name)) {
+            mDialog.showError("未填写员工编号");
+            return;
+        } else if (bitmap == null) {
+            mDialog.showError("未添加照片");
+            return;
+        }
         String photo = FileUtils.bitmapToString(bitmap);
-        String code = "333";
-        cnName = "测试";
-        mViewModel.addPersonnel(code, cnName, photo);
+        mViewModel.addPersonnel(code, name, photo);
     }
 
     @Override

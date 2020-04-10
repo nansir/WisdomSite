@@ -24,7 +24,6 @@ public class FaceRecognitionActivity extends AppBaseActivity {
         setSwipeBackEnable(true);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_camera, menu);

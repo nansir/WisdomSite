@@ -28,8 +28,6 @@ public class MainPersonnelActivity extends AppBaseActivity {
 
     }
 
-
-
     @OnClick({R.id.btn_login_out, R.id.tv_info_upload, R.id.tv_info_record})
     public void onViewClicked(View view) {
         switch (view.getId()) {

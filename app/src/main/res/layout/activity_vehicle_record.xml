@@ -37,7 +37,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_click_oval"
-            android:text="搜索"
+            android:text="@string/search"
             android:textColor="#db2289ff"
             android:textSize="13sp" />
 

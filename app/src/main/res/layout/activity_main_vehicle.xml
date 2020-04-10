@@ -18,7 +18,9 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/selector_click"
             android:drawableTop="@mipmap/ic_login_out"
-            android:text="注销"
+            android:drawablePadding="4dp"
+            android:padding="10dp"
+            android:text="@string/log_out"
             android:textColor="#ffffff"
             android:textSize="10sp" />
 
@@ -28,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
-            android:text="慕拉士大馬路公共房屋建造"
+            android:text="main_hint_b"
             android:textColor="#ffffff"
             android:textSize="17sp"
             android:textStyle="bold" />
@@ -40,13 +42,12 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="14dp"
             android:gravity="left"
-            android:text="車輛統計"
+            android:text="@string/main_hint_k"
             android:textColor="#ffffff"
             android:textSize="15sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
-
 
     <RelativeLayout
         android:layout_width="300dp"
@@ -74,10 +75,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_vehicle_toast"
-                android:text="本月車輛進入總數"
+                android:text="@string/main_hint_j"
                 android:textColor="#ff000000"
                 android:textSize="12sp" />
-
 
         </LinearLayout>
 
@@ -108,7 +108,7 @@
             android:drawablePadding="10dp"
             android:gravity="center_horizontal"
             android:padding="4dp"
-            android:text="人臉識別"
+            android:text="@string/main_hint_l"
             android:textColor="#4a4a4a"
             android:textSize="13sp"
             android:textStyle="bold" />
@@ -124,7 +124,7 @@
             android:drawablePadding="10dp"
             android:gravity="center_horizontal"
             android:padding="4dp"
-            android:text="車輛信息錄入"
+            android:text="@string/main_hint_m"
             android:textColor="#4a4a4a"
             android:textSize="13sp"
             android:textStyle="bold" />
@@ -140,23 +140,21 @@
             android:drawablePadding="10dp"
             android:gravity="center_horizontal"
             android:padding="4dp"
-            android:text="信息上傳記錄"
+            android:text="@string/main_hint_n"
             android:textColor="#4a4a4a"
             android:textSize="13sp"
             android:textStyle="bold" />
 
     </LinearLayout>
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
-        android:text="現場車輛進出情況"
+        android:text="@string/main_hint_o"
         android:textColor="#4a4a4a"
         android:textSize="16sp"
         android:textStyle="bold" />
-
 
 </LinearLayout>

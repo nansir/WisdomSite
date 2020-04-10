@@ -66,8 +66,8 @@ public class MainVehicleActivity extends AppBaseActivity {
     }
 
     private void singOut() {
-        mDialog.showMessage("退出登录账户？");
-        mDialog.setTitle("注销");
+        mDialog.showMessage("退出登錄賬戶？");
+        mDialog.setTitle("註銷");
         mDialog.setConfirmClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

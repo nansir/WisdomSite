@@ -18,7 +18,9 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/selector_click"
             android:drawableTop="@mipmap/ic_login_out"
-            android:text="注销"
+            android:drawablePadding="4dp"
+            android:padding="10dp"
+            android:text="@string/log_out"
             android:textColor="#ffffff"
             android:textSize="10sp" />
 
@@ -28,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
-            android:text="慕拉士大馬路 公共房屋建造"
+            android:text="@string/main_hint_b"
             android:textColor="#ffffff"
             android:textSize="17sp"
             android:textStyle="bold" />
@@ -40,7 +42,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="17dp"
             android:gravity="left"
-            android:text="人員統計"
+            android:text="@string/main_hint_c"
             android:textColor="#ffffff"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -49,7 +51,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="140dp"
             android:layout_toLeftOf="@id/v_line"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -66,7 +68,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="工地人數"
+                android:text="@string/main_hint_e"
                 android:textColor="#ffffff"
                 android:textSize="12sp" />
 
@@ -77,15 +79,16 @@
             android:id="@+id/v_line"
             android:layout_width="2dp"
             android:layout_height="40dp"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="48dp"
+            android:layout_marginTop="150dp"
             android:layout_marginRight="48dp"
             android:background="@color/white" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="140dp"
             android:layout_toRightOf="@id/v_line"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -102,14 +105,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="在場人數 "
+                android:text="@string/main_hint_f"
                 android:textColor="#ffffff"
                 android:textSize="12sp" />
 
         </LinearLayout>
 
     </RelativeLayout>
-
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -125,7 +127,7 @@
             android:drawableTop="@mipmap/ic_menu_a"
             android:drawablePadding="10dp"
             android:padding="4dp"
-            android:text="人員信息上傳"
+            android:text="@string/main_hint_g"
             android:textColor="#4a4a4a"
             android:textSize="13sp"
             android:textStyle="bold" />
@@ -139,23 +141,21 @@
             android:drawableTop="@mipmap/ic_menu_b"
             android:drawablePadding="10dp"
             android:padding="4dp"
-            android:text="信息上傳記錄"
+            android:text="@string/main_hint_h"
             android:textColor="#4a4a4a"
             android:textSize="13sp"
             android:textStyle="bold" />
 
     </LinearLayout>
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
-        android:text="現場人員進出情況"
+        android:text="@string/main_hint_i"
         android:textColor="#4a4a4a"
         android:textSize="16sp"
         android:textStyle="bold" />
-
 
 </LinearLayout>

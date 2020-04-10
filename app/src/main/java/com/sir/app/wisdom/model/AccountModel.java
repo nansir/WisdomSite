@@ -1,7 +1,11 @@
 package com.sir.app.wisdom.model;
 
+import com.sir.app.wisdom.common.AppKey;
+import com.sir.app.wisdom.common.MyApplication;
 import com.sir.app.wisdom.common.Repository;
 import com.sir.app.wisdom.contract.AccountContract;
+import com.sir.library.com.utils.SPUtils;
+import com.sir.library.retrofit.HttpUtils;
 import com.sir.library.retrofit.callback.RxSubscriber;
 import com.sir.library.retrofit.exception.ResponseThrowable;
 import com.sir.library.retrofit.transformer.ComposeTransformer;
@@ -16,12 +20,14 @@ public class AccountModel extends Repository implements AccountContract {
     @Override
     public void singIn(String account, String password) {
         String json = "{\"type\":\"login\",\"obj\":{\"LoginName\":\"%s\",\"Password\":\"%s\"}}";
-        postState(ON_LOADING, "登录..");
+        postState(ON_LOADING, "登錄..");
         addSubscribe(appServerApi.singing(createBody(String.format(json, account, password)))
                 .compose(ComposeTransformer.<String>Flowable())
                 .subscribeWith(new RxSubscriber<String>() {
                     @Override
                     protected void onSuccess(String bean) {
+                        HttpUtils.getInstance(MyApplication.getContext()).setAuthToken(bean);
+                        SPUtils.getInstance().put(AppKey.TOKEN, bean);
                         postData(EVENT_LOGIN, bean);
                     }
 
@@ -40,15 +46,15 @@ public class AccountModel extends Repository implements AccountContract {
     public String getLoginMsg(int code) {
         switch (code) {
             case 0:
-                return "解析失败";
+                return "解析失敗";
             case 2:
-                return "用户名密码不正确";
+                return "用戶名或密碼不正確";
             case 3:
-                return "账号锁定";
+                return "賬號鎖定";
             case 4:
-                return "登陆权限不足";
+                return "登錄權限不足";
             default:
-                return "未知错误";
+                return "未知錯誤";
         }
     }
 }

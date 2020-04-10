@@ -44,7 +44,6 @@ public class PersonnelRecordActivity  extends HolderActivity<RecyclerSwipeViewHo
         },1500);
     }
 
-
     @Override
     public void onRefresh() {
         initData();

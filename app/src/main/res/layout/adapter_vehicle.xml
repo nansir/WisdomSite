@@ -50,7 +50,7 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/selector_click_oval"
             android:padding="10dp"
-            android:text="编辑"
+            android:text="@string/edit"
             android:textColor="#ff2289ff"
             android:textSize="12sp" />
 
