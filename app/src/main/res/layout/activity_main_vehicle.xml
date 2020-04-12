@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -30,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
-            android:text="main_hint_b"
+            android:text="@string/main_hint_b"
             android:textColor="#ffffff"
             android:textSize="17sp"
             android:textStyle="bold" />
@@ -49,112 +50,157 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="300dp"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="-40dp"
-        android:background="@drawable/shape_corner_white"
-        android:padding="10dp">
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="-60dp"
+        android:layout_marginRight="30dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:padding="10dp">
 
-            <TextView
-                android:id="@+id/tv_vehicle_toast"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1548"
-                android:textColor="#ff2289ff"
-                android:textSize="30sp" />
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-            <TextView
+                <TextView
+                    android:id="@+id/tv_vehicle_toast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1548"
+                    android:textColor="#ff2289ff"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_vehicle_toast"
+                    android:text="@string/main_hint_j"
+                    android:textColor="#ff000000"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_vehicle_toast"
-                android:text="@string/main_hint_j"
-                android:textColor="#ff000000"
-                android:textSize="12sp" />
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/ic_brake" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:src="@mipmap/ic_brake" />
+    </androidx.cardview.widget.CardView>
 
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_info_face"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/selector_click"
-            android:drawableTop="@mipmap/ic_menu_c"
-            android:drawablePadding="10dp"
-            android:gravity="center_horizontal"
-            android:padding="4dp"
-            android:text="@string/main_hint_l"
-            android:textColor="#4a4a4a"
-            android:textSize="13sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_info_upload"
-            android:layout_width="0dp"
+        <ImageView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/selector_click"
-            android:drawableTop="@mipmap/ic_menu_d"
-            android:drawablePadding="10dp"
-            android:gravity="center_horizontal"
-            android:padding="4dp"
-            android:text="@string/main_hint_m"
-            android:textColor="#4a4a4a"
-            android:textSize="13sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_test_b" />
 
-        <TextView
-            android:id="@+id/tv_info_record"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/selector_click"
-            android:drawableTop="@mipmap/ic_menu_e"
-            android:drawablePadding="10dp"
-            android:gravity="center_horizontal"
-            android:padding="4dp"
-            android:text="@string/main_hint_n"
-            android:textColor="#4a4a4a"
-            android:textSize="13sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp">
+
+            <TextView
+                android:id="@+id/tv_info_face"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_click"
+                android:drawableTop="@mipmap/ic_menu_c"
+                android:drawablePadding="6dp"
+                android:gravity="center_horizontal"
+                android:padding="4dp"
+                android:text="@string/main_hint_l"
+                android:textColor="#4a4a4a"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_info_upload"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/selector_click"
+                android:drawableTop="@mipmap/ic_menu_d"
+                android:drawablePadding="6dp"
+                android:gravity="center_horizontal"
+                android:padding="4dp"
+                android:text="@string/main_hint_m"
+                android:textColor="#4a4a4a"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_info_record"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/selector_click"
+                android:drawableTop="@mipmap/ic_menu_e"
+                android:drawablePadding="6dp"
+                android:gravity="center_horizontal"
+                android:padding="4dp"
+                android:text="@string/main_hint_n"
+                android:textColor="#4a4a4a"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="8dp"
+                android:background="#ff4a4a4a" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/main_hint_o"
+                android:textColor="#4a4a4a"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vp_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp" />
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/main_hint_o"
-        android:textColor="#4a4a4a"
-        android:textSize="16sp"
-        android:textStyle="bold" />
 
 </LinearLayout>

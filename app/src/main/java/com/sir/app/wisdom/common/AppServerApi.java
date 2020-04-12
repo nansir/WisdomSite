@@ -5,6 +5,7 @@ import com.sir.library.retrofit.response.HttpResponse;
 import io.reactivex.Flowable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -18,7 +19,6 @@ public interface AppServerApi {
     @POST("api/Staff")
     Flowable<HttpResponse> addPersonnel(@Body RequestBody body);
 
-
-
-
+    @GET("api/Search")
+    Flowable<HttpResponse> face(@Body RequestBody body);
 }

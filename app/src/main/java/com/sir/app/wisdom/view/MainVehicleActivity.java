@@ -2,14 +2,15 @@ package com.sir.app.wisdom.view;
 
 import android.view.View;
 
+import androidx.viewpager.widget.ViewPager;
+
 import com.sir.app.wisdom.LoginActivity;
 import com.sir.app.wisdom.R;
-import com.sir.app.wisdom.view.FaceRecognitionActivity;
-import com.sir.app.wisdom.view.VehicleRecordActivity;
-import com.sir.app.wisdom.view.VehicleUploadActivity;
+import com.sir.app.wisdom.adapter.VehicleRecordAdapter;
 import com.sir.library.com.AppBaseActivity;
 import com.sir.library.com.AppLogger;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -19,6 +20,8 @@ import butterknife.OnClick;
 public class MainVehicleActivity extends AppBaseActivity {
 
     long mBeforeTouchTime;
+    @BindView(R.id.vp_content)
+    ViewPager vpContent;
 
     @Override
     public int bindLayout() {
@@ -27,8 +30,12 @@ public class MainVehicleActivity extends AppBaseActivity {
 
     @Override
     public void doBusiness() {
-
-
+        VehicleRecordAdapter adapter = new VehicleRecordAdapter(getActivity());
+        adapter.addItem("");
+        adapter.addItem("");
+        adapter.addItem("");
+        adapter.addItem("");
+        vpContent.setAdapter(adapter);
     }
 
     @OnClick({R.id.btn_login_out, R.id.tv_info_upload, R.id.tv_info_record, R.id.tv_info_face})
@@ -49,6 +56,18 @@ public class MainVehicleActivity extends AppBaseActivity {
         }
     }
 
+    private void singOut() {
+        mDialog.showMessage("退出登錄賬戶？");
+        mDialog.setTitle("註銷");
+        mDialog.setConfirmClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOperation.forward(LoginActivity.class);
+                finish();
+            }
+        });
+    }
+
     @Override
     protected boolean isUseFullScreenMode() {
         return true;
@@ -63,17 +82,5 @@ public class MainVehicleActivity extends AppBaseActivity {
         } else {
             finish();
         }
-    }
-
-    private void singOut() {
-        mDialog.showMessage("退出登錄賬戶？");
-        mDialog.setTitle("註銷");
-        mDialog.setConfirmClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mOperation.forward(LoginActivity.class);
-                finish();
-            }
-        });
     }
 }
