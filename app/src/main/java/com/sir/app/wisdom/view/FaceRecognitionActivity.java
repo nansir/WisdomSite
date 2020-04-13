@@ -14,7 +14,6 @@ import android.util.Size;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.TextureView;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
@@ -49,8 +48,7 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
 
     @BindView(R.id.tv_camera_preview)
     TextureView tvCameraPreview;
-    @BindView(R.id.iv_preview)
-    ImageView ivPreview;
+
     CameraManager cameraManager;
     // 图像帧数据，全局变量避免反复创建，降低gc频率
     private byte[] nv21;
@@ -65,7 +63,6 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
     private boolean isMirrorPreview;
     // 实际打开的cameraId
     private String openedCameraId;
-
     // 正在进行识别
     private boolean ongoing = false;
 
@@ -102,7 +99,7 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                 .cameraListener(this)
                 .maxPreviewSize(new Point(1920, 1080))
                 .minPreviewSize(new Point(1280, 720))
-                .specificCameraId(CameraManager.CAMERA_ID_BACK)// 默认打开的CAMERA
+                .specificCameraId(CameraManager.CAMERA_ID_FRONT)// 默认打开的CAMERA
                 .context(getApplicationContext())
                 .previewOn(tvCameraPreview)
                 .previewViewSize(new Point(tvCameraPreview.getWidth(), tvCameraPreview.getHeight()))

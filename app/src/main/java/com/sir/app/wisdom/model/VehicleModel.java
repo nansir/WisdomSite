@@ -7,8 +7,6 @@ import com.sir.library.retrofit.exception.ResponseThrowable;
 import com.sir.library.retrofit.transformer.ComposeTransformer;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 import okhttp3.MultipartBody;
 
@@ -23,11 +21,9 @@ public class VehicleModel extends Repository implements VehicleContract {
 
 
     @Override
-    public void face(File imagePath) {
-
+    public void face(File file) {
         // okhttp请求头中不能含有中文Unexpected char 0x65b0 at 34 in Content-Disposition value: form-data; name="file";
-        MultipartBody.Part filePart = MultipartBody.Part.create( createBody(imagePath));
-
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), createBody(file));
         addSubscribe(appServerApi.face(filePart)
                 .compose(ComposeTransformer.<String>FlowableMsg())
                 .subscribeWith(new RxSubscriber<String>() {
@@ -40,6 +36,7 @@ public class VehicleModel extends Repository implements VehicleContract {
                     protected void onFailure(ResponseThrowable ex) {
                         postData(EVENT_FACE_FAILURE, ex.message);
                     }
+
                 }));
     }
 }

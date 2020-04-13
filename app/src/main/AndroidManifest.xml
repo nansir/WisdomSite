@@ -94,6 +94,11 @@
             android:label="人臉識別"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".view.TestActivity"
+            android:label="人臉識別"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>
