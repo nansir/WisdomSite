@@ -133,20 +133,24 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
     }
 
     private void submitData() {
-        String name = mViewHelper.getEditVal(R.id.et_personnel_name_cn);
+        String nameCN = mViewHelper.getEditVal(R.id.et_personnel_name_cn);
+        String nameEN = mViewHelper.getEditVal(R.id.et_personnel_name_en);
         String code = mViewHelper.getEditVal(R.id.et_personnel_number);
-        if (TextUtils.isEmpty(name)) {
-            mDialog.showError("未填写姓名");
+        if (TextUtils.isEmpty(nameCN)) {
+            mDialog.showError("未填寫中文姓名");
             return;
-        } else if (TextUtils.isEmpty(name)) {
-            mDialog.showError("未填写员工编号");
+        } else if (TextUtils.isEmpty(nameEN)) {
+            mDialog.showError("未填寫英文姓名");
+            return;
+        } else if (TextUtils.isEmpty(nameCN)) {
+            mDialog.showError("未填寫員工編號");
             return;
         } else if (bitmap == null) {
             mDialog.showError("未添加照片");
             return;
         }
         String photo = FileUtils.bitmapToString(bitmap);
-        mViewModel.addPersonnel(code, name, photo);
+        mViewModel.addPersonnel(code, nameCN, photo);
     }
 
     @Override

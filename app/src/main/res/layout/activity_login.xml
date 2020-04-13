@@ -157,6 +157,8 @@
             android:id="@+id/tv_login_admin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:text="@string/login_hint_i"
             android:textColor="#12539d"
             android:textSize="15sp" />

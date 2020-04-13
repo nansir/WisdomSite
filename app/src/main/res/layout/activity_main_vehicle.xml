@@ -101,106 +101,121 @@
 
     </androidx.cardview.widget.CardView>
 
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_test_b" />
+        android:layout_marginTop="-10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_info_face"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/selector_click"
-                android:drawableTop="@mipmap/ic_menu_c"
-                android:drawablePadding="6dp"
-                android:gravity="center_horizontal"
-                android:padding="4dp"
-                android:text="@string/main_hint_l"
-                android:textColor="#4a4a4a"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_info_upload"
-                android:layout_width="0dp"
+            <ImageView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                android:background="@drawable/selector_click"
-                android:drawableTop="@mipmap/ic_menu_d"
-                android:drawablePadding="6dp"
-                android:gravity="center_horizontal"
-                android:padding="4dp"
-                android:text="@string/main_hint_m"
-                android:textColor="#4a4a4a"
-                android:textSize="13sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="20dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_test_b" />
 
-            <TextView
-                android:id="@+id/tv_info_record"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                android:background="@drawable/selector_click"
-                android:drawableTop="@mipmap/ic_menu_e"
-                android:drawablePadding="6dp"
-                android:gravity="center_horizontal"
-                android:padding="4dp"
-                android:text="@string/main_hint_n"
-                android:textColor="#4a4a4a"
-                android:textSize="13sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_info_face"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_click"
+                    android:drawableTop="@mipmap/ic_menu_c"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_horizontal"
+                    android:padding="4dp"
+                    android:text="@string/main_hint_l"
+                    android:textColor="#4a4a4a"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/tv_info_upload"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_click"
+                    android:drawableTop="@mipmap/ic_menu_d"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_horizontal"
+                    android:padding="4dp"
+                    android:text="@string/main_hint_m"
+                    android:textColor="#4a4a4a"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
 
-            <View
-                android:layout_width="4dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="8dp"
-                android:background="#ff4a4a4a" />
+                <TextView
+                    android:id="@+id/tv_info_record"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_click"
+                    android:drawableTop="@mipmap/ic_menu_e"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_horizontal"
+                    android:padding="4dp"
+                    android:text="@string/main_hint_n"
+                    android:textColor="#4a4a4a"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
 
-            <TextView
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/main_hint_o"
-                android:textColor="#4a4a4a"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp">
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="8dp"
+                    android:background="#ff4a4a4a" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/main_hint_o"
+                    android:textColor="#4a4a4a"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="@dimen/content_radius">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/vp_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp" />
+
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/vp_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp" />
-
-    </LinearLayout>
-
+    </ScrollView>
 
 </LinearLayout>

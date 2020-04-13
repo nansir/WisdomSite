@@ -29,7 +29,7 @@
             android:background="@color/white"
             android:hint="請輸入"
             android:lines="1"
-            android:padding="4dp"
+            android:padding="8dp"
             android:textColor="#ff000000"
             android:textSize="12sp" />
 
@@ -62,7 +62,7 @@
             android:background="@color/white"
             android:hint="@string/please_enter"
             android:lines="1"
-            android:padding="4dp"
+            android:padding="8dp"
             android:textColor="#ff000000"
             android:textSize="12sp" />
 
@@ -96,7 +96,7 @@
             android:background="@color/white"
             android:hint="@string/please_enter"
             android:lines="1"
-            android:padding="4dp"
+            android:padding="8dp"
             android:textColor="#ff000000"
             android:textSize="12sp" />
 
@@ -130,7 +130,7 @@
             android:background="@color/white"
             android:hint="@string/please_enter"
             android:lines="1"
-            android:padding="4dp"
+            android:padding="8dp"
             android:textColor="#ff000000"
             android:textSize="12sp" />
 
@@ -163,7 +163,7 @@
             android:layout_weight="1"
             android:background="@color/white"
             android:hint="@string/please_enter"
-            android:padding="4dp"
+            android:padding="8dp"
             android:textColor="#ff000000"
             android:textSize="12sp" />
 
@@ -197,7 +197,7 @@
             android:background="@color/white"
             android:hint="@string/please_enter"
             android:lines="1"
-            android:padding="4dp"
+            android:padding="8dp"
             android:textColor="#ff000000"
             android:textSize="12sp" />
 
