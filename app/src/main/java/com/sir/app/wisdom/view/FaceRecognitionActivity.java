@@ -1,6 +1,7 @@
 package com.sir.app.wisdom.view;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +22,7 @@ import androidx.lifecycle.Observer;
 import com.sir.app.wisdom.R;
 import com.sir.app.wisdom.common.camera.CameraListener;
 import com.sir.app.wisdom.common.camera.CameraManager;
+import com.sir.app.wisdom.dialog.ScanResultsDialog;
 import com.sir.app.wisdom.model.VehicleModel;
 import com.sir.app.wisdom.utils.FileUtils;
 import com.sir.app.wisdom.utils.ImageUtil;
@@ -66,6 +68,8 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
     // 正在进行识别
     private boolean ongoing = false;
 
+    private ScanResultsDialog resultsDialog;
+
     @Override
     public int bindLayout() {
         return R.layout.activity_face_recognition;
@@ -77,6 +81,13 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
         setSwipeBackEnable(true);
         initPermission();
         executorService = Executors.newSingleThreadExecutor();
+        resultsDialog = new ScanResultsDialog(getActivity());
+        resultsDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                ongoing = false;
+            }
+        });
     }
 
     /**
@@ -168,13 +179,6 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                     // 预览画面相同的bitmap
                     final Bitmap previewBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, false);
 
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            ivPreview.setImageBitmap(previewBitmap);
-//                        }
-//                    });
-
                     File file = FileUtils.saveBitmap(previewBitmap);
                     if (file != null && !ongoing) { //开始识别
                         ongoing = true;
@@ -249,7 +253,7 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                     @Override
                     public void onChanged(String s) {
                         ongoing = false;
-                        AppLogger.toast("成功");
+                        AppLogger.toast("識別成功");
                     }
                 });
 
@@ -257,8 +261,7 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
-                        ongoing = false;
-                        AppLogger.toast("失败");
+                        resultsDialog.show();
                     }
                 });
     }

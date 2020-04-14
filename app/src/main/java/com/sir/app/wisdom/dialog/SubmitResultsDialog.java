@@ -14,9 +14,9 @@ import com.sir.library.base.BaseDialog;
  * 提交信息結果
  * Created by zhuyinan on 2020/4/8.
  */
-public class ResultsDialog extends BaseDialog {
+public class SubmitResultsDialog extends BaseDialog {
 
-    public ResultsDialog(@NonNull Context context) {
+    public SubmitResultsDialog(@NonNull Context context) {
         super(context);
     }
 

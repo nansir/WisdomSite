@@ -1,6 +1,7 @@
 package com.sir.app.wisdom.view;
 
 import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -17,7 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 
 import com.sir.app.wisdom.R;
-import com.sir.app.wisdom.dialog.ResultsDialog;
+import com.sir.app.wisdom.dialog.PhotoSelectDialog;
+import com.sir.app.wisdom.dialog.SubmitResultsDialog;
 import com.sir.app.wisdom.model.PersonnelModel;
 import com.sir.app.wisdom.utils.FileUtils;
 import com.sir.app.wisdom.vm.PersonnelViewModel;
@@ -26,6 +29,7 @@ import com.sir.library.mvvm.AppActivity;
 import com.sir.library.retrofit.event.ResState;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -37,11 +41,13 @@ import pub.devrel.easypermissions.EasyPermissions;
  */
 public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
 
+    final int REQUEST_CODE_ALBUM = 100;//打开相册
     final int REQUEST_CODE_CAMERA = 101;//打开相机
 
     @BindView(R.id.iv_personnel_photo)
     ImageView ivInfoPhoto;
-    ResultsDialog resultsDialog;
+    SubmitResultsDialog resultsDialog;
+    PhotoSelectDialog photoDialog;
     private Uri mImageUri;
     private Bitmap bitmap;
 
@@ -58,7 +64,8 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
 
     @Override
     protected void dataObserver() {
-        resultsDialog = new ResultsDialog(getActivity());
+        resultsDialog = new SubmitResultsDialog(getActivity());
+        photoDialog = new PhotoSelectDialog(getActivity());
     }
 
     @Override
@@ -99,7 +106,15 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_personnel_photo:
-                openCameraPermission();
+                photoDialog.show();
+                photoDialog.set(v -> {
+                    photoDialog.dismiss();
+                    if (v.getId() == R.id.tv_photo_camera) {
+                        openCamera();
+                    } else if (v.getId() == R.id.tv_photo_select) {
+                        openAlbum();
+                    }
+                });
                 break;
             case R.id.btn_submit:
                 submitData();
@@ -110,7 +125,7 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
     /**
      * 判断权限并打开摄像机
      */
-    private void openCameraPermission() {
+    private void openCamera() {
         String[] perms = new String[]{Manifest.permission.CAMERA};
         if (!EasyPermissions.hasPermissions(this, perms)) {
             // 申请权限
@@ -132,6 +147,18 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
         }
     }
 
+    /**
+     * 调用相册
+     */
+    private void openAlbum() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_CODE_ALBUM);
+    }
+
+    /**
+     * 提交數據
+     */
     private void submitData() {
         String nameCN = mViewHelper.getEditVal(R.id.et_personnel_name_cn);
         String nameEN = mViewHelper.getEditVal(R.id.et_personnel_name_en);
@@ -164,6 +191,20 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else if (requestCode == REQUEST_CODE_ALBUM && resultCode == RESULT_OK) {
+            if (data != null) {
+                // 照片的原始资源地址
+                Uri uri = data.getData();
+                String path = uri.getPath();
+                ContentResolver cr = getContentResolver();
+                try {
+                    bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+                    /* 将Bitmap设定到ImageView */
+                    ivInfoPhoto.setImageBitmap(bitmap);
+                } catch (FileNotFoundException e) {
+                    Log.e("Exception", e.getMessage(), e);
+                }
+            }
         }
     }
 
@@ -175,7 +216,7 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
                 //grantResults数组存储的申请的返回结果，
                 //PERMISSION_GRANTED 表示申请成功
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    openCameraPermission();
+                    openCamera();
                 } else {
                     //授权失败，简单提示用户
                     AppLogger.toast("授权失败,无法使用照相");

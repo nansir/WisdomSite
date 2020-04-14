@@ -1,6 +1,9 @@
 package com.sir.app.wisdom.common.camera;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -22,6 +25,7 @@ import android.view.Surface;
 import android.view.TextureView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -281,6 +285,7 @@ public class CameraManager {
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
 
+    @SuppressLint("MissingPermission")
     private void openCamera() {
         android.hardware.camera2.CameraManager cameraManager = (android.hardware.camera2.CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         setUpCameraOutputs(cameraManager);

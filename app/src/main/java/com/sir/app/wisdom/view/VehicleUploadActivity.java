@@ -3,10 +3,8 @@ package com.sir.app.wisdom.view;
 import android.view.View;
 
 import com.sir.app.wisdom.R;
-import com.sir.app.wisdom.dialog.ResultsDialog;
+import com.sir.app.wisdom.dialog.SubmitResultsDialog;
 import com.sir.library.com.AppBaseActivity;
-
-import java.util.logging.Handler;
 
 import butterknife.OnClick;
 
@@ -16,7 +14,7 @@ import butterknife.OnClick;
  */
 public class VehicleUploadActivity extends AppBaseActivity {
 
-    ResultsDialog resultsDialog;
+    SubmitResultsDialog resultsDialog;
 
 
     @Override
@@ -28,7 +26,7 @@ public class VehicleUploadActivity extends AppBaseActivity {
     public void doBusiness() {
         setToolbarTitle(getTitle());
         setSwipeBackEnable(true);
-        resultsDialog = new ResultsDialog(this);
+        resultsDialog = new SubmitResultsDialog(this);
     }
 
     @OnClick({R.id.btn_submit})

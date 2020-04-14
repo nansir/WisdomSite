@@ -87,11 +87,11 @@
 
         <ImageView
             android:id="@+id/iv_personnel_photo"
-            android:layout_width="68dp"
+            android:layout_width="70dp"
             android:layout_height="120dp"
             android:layout_alignParentRight="true"
+            android:scaleType="fitXY"
             android:src="@mipmap/ic_cancel_add" />
-
 
     </RelativeLayout>
 
