@@ -4,6 +4,7 @@ import com.sir.app.wisdom.common.AppKey;
 import com.sir.app.wisdom.common.MyApplication;
 import com.sir.app.wisdom.common.Repository;
 import com.sir.app.wisdom.contract.AccountContract;
+import com.sir.app.wisdom.model.entity.LoginBean;
 import com.sir.library.com.utils.SPUtils;
 import com.sir.library.retrofit.HttpUtils;
 import com.sir.library.retrofit.callback.RxSubscriber;
@@ -22,12 +23,14 @@ public class AccountModel extends Repository implements AccountContract {
         String json = "{\"type\":\"login\",\"obj\":{\"LoginName\":\"%s\",\"Password\":\"%s\"}}";
         postState(ON_LOADING, "登錄..");
         addSubscribe(appServerApi.singing(createBody(String.format(json, account, password)))
-                .compose(ComposeTransformer.<String>Flowable())
-                .subscribeWith(new RxSubscriber<String>() {
+                .compose(ComposeTransformer.<LoginBean>Flowable())
+                .subscribeWith(new RxSubscriber<LoginBean>() {
                     @Override
-                    protected void onSuccess(String bean) {
-                        HttpUtils.getInstance(MyApplication.getContext()).setAuthToken(bean);
-                        SPUtils.getInstance().put(AppKey.TOKEN, bean);
+                    protected void onSuccess(LoginBean bean) {
+                        HttpUtils.getInstance(MyApplication.getContext()).setAuthToken(bean.getAccessToken());
+                        HttpUtils.getInstance(MyApplication.getContext()).setToken(bean.getRefreshToken());
+                        SPUtils.getInstance().put(AppKey.AUTH_TOKEN, bean.getAccessToken());
+                        SPUtils.getInstance().put(AppKey.TOKEN, bean.getRefreshToken());
                         postData(EVENT_LOGIN, bean);
                     }
 

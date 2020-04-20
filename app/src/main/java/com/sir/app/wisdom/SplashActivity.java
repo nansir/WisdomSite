@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.widget.TextView;
 
 import com.sir.app.wisdom.utils.AppUtils;
+import com.sir.app.wisdom.view.MainVehicleActivity;
 import com.sir.library.com.AppBaseActivity;
 
 /**

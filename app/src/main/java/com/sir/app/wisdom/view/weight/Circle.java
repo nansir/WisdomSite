@@ -93,7 +93,7 @@ public class Circle extends View {
 
         mCenterX = MeasureSpec.getSize(widthMeasureSpec) / 2;
 
-        mCenterY = MeasureSpec.getSize(heightMeasureSpec) / 3;
+        mCenterY = MeasureSpec.getSize(heightMeasureSpec) / 2.5f;
 
         mRadius = MeasureSpec.getSize(widthMeasureSpec) / 3;
     }

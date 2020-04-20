@@ -15,6 +15,7 @@ import android.util.Size;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.TextureView;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
@@ -56,7 +57,6 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
     private byte[] nv21;
     // 当前获取的帧数
     private int currentIndex = 0;
-
     // 线程池
     private ExecutorService executorService;
     // 显示的旋转角度
@@ -110,7 +110,7 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                 .cameraListener(this)
                 .maxPreviewSize(new Point(1920, 1080))
                 .minPreviewSize(new Point(1280, 720))
-                .specificCameraId(CameraManager.CAMERA_ID_FRONT)// 默认打开的CAMERA
+                .specificCameraId(CameraManager.CAMERA_ID_BACK)// 默认打开的CAMERA
                 .context(getApplicationContext())
                 .previewOn(tvCameraPreview)
                 .previewViewSize(new Point(tvCameraPreview.getWidth(), tvCameraPreview.getHeight()))
@@ -248,7 +248,7 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
 
     @Override
     protected void dataObserver() {
-        mViewModel.subscribe(VehicleModel.EVENT_FACE_SUCCESS, String.class)
+        mViewModel.subscribe(VehicleModel.EVENT_SUCCESS, String.class)
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
@@ -257,7 +257,7 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                     }
                 });
 
-        mViewModel.subscribe(VehicleModel.EVENT_FACE_FAILURE, String.class)
+        mViewModel.subscribe(VehicleModel.EVENT_FAILURE, String.class)
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(String s) {

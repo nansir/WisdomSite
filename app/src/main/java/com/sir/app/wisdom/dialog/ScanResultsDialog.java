@@ -12,13 +12,12 @@ import androidx.annotation.NonNull;
 
 import com.sir.app.wisdom.R;
 import com.sir.library.base.BaseDialog;
-import com.sir.library.com.AppLogger;
 
 /**
  * 人脸识别结果
  * Created by zhuyinan on 2020/4/14.
  */
-public class ScanResultsDialog extends BaseDialog implements View.OnClickListener {
+public class ScanResultsDialog extends BaseDialog {
 
     public ScanResultsDialog(@NonNull Context context) {
         super(context);
@@ -41,15 +40,13 @@ public class ScanResultsDialog extends BaseDialog implements View.OnClickListene
 
     @Override
     public void doBusiness() {
-        mViewHelper.setOnClickListener(R.id.btn_gate_a, this);
-        mViewHelper.setOnClickListener(R.id.btn_gate_b, this);
-        mViewHelper.setOnClickListener(R.id.btn_gate_c, this);
-        mViewHelper.setOnClickListener(R.id.btn_gate_d, this);
+
     }
 
-    @Override
-    public void onClick(View v) {
-        AppLogger.d("开启");
-        dismiss();
+    public void setOnClick(View.OnClickListener mListener) {
+        mViewHelper.setOnClickListener(R.id.btn_gate_a, mListener);
+        mViewHelper.setOnClickListener(R.id.btn_gate_b, mListener);
+        mViewHelper.setOnClickListener(R.id.btn_gate_c, mListener);
+        mViewHelper.setOnClickListener(R.id.btn_gate_d, mListener);
     }
 }

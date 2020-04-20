@@ -20,7 +20,8 @@ public class Repository extends BaseRepository {
     public Repository() {
         this.appServerApi = HttpUtils.getInstance(MyApplication.getContext())
                 .addCookie()
-                .setAuthToken("Bearer " + SPUtils.getInstance().get(AppKey.TOKEN))
+                .setAuthToken("Bearer " + SPUtils.getInstance().get(AppKey.AUTH_TOKEN))
+                .setToken(SPUtils.getInstance().get(AppKey.TOKEN))
                 .setBaseUrl(AppConstant.HTTP)
                 .setLoadMemoryCache(false)
                 .setLoadDiskCache(true)

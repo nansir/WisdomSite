@@ -7,8 +7,10 @@ import androidx.viewpager.widget.ViewPager;
 import com.sir.app.wisdom.LoginActivity;
 import com.sir.app.wisdom.R;
 import com.sir.app.wisdom.adapter.VehicleRecordAdapter;
+import com.sir.app.wisdom.vm.VehicleViewModel;
 import com.sir.library.com.AppBaseActivity;
 import com.sir.library.com.AppLogger;
+import com.sir.library.mvvm.AppActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -17,7 +19,7 @@ import butterknife.OnClick;
  * 车闸首页
  * Created by zhuyinan on 2020/4/8.
  */
-public class MainVehicleActivity extends AppBaseActivity {
+public class MainVehicleActivity extends AppActivity<VehicleViewModel> {
 
     long mBeforeTouchTime;
     @BindView(R.id.vp_content)
@@ -36,6 +38,13 @@ public class MainVehicleActivity extends AppBaseActivity {
         adapter.addItem("");
         adapter.addItem("");
         vpContent.setAdapter(adapter);
+
+        mViewModel.getAccessInfo("1");
+    }
+
+    @Override
+    protected void dataObserver() {
+
     }
 
     @OnClick({R.id.btn_login_out, R.id.tv_info_upload, R.id.tv_info_record, R.id.tv_info_face})

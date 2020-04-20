@@ -19,6 +19,7 @@ import androidx.lifecycle.Observer;
 import com.sir.app.wisdom.common.AppConstant;
 import com.sir.app.wisdom.common.AppKey;
 import com.sir.app.wisdom.model.AccountModel;
+import com.sir.app.wisdom.model.entity.LoginBean;
 import com.sir.app.wisdom.utils.AppUtils;
 import com.sir.app.wisdom.view.MainPersonnelActivity;
 import com.sir.app.wisdom.view.MainVehicleActivity;
@@ -67,10 +68,10 @@ public class LoginActivity extends AppActivity<AccountViewModel> {
 
     @Override
     protected void dataObserver() {
-        mViewModel.subscribe(AccountModel.EVENT_LOGIN, String.class)
-                .observe(this, new Observer<String>() {
+        mViewModel.subscribe(AccountModel.EVENT_LOGIN, LoginBean.class)
+                .observe(this, new Observer<LoginBean>() {
                     @Override
-                    public void onChanged(String s) {
+                    public void onChanged(LoginBean bean) {
                         String account = etLoginName.getText().toString().trim();
                         String password = etLoginPwd.getText().toString().trim();
                         mViewModel.loginConfig(account, password, cbLoginRemember.isChecked());
