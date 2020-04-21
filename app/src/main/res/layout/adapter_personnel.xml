@@ -75,7 +75,7 @@
             android:background="@drawable/selector_click_oval"
             android:padding="10dp"
             android:text="@string/edit"
-            android:textColor="#ff2289ff"
+            android:textColor="@color/colorPrimary"
             android:textSize="12sp" />
 
     </RelativeLayout>

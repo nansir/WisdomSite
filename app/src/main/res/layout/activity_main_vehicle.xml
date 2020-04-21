@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1548"
-                    android:textColor="#ff2289ff"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="30sp" />
 
                 <TextView
@@ -210,7 +210,7 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/vp_content"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp" />
+                    android:layout_height="190dp" />
 
             </androidx.cardview.widget.CardView>
 

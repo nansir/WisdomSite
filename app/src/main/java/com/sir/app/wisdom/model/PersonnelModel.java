@@ -15,10 +15,10 @@ public class PersonnelModel extends Repository implements PersonnelContract {
     public static String EVENT_ADD_PERSONNEL = getEventKey();
 
     @Override
-    public void addPersonnel(String code, String name, String photo) {
-        String json = "{\"type\":\"add\",\"obj\":{\"Tid\":\"1\",\"StaffCode\":\"%s\",\"CNFullName\":\"%s\",\"Photo\":\"%s\"}}";
+    public void addPersonnel(String code, String nameCN, String nameEn, String photo) {
+        String json = "{\"type\":\"add\",\"obj\":{\"Tid\":\"1\",\"StaffCode\":\"%s\",\"CNFullName\":\"%s\",,\"EN_FullName\":\"%s\",\"Photo\":\"%s\"}}";
         postState(ON_LOADING, "正在提交..");
-        addSubscribe(appServerApi.addPersonnel(createBody(String.format(json, code, name, photo)))
+        addSubscribe(appServerApi.addPersonnel(createBody(String.format(json, code, nameCN, nameEn, photo)))
                 .compose(ComposeTransformer.<String>FlowableMsg())
                 .subscribeWith(new RxSubscriber<String>() {
                     @Override

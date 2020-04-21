@@ -177,7 +177,7 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
             return;
         }
         String photo = FileUtils.bitmapToString(bitmap);
-        mViewModel.addPersonnel(code, nameCN, photo);
+        mViewModel.addPersonnel(code, nameCN, nameEN, photo);
     }
 
     @Override

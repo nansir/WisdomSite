@@ -23,11 +23,13 @@ public interface VehicleContract {
 
     void face(File imagePath);
 
-    void subcontractor(String value);
+    void subcontractor(String value); 
 
     void vehicleType();
 
     void vehicleAction(VehicleInfoBean bean);
+
+    void openGateA(String number);
 
     void openGateB(String number, int[] staff);
 

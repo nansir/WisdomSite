@@ -61,6 +61,11 @@ public class VehicleViewModel extends BaseViewModel<VehicleModel> implements Veh
     }
 
     @Override
+    public void openGateA(String number) {
+        mRepository.openGateA(number);
+    }
+
+    @Override
     public void openGateB(String number, int[] staff) {
         mRepository.openGateB(number, staff);
     }

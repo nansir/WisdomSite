@@ -1,6 +1,7 @@
 package com.sir.app.wisdom.common;
 
 import com.sir.app.wisdom.model.entity.AccessInfoBean;
+import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.LoginBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
 import com.sir.app.wisdom.model.entity.VehicleTypeBean;
@@ -17,7 +18,6 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
-import retrofit2.http.Url;
 
 /**
  * Created by zhuyinan on 2020/1/14.
@@ -81,11 +81,11 @@ public interface AppServerApi {
     /**
      * 控制开闸的列表
      *
-     * @param body
+     * @param number
      * @return
      */
-    @GET("api/Car_Gate/GetEntranceBrake/1")
-    Flowable<HttpResponse> openGateA(@Body RequestBody body);
+    @GET("api/Car_Gate/GetEntranceBrake/{number}")
+    Flowable<HttpResponse<List<GateBean>>> openGateA(@Path("number") String number);
 
     /**
      * 人脸识别成功后，点击开闸
@@ -98,10 +98,20 @@ public interface AppServerApi {
 
     /**
      * 闸口获取车辆信息
+     *
      * @param number
      * @return
      */
     @GET("api/Car_Record/Gate/1/{number}")
     Flowable<HttpResponse<AccessInfoBean>> getAccessInfo(@Path("number") String number);
+
+    /**
+     * 推送过来记录
+     *
+     * @param number
+     * @return
+     */
+    @GET("api/Car_Record/Record/1/{number}")
+    Flowable<HttpResponse<AccessInfoBean>> record(@Path("number") String number);
 
 }

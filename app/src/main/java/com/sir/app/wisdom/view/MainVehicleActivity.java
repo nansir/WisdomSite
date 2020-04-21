@@ -2,13 +2,14 @@ package com.sir.app.wisdom.view;
 
 import android.view.View;
 
+import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
 
 import com.sir.app.wisdom.LoginActivity;
 import com.sir.app.wisdom.R;
 import com.sir.app.wisdom.adapter.VehicleRecordAdapter;
+import com.sir.app.wisdom.model.entity.AccessInfoBean;
 import com.sir.app.wisdom.vm.VehicleViewModel;
-import com.sir.library.com.AppBaseActivity;
 import com.sir.library.com.AppLogger;
 import com.sir.library.mvvm.AppActivity;
 
@@ -24,6 +25,7 @@ public class MainVehicleActivity extends AppActivity<VehicleViewModel> {
     long mBeforeTouchTime;
     @BindView(R.id.vp_content)
     ViewPager vpContent;
+    VehicleRecordAdapter adapter;
 
     @Override
     public int bindLayout() {
@@ -32,19 +34,19 @@ public class MainVehicleActivity extends AppActivity<VehicleViewModel> {
 
     @Override
     public void doBusiness() {
-        VehicleRecordAdapter adapter = new VehicleRecordAdapter(getActivity());
-        adapter.addItem("");
-        adapter.addItem("");
-        adapter.addItem("");
-        adapter.addItem("");
-        vpContent.setAdapter(adapter);
-
+        adapter = new VehicleRecordAdapter(getActivity());
         mViewModel.getAccessInfo("1");
     }
 
     @Override
     protected void dataObserver() {
-
+        mViewModel.getAccessInfo().observe(this, new Observer<AccessInfoBean>() {
+            @Override
+            public void onChanged(AccessInfoBean bean) {
+                adapter.addItem(bean);
+                vpContent.setAdapter(adapter);
+            }
+        });
     }
 
     @OnClick({R.id.btn_login_out, R.id.tv_info_upload, R.id.tv_info_record, R.id.tv_info_face})

@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="200dp"
         android:text="@string/app_name"
-        android:textColor="#636363"
+        android:textColor="@color/white"
         android:textSize="40sp" />
 
     <TextView

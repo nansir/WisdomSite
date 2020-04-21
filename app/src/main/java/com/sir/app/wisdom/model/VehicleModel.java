@@ -7,6 +7,7 @@ import com.sir.app.wisdom.common.Repository;
 import com.sir.app.wisdom.contract.VehicleContract;
 import com.sir.app.wisdom.model.entity.AccessInfoBean;
 import com.sir.app.wisdom.model.entity.FormData;
+import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
 import com.sir.app.wisdom.model.entity.VehicleInfoBean;
 import com.sir.app.wisdom.model.entity.VehicleTypeBean;
@@ -33,10 +34,6 @@ public class VehicleModel extends Repository implements VehicleContract {
     private MutableLiveData<List<VehicleTypeBean>> vehicleType;
     private MutableLiveData<AccessInfoBean> accessInfo;
 
-    private String getSubconMsg(int code) {
-        return "";
-    }
-
     @Override
     public void vehicleAction(VehicleInfoBean bean) {
         FormData data = new FormData("AddOrEdit", bean);
@@ -58,8 +55,37 @@ public class VehicleModel extends Repository implements VehicleContract {
     }
 
     @Override
-    public void openGateB(String number, int[] staff) {
+    public void openGateA(String number) {
+        addSubscribe(appServerApi.openGateA(number)
+                .compose(ComposeTransformer.<List<GateBean>>Flowable())
+                .subscribeWith(new RxSubscriber<List<GateBean>>() {
+                    @Override
+                    protected void onSuccess(List<GateBean> list) {
 
+                    }
+
+                    @Override
+                    protected void onFailure(ResponseThrowable ex) {
+                        postState(ON_FAILURE, ex.message);
+                    }
+                }));
+    }
+
+    @Override
+    public void openGateB(String number, int[] staff) {
+        addSubscribe(appServerApi.getAccessInfo(number)
+                .compose(ComposeTransformer.<AccessInfoBean>Flowable())
+                .subscribeWith(new RxSubscriber<AccessInfoBean>() {
+                    @Override
+                    protected void onSuccess(AccessInfoBean bean) {
+                        getAccessInfo().postValue(bean);
+                    }
+
+                    @Override
+                    protected void onFailure(ResponseThrowable ex) {
+                        postState(ON_FAILURE, ex.message);
+                    }
+                }));
     }
 
     @Override
@@ -69,7 +95,7 @@ public class VehicleModel extends Repository implements VehicleContract {
                 .subscribeWith(new RxSubscriber<AccessInfoBean>() {
                     @Override
                     protected void onSuccess(AccessInfoBean bean) {
-
+                        getAccessInfo().postValue(bean);
                     }
 
                     @Override

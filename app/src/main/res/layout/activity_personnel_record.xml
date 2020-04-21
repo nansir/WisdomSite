@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/selector_click_oval"
             android:text="@string/search"
-            android:textColor="#db2289ff"
+            android:textColor="@color/colorPrimary"
             android:textSize="13sp" />
 
     </LinearLayout>
