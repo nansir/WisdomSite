@@ -36,14 +36,14 @@ public class SubmitResultsDialog extends BaseDialog {
     }
 
     public void setSuccess() {
-        mViewHelper.setTextVal(R.id.tv_results_tile, "信息提交成功");
+        mViewHelper.setTextVal(R.id.tv_results_tile, "資料提交成功");
         mViewHelper.setTextVal(R.id.tv_results_hint, "信息提交成功，3S後自動跳轉回首頁");
         ImageView icon = findViewById(R.id.iv_results_icon);
         icon.setImageResource(R.mipmap.ic_submit_success);
     }
 
     public void setFailure(String msg) {
-        mViewHelper.setTextVal(R.id.tv_results_tile, "信息提交失敗");
+        mViewHelper.setTextVal(R.id.tv_results_tile, "資料提交失敗");
         mViewHelper.setTextVal(R.id.tv_results_hint, msg);
         ImageView icon = findViewById(R.id.iv_results_icon);
         icon.setImageResource(R.mipmap.ic_submit_failure);

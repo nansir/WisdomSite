@@ -17,4 +17,9 @@ public class TestActivity extends AppBaseActivity {
     public void doBusiness() {
 
     }
+
+    @Override
+    protected boolean isUseFullScreenMode() {
+        return true;
+    }
 }

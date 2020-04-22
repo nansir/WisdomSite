@@ -1,5 +1,6 @@
 package com.sir.app.wisdom.common;
 
+import com.sir.library.com.AppLogger;
 import com.sir.library.com.utils.SPUtils;
 import com.sir.library.mvvm.base.BaseRepository;
 import com.sir.library.retrofit.HttpUtils;
@@ -30,6 +31,7 @@ public class Repository extends BaseRepository {
     }
 
     protected RequestBody createBody(String json) {
+        AppLogger.d(json);
         return RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
     }
 

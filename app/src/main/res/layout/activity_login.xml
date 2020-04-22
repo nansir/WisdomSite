@@ -39,7 +39,7 @@
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="70dp"
-        android:background="@drawable/shape_corner_white"
+        android:background="@drawable/shape_corner_gray"
         android:orientation="horizontal">
 
         <TextView
@@ -67,7 +67,7 @@
             android:background="#0a8d8d8d"
             android:hint="@string/login_hint_d"
             android:lines="1"
-            android:paddingLeft="30dp"
+            android:paddingLeft="20dp"
             android:textColor="#ebedeb"
             android:textSize="14sp" />
 
@@ -78,7 +78,7 @@
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="17dp"
-        android:background="@drawable/shape_corner_white"
+        android:background="@drawable/shape_corner_gray"
         android:orientation="horizontal">
 
         <TextView

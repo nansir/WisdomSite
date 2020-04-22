@@ -77,7 +77,6 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
 
     @Override
     public void doBusiness() {
-        setToolbarTitle(getTitle());
         setSwipeBackEnable(true);
         initPermission();
         executorService = Executors.newSingleThreadExecutor();
@@ -88,6 +87,11 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                 ongoing = false;
             }
         });
+    }
+
+    @Override
+    protected boolean isUseFullScreenMode() {
+        return true;
     }
 
     /**
@@ -120,20 +124,20 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
         cameraManager.start();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_camera, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_camera) {
-            //切换摄像头
-            cameraManager.switchCamera();
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_camera, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId() == R.id.action_camera) {
+//            //切换摄像头
+//            cameraManager.switchCamera();
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     public void onCameraOpened(CameraDevice device, String cameraId, Size previewSize, int displayOrientation, boolean isMirror) {

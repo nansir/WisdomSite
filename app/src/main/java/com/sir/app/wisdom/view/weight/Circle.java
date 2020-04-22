@@ -31,6 +31,7 @@ public class Circle extends View {
     private float mCenterY;//旋转圆的中心纵坐标
 
     private Bitmap bitmap;
+    private Bitmap bitmapBG;
 
 
     public Circle(Context context) {
@@ -47,6 +48,8 @@ public class Circle extends View {
         startAnimator();
 
         bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_spin);
+        Bitmap temp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_spin_bg);
+        bitmapBG = temp.copy(Bitmap.Config.ARGB_8888, true);
     }
 
     private void startAnimator() {
@@ -67,14 +70,14 @@ public class Circle extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.save();
+
 
         Paint mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
+
         //背景色
-        mPaint.setColor(Color.parseColor("#4379F0"));
-        canvas.drawPaint(mPaint);
+        canvas.drawBitmap(bitmapBG, 0, 0, mPaint);
         //设置混合模式
         mPaint.setColor(Color.WHITE);
         mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.XOR));
@@ -93,8 +96,8 @@ public class Circle extends View {
 
         mCenterX = MeasureSpec.getSize(widthMeasureSpec) / 2;
 
-        mCenterY = MeasureSpec.getSize(heightMeasureSpec) / 2.5f;
+        mCenterY = MeasureSpec.getSize(heightMeasureSpec) / 2.1f;
 
-        mRadius = MeasureSpec.getSize(widthMeasureSpec) / 3;
+        mRadius = MeasureSpec.getSize(widthMeasureSpec) / 2.7f;
     }
 }
