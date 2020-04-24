@@ -33,7 +33,7 @@ public class ScanResultsDialog extends BaseDialog {
         //设置显示位置在底部
         getWindow().setGravity(Gravity.BOTTOM);
         //设置window背景，默认的背景会有Padding值。
-        getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         //在setContentView之后调用
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }

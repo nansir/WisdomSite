@@ -40,10 +40,12 @@ public class VehicleRecordAdapter extends BasePagerAdapter<AccessInfoBean> {
         //车牌
         Glide.with(mContext)
                 .load(bean.getHeadstock())
+                .placeholder(R.mipmap.ic_placeholder)//占位图片
                 .into(headstock);
         //车顶
         Glide.with(mContext)
                 .load(bean.getCarRoof())
+                .placeholder(R.mipmap.ic_placeholder)//占位图片
                 .into(carRoof);
     }
 }

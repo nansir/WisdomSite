@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/ic_bg"
     android:orientation="vertical"
     tools:context=".view.MainPersonnelActivity">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/ic_main_personnel_bg">
+        android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/btn_login_out"
@@ -24,6 +25,7 @@
             android:textColor="#ffffff"
             android:textSize="10sp" />
 
+
         <TextView
             android:id="@+id/tv_main_title"
             android:layout_width="wrap_content"
@@ -35,10 +37,15 @@
             android:textSize="17sp"
             android:textStyle="bold" />
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_main_title"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="17dp"
             android:gravity="left"
@@ -51,7 +58,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="140dp"
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/v_line"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -60,9 +67,10 @@
                 android:id="@+id/tv_personnel_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:text="1548"
                 android:textColor="#ffffff"
-                android:textSize="33sp"
+                android:textSize="34sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -78,16 +86,16 @@
             android:id="@+id/v_line"
             android:layout_width="3dp"
             android:layout_height="40dp"
-            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="48dp"
-            android:layout_marginTop="150dp"
             android:layout_marginRight="48dp"
             android:background="@color/white" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="140dp"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@id/v_line"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -96,9 +104,10 @@
                 android:id="@+id/tv_personnel_online"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:text="1548"
                 android:textColor="#ffffff"
-                android:textSize="33sp"
+                android:textSize="34sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -124,7 +133,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp">
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:id="@+id/tv_info_upload"
@@ -135,7 +145,7 @@
                     android:drawablePadding="10dp"
                     android:padding="4dp"
                     android:text="@string/main_hint_g"
-                    android:textColor="#4a4a4a"
+                    android:textColor="@color/white"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
@@ -149,7 +159,7 @@
                     android:drawablePadding="10dp"
                     android:padding="4dp"
                     android:text="@string/main_hint_h"
-                    android:textColor="#4a4a4a"
+                    android:textColor="@color/white"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
@@ -159,20 +169,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:orientation="horizontal">
 
                 <View
                     android:layout_width="4dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="8dp"
-                    android:background="#ff4a4a4a" />
+                    android:background="@color/white" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/main_hint_i"
-                    android:textColor="#4a4a4a"
+                    android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -182,7 +192,7 @@
                 android:id="@+id/iv_personnel_record"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:clipToPadding="false"
                 android:overScrollMode="never"
                 android:paddingLeft="@dimen/card_padding"

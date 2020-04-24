@@ -12,8 +12,6 @@ import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.camera2.CameraDevice;
 import android.util.Size;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.TextureView;
 import android.view.View;
 
@@ -37,13 +35,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * 人脸识别活动
  * Created by zhuyinan on 2020/4/8.
  */
-public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> implements CameraListener {
+public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> implements CameraListener, DialogInterface.OnDismissListener, View.OnClickListener {
 
     // 处理的间隔帧
     final int PROCESS_INTERVAL = 60;
@@ -51,6 +50,7 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
 
     @BindView(R.id.tv_camera_preview)
     TextureView tvCameraPreview;
+
 
     CameraManager cameraManager;
     // 图像帧数据，全局变量避免反复创建，降低gc频率
@@ -81,17 +81,9 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
         initPermission();
         executorService = Executors.newSingleThreadExecutor();
         resultsDialog = new ScanResultsDialog(getActivity());
-        resultsDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                ongoing = false;
-            }
-        });
-    }
-
-    @Override
-    protected boolean isUseFullScreenMode() {
-        return true;
+        mDialog.setDelay(2400);
+        mDialog.setOnDismissListener(this::onDismiss);
+        resultsDialog.setOnDismissListener(this::onDismiss);
     }
 
     /**
@@ -124,20 +116,23 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
         cameraManager.start();
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_camera, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId() == R.id.action_camera) {
-//            //切换摄像头
-//            cameraManager.switchCamera();
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    protected boolean isUseFullScreenMode() {
+        return true;
+    }
+
+    @OnClick({R.id.ibtn_return, R.id.ibtn_camera_switch})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ibtn_return:
+                finish();
+                break;
+            case R.id.ibtn_camera_switch:
+                //切换摄像头
+                cameraManager.switchCamera();
+                break;
+        }
+    }
 
     @Override
     public void onCameraOpened(CameraDevice device, String cameraId, Size previewSize, int displayOrientation, boolean isMirror) {
@@ -256,8 +251,10 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
-                        ongoing = false;
-                        AppLogger.toast("識別成功");
+                        ongoing = false; //停止识别
+                        mViewHelper.setVisibility(R.id.tv_scan_content, false);
+                        resultsDialog.show();
+                        resultsDialog.setOnClick(FaceRecognitionActivity.this::onClick);
                     }
                 });
 
@@ -265,8 +262,36 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
-                        resultsDialog.show();
+                        ongoing = false; //停止识别
+                        mDialog.showWarning(s);
                     }
                 });
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialogInterface) {
+        //提示框消失·继续识别
+        mViewHelper.setVisibility(R.id.tv_scan_content, true);
+        ongoing = false;
+    }
+
+    @Override
+    public void onClick(View view) {
+        //开闸
+        resultsDialog.dismiss();
+        switch (view.getId()) {
+            case R.id.btn_gate_a:
+                AppLogger.toast("开启1号");
+                break;
+            case R.id.btn_gate_b:
+                AppLogger.toast("开启2号");
+                break;
+            case R.id.btn_gate_c:
+                AppLogger.toast("开启3号");
+                break;
+            case R.id.btn_gate_d:
+                AppLogger.toast("开启4号");
+                break;
+        }
     }
 }

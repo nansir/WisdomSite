@@ -9,7 +9,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#6594FB"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
@@ -80,13 +79,13 @@
             android:id="@+id/btn_gate_a"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_corner_black"
+            android:background="@drawable/shape_corner_gray"
             android:drawableLeft="@mipmap/ic_gate"
             android:drawablePadding="10dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="开启1号"
-            android:textColor="#fff5f5f5"
+            android:textColor="@color/white"
             android:textSize="16sp" />
 
 
@@ -95,13 +94,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:background="@drawable/shape_corner_black"
+            android:background="@drawable/shape_corner_gray"
             android:drawableLeft="@mipmap/ic_gate"
             android:drawablePadding="10dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="开启2号"
-            android:textColor="#fff5f5f5"
+            android:textColor="@color/white"
             android:textSize="16sp" />
 
     </LinearLayout>
@@ -117,13 +116,13 @@
             android:id="@+id/btn_gate_c"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_corner_black"
+            android:background="@drawable/shape_corner_gray"
             android:drawableLeft="@mipmap/ic_gate"
             android:drawablePadding="10dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="开启3号"
-            android:textColor="#fff5f5f5"
+            android:textColor="@color/white"
             android:textSize="16sp" />
 
         <Button
@@ -131,13 +130,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:background="@drawable/shape_corner_black"
+            android:background="@drawable/shape_corner_gray"
             android:drawableLeft="@mipmap/ic_gate"
             android:drawablePadding="10dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="开启4号"
-            android:textColor="#fff5f5f5"
+            android:textColor="@color/white"
             android:textSize="16sp" />
 
     </LinearLayout>

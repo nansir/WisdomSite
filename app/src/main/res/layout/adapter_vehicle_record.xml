@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
+    android:background="#4d00163f"
     android:orientation="vertical"
     tools:context="adapter.VehicleRecordAdapter">
 
@@ -13,11 +14,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:drawableLeft="@mipmap/ic_brake_"
+        android:drawableLeft="@mipmap/ic_brake_min"
         android:drawablePadding="6dp"
         android:gravity="center_vertical"
         android:text="1号门"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/white"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -46,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="车牌号码：4502282"
-                android:textColor="#ff000000"
+                android:textColor="@color/white"
                 android:textSize="11sp" />
 
             <TextView
@@ -55,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="司机：赵钱李"
-                android:textColor="#ff000000"
+                android:textColor="@color/white"
                 android:textSize="11sp" />
 
         </LinearLayout>
@@ -80,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="所属分包商：中建"
-                android:textColor="#ff000000"
+                android:textColor="@color/white"
                 android:textSize="11sp" />
 
             <TextView
@@ -89,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="入场时间：2020/03/23 15:24"
-                android:textColor="#ff000000"
+                android:textColor="@color/white"
                 android:textSize="11sp" />
 
         </LinearLayout>

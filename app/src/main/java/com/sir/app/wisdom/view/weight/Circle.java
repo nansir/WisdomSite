@@ -30,7 +30,7 @@ public class Circle extends View {
     private float mCenterX;//旋转圆的中心横坐标
     private float mCenterY;//旋转圆的中心纵坐标
 
-    private Bitmap bitmap;
+    private Bitmap bitmapA,bitmapB;
     private Bitmap bitmapBG;
 
 
@@ -47,8 +47,9 @@ public class Circle extends View {
         setLayerType(LAYER_TYPE_SOFTWARE, null);
         startAnimator();
 
-        bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_spin);
-        Bitmap temp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_spin_bg);
+        bitmapA = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_spin_a);
+        bitmapB = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_spin_b);
+        Bitmap temp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_bg);
         bitmapBG = temp.copy(Bitmap.Config.ARGB_8888, true);
     }
 
@@ -71,7 +72,6 @@ public class Circle extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-
         Paint mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
@@ -85,9 +85,10 @@ public class Circle extends View {
         mPaint.setXfermode(null);
         canvas.restore();
 
+        canvas.drawBitmap(bitmapA, mCenterX - bitmapA.getWidth() / 2, mCenterY - bitmapA.getHeight() / 2, mPaint);
         //旋转画布
-        canvas.rotate((float) (mCurrentRotateDegrees * 360), mCenterX, mCenterY);
-        canvas.drawBitmap(bitmap, mCenterX - bitmap.getWidth() / 2, mCenterY - bitmap.getHeight() / 2, mPaint);
+        canvas.rotate(mCurrentRotateDegrees * 360, mCenterX, mCenterY);
+        canvas.drawBitmap(bitmapB, mCenterX - bitmapB.getWidth() / 2, mCenterY - bitmapB.getHeight() / 2, mPaint);
     }
 
     @Override
@@ -96,7 +97,7 @@ public class Circle extends View {
 
         mCenterX = MeasureSpec.getSize(widthMeasureSpec) / 2;
 
-        mCenterY = MeasureSpec.getSize(heightMeasureSpec) / 2.1f;
+        mCenterY = MeasureSpec.getSize(heightMeasureSpec) / 2.5f;
 
         mRadius = MeasureSpec.getSize(widthMeasureSpec) / 2.7f;
     }
