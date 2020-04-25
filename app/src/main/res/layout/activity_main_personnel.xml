@@ -7,7 +7,6 @@
     android:orientation="vertical"
     tools:context=".view.MainPersonnelActivity">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -41,7 +40,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:background="@mipmap/ic_bg_a"
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
@@ -192,7 +192,6 @@
                 android:id="@+id/iv_personnel_record"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                android:layout_marginTop="20dp"
                 android:clipToPadding="false"
                 android:overScrollMode="never"
                 android:paddingLeft="@dimen/card_padding"
@@ -201,6 +200,5 @@
         </LinearLayout>
 
     </ScrollView>
-
 
 </LinearLayout>

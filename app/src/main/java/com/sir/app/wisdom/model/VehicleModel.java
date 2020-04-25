@@ -8,6 +8,7 @@ import com.sir.app.wisdom.contract.VehicleContract;
 import com.sir.app.wisdom.model.entity.AccessInfoBean;
 import com.sir.app.wisdom.model.entity.FormData;
 import com.sir.app.wisdom.model.entity.GateBean;
+import com.sir.app.wisdom.model.entity.ResponseFaceBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
 import com.sir.app.wisdom.model.entity.VehicleInfoBean;
 import com.sir.app.wisdom.model.entity.VehicleTypeBean;
@@ -28,6 +29,7 @@ import okhttp3.MultipartBody;
 public class VehicleModel extends Repository implements VehicleContract {
 
     public static String EVENT_SUCCESS = getEventKey();
+    public static String EVENT_SUCCESS_GATE = getEventKey();
     public static String EVENT_FAILURE = getEventKey();
 
     private MutableLiveData<List<SubcontractorBean>> subcontractor;
@@ -44,24 +46,24 @@ public class VehicleModel extends Repository implements VehicleContract {
                 .subscribeWith(new RxSubscriber<String>() {
                     @Override
                     protected void onSuccess(String bean) {
-                        postState(ON_SUCCESS, bean);
+                        postEvent(EVENT_SUCCESS, bean);
                     }
 
                     @Override
                     protected void onFailure(ResponseThrowable ex) {
-                        postState(ON_FAILURE, ex.message);
+                        postEvent(EVENT_FAILURE, ex.message);
                     }
                 }));
     }
 
     @Override
-    public void openGateA(String number) {
+    public void openGateA(int number) {
         addSubscribe(appServerApi.openGateA(number)
                 .compose(ComposeTransformer.<List<GateBean>>Flowable())
                 .subscribeWith(new RxSubscriber<List<GateBean>>() {
                     @Override
                     protected void onSuccess(List<GateBean> list) {
-
+                        postData(EVENT_SUCCESS_GATE, list.size() > 0 ? list.get(0) : new GateBean());
                     }
 
                     @Override
@@ -72,7 +74,7 @@ public class VehicleModel extends Repository implements VehicleContract {
     }
 
     @Override
-    public void openGateB(String number, int[] staff) {
+    public void openGateB(int number, int[] staff) {
         addSubscribe(appServerApi.getAccessInfo(number)
                 .compose(ComposeTransformer.<AccessInfoBean>Flowable())
                 .subscribeWith(new RxSubscriber<AccessInfoBean>() {
@@ -89,7 +91,7 @@ public class VehicleModel extends Repository implements VehicleContract {
     }
 
     @Override
-    public void getAccessInfo(String number) {
+    public void getAccessInfo(int number) {
         addSubscribe(appServerApi.getAccessInfo(number)
                 .compose(ComposeTransformer.<AccessInfoBean>Flowable())
                 .subscribeWith(new RxSubscriber<AccessInfoBean>() {
@@ -134,10 +136,10 @@ public class VehicleModel extends Repository implements VehicleContract {
         // okhttp请求头中不能含有中文Unexpected char 0x65b0 at 34 in Content-Disposition value: form-data; name="file";
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), createBody(file));
         addSubscribe(appServerApi.face(filePart)
-                .compose(ComposeTransformer.<String>FlowableMsg())
-                .subscribeWith(new RxSubscriber<String>() {
+                .compose(ComposeTransformer.<ResponseFaceBean>Flowable())
+                .subscribeWith(new RxSubscriber<ResponseFaceBean>() {
                     @Override
-                    protected void onSuccess(String bean) {
+                    protected void onSuccess(ResponseFaceBean bean) {
                         postData(EVENT_SUCCESS, bean);
                     }
 

@@ -11,6 +11,7 @@
         android:layout_height="match_parent" />
 
     <com.sir.app.wisdom.view.weight.Circle
+        android:id="@+id/circle"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

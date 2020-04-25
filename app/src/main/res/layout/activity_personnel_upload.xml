@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1fa0a0a0"
+    android:background="@mipmap/ic_bg"
     android:orientation="vertical"
     tools:context=".view.PersonnelUploadActivity">
 
@@ -12,7 +12,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:padding="20dp">
 
         <LinearLayout
@@ -28,7 +27,7 @@
                 android:drawableLeft="@mipmap/ic_required"
                 android:drawablePadding="4dp"
                 android:text="姓名(中文)："
-                android:textColor="#db000000"
+                android:textColor="@color/white"
                 android:textSize="13sp" />
 
             <EditText
@@ -36,11 +35,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/white"
-                android:hint="請輸入"
+                android:background="@null"
+                android:hint="@string/please_enter"
                 android:lines="1"
                 android:padding="8dp"
-                android:textColor="#000000"
+                android:textColor="#E7E7E7"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -68,7 +67,7 @@
                 android:drawableLeft="@mipmap/ic_required"
                 android:drawablePadding="4dp"
                 android:text="姓名(英文)："
-                android:textColor="#db000000"
+                android:textColor="@color/white"
                 android:textSize="13sp" />
 
             <EditText
@@ -76,11 +75,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/white"
-                android:hint="請輸入"
+                android:background="@null"
+                android:hint="@string/please_enter"
                 android:lines="1"
                 android:padding="8dp"
-                android:textColor="#000000"
+                android:textColor="#E7E7E7"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -95,12 +94,17 @@
 
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_toLeftOf="@id/iv_personnel_photo"
+        android:background="@color/colorLine" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
         android:padding="20dp">
 
         <TextView
@@ -108,8 +112,8 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/ic_required"
             android:drawablePadding="4dp"
-            android:text="员工编号："
-            android:textColor="#db000000"
+            android:text="員工編號："
+            android:textColor="@color/white"
             android:textSize="13sp" />
 
         <EditText
@@ -117,11 +121,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/white"
-            android:hint="請輸入"
+            android:background="@null"
+            android:hint="@string/please_enter"
+            android:inputType="number"
             android:lines="1"
             android:padding="8dp"
-            android:textColor="#000000"
+            android:textColor="#E7E7E7"
             android:textSize="14sp" />
 
     </LinearLayout>
@@ -132,9 +137,9 @@
         android:layout_width="162dp"
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="120dp"
         android:background="@drawable/shape_corner_black"
-        android:text="提交信息"
+        android:text="@string/submit_Info"
         android:textColor="@color/white"
         android:textSize="16sp" />
 

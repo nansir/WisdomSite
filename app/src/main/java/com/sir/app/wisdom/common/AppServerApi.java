@@ -3,6 +3,7 @@ package com.sir.app.wisdom.common;
 import com.sir.app.wisdom.model.entity.AccessInfoBean;
 import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.LoginBean;
+import com.sir.app.wisdom.model.entity.ResponseFaceBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
 import com.sir.app.wisdom.model.entity.VehicleTypeBean;
 import com.sir.library.retrofit.response.HttpResponse;
@@ -76,7 +77,7 @@ public interface AppServerApi {
      */
     @Multipart
     @POST("api/Search?TerritoryID=1")
-    Flowable<HttpResponse> face(@Part MultipartBody.Part file);
+    Flowable<HttpResponse<ResponseFaceBean>> face(@Part MultipartBody.Part file);
 
     /**
      * 控制开闸的列表
@@ -85,7 +86,7 @@ public interface AppServerApi {
      * @return
      */
     @GET("api/Car_Gate/GetEntranceBrake/{number}")
-    Flowable<HttpResponse<List<GateBean>>> openGateA(@Path("number") String number);
+    Flowable<HttpResponse<List<GateBean>>> openGateA(@Path("number") int number);
 
     /**
      * 人脸识别成功后，点击开闸
@@ -103,7 +104,7 @@ public interface AppServerApi {
      * @return
      */
     @GET("api/Car_Record/Gate/1/{number}")
-    Flowable<HttpResponse<AccessInfoBean>> getAccessInfo(@Path("number") String number);
+    Flowable<HttpResponse<AccessInfoBean>> getAccessInfo(@Path("number") int number);
 
     /**
      * 推送过来记录

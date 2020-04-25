@@ -29,9 +29,9 @@ public interface VehicleContract {
 
     void vehicleAction(VehicleInfoBean bean);
 
-    void openGateA(String number);
+    void openGateA(int number);
 
-    void openGateB(String number, int[] staff);
+    void openGateB(int number, int[] staff);
 
-    void getAccessInfo(String number);
+    void getAccessInfo(int number);
 }

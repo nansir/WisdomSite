@@ -51,6 +51,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@mipmap/ic_bg_a"
                 android:orientation="vertical">
 
                 <TextView
@@ -65,58 +66,49 @@
                     android:textStyle="bold" />
 
 
-                <androidx.cardview.widget.CardView
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginRight="30dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp">
+                    android:layout_marginRight="20dp"
+                    android:background="@mipmap/ic_bg_b"
+                    android:padding="10dp">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#4d00163f"
-                        android:padding="10dp">
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/tv_vehicle_toast"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
                             android:gravity="center_horizontal"
-                            android:orientation="vertical">
+                            android:text="1548"
+                            android:textColor="@color/white"
+                            android:textSize="30sp" />
 
-                            <TextView
-                                android:id="@+id/tv_vehicle_toast"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:text="1548"
-                                android:textColor="@color/white"
-                                android:textSize="30sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/tv_vehicle_toast"
-                                android:text="@string/main_hint_j"
-                                android:textColor="@color/white"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-
-                        <ImageView
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="10dp"
-                            android:src="@mipmap/ic_brake" />
+                            android:layout_below="@id/tv_vehicle_toast"
+                            android:text="@string/main_hint_j"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
 
-                    </RelativeLayout>
+                    </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@mipmap/ic_brake" />
+
+                </RelativeLayout>
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -189,7 +181,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="30dp">
 
                 <View
@@ -208,21 +200,11 @@
 
             </LinearLayout>
 
-            <androidx.cardview.widget.CardView
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vp_content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"
-                app:cardCornerRadius="@dimen/content_radius">
-
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/vp_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="190dp" />
-
-            </androidx.cardview.widget.CardView>
+                android:layout_height="200dp"
+                android:layout_marginTop="4dp" />
 
         </LinearLayout>
 

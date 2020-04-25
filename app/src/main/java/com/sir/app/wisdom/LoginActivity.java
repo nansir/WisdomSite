@@ -63,6 +63,7 @@ public class LoginActivity extends AppActivity<AccountViewModel> {
         mViewHelper.setTextVal(R.id.et_login_name, SPUtils.getInstance().get(AppKey.ACCOUNT));
         mViewHelper.setTextVal(R.id.et_login_pwd, SPUtils.getInstance().get(AppKey.PASSWORD));
         cbLoginRemember.setChecked(SPUtils.getInstance().get(AppKey.REMEMBER, false));
+        mDialog.setCancelable(false);
         AppUtils.checkUpdate(this, RC_WRITE);
     }
 

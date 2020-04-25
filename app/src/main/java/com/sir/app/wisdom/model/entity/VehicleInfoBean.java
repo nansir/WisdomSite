@@ -39,8 +39,8 @@ public class VehicleInfoBean {
         ValidUntil = validUntil;
     }
 
-    public void setDeadweight(String deadweight) {
-        Deadweight = deadweight;
+    public void setDeadWeight(String weight) {
+        Deadweight = weight;
     }
 
     public void setNumberNuclearCarriers(String numberNuclearCarriers) {
@@ -49,5 +49,9 @@ public class VehicleInfoBean {
 
     public void setSize(String size) {
         Size = size;
+    }
+
+    public String getValidUntil() {
+        return ValidUntil == null ? "" : ValidUntil;
     }
 }

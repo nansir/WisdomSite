@@ -14,5 +14,11 @@ public class GateBean {
 
     private String Address;
 
+    public String getName() {
+        return Name == null ? "" : Name;
+    }
 
+    public String getAddress() {
+        return Address == null ? "" : Address;
+    }
 }

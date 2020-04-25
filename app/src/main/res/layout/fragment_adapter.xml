@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:background="#4d00163f"
+        android:background="#787878"
         android:orientation="horizontal">
 
         <ImageView
@@ -34,7 +34,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="员工编号：4502282"
+                android:text="員工編號：4502282"
                 android:textColor="@color/white"
                 android:textSize="11sp" />
 
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="员工姓名：赵钱孙李"
+                android:text="員工姓名：赵钱孙李"
                 android:textColor="@color/white"
                 android:textSize="11sp" />
 
@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="所属分包商：中建"
+                android:text="所屬分包商：中建"
                 android:textColor="@color/white"
                 android:textSize="11sp" />
 
@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="入场时间：2020年03月23日 15:24"
+                android:text="入場時間：2020年03月23日 15:24"
                 android:textColor="@color/white"
                 android:textSize="11sp" />
 

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@mipmap/ic_bg_a"
     android:orientation="vertical"
     tools:context=".dialog.ScanResultsDialog">
 
@@ -27,43 +28,48 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_personnel_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="员工编号：4502282"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                tools:text="员工编号：4502282" />
 
             <TextView
+                android:id="@+id/tv_personnel_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="员工姓名：赵钱孙李"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                tools:text="员工姓名：赵钱孙李" />
 
             <TextView
+                android:id="@+id/tv_personnel_sex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="性别：男"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                tools:text="性别：男" />
 
             <TextView
+                android:id="@+id/tv_personnel_subc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="所属分包商：中建"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                tools:text="所属分包商：中建" />
 
             <TextView
+                android:id="@+id/tv_personnel_enter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="入场时间：2020年03月23日 15:24"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                tools:text="入场时间：2020年03月23日 15:24" />
 
         </LinearLayout>
 
@@ -73,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="20dp">
 
         <Button
             android:id="@+id/btn_gate_a"
@@ -87,7 +93,6 @@
             android:text="开启1号"
             android:textColor="@color/white"
             android:textSize="16sp" />
-
 
         <Button
             android:id="@+id/btn_gate_b"

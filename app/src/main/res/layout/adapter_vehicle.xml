@@ -14,13 +14,13 @@
         android:layout_marginTop="14dp"
         android:layout_marginBottom="4dp"
         android:text="2020/03/23 14:54"
-        android:textColor="#ff000000"
+        android:textColor="@color/white"
         android:textSize="12sp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@mipmap/ic_bg_d"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
 
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="分判商：中建"
-            android:textColor="#ff000000"
+            android:textColor="@color/white"
             android:textSize="12sp" />
 
         <TextView
@@ -40,9 +40,9 @@
             android:layout_below="@id/tv_info_name"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:text="车牌：ZA00001"
-            android:textColor="#ff000000"
-            android:textSize="10sp" />
+            android:text="車牌：ZA00001"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,8 +51,9 @@
             android:background="@drawable/selector_click_oval"
             android:padding="10dp"
             android:text="@string/edit"
-            android:textColor="@color/colorPrimary"
-            android:textSize="12sp" />
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

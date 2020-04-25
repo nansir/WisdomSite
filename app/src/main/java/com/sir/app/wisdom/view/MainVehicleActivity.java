@@ -12,6 +12,7 @@ import com.sir.app.wisdom.model.entity.AccessInfoBean;
 import com.sir.app.wisdom.vm.VehicleViewModel;
 import com.sir.library.com.AppLogger;
 import com.sir.library.mvvm.AppActivity;
+import com.sir.library.retrofit.event.ResState;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -35,7 +36,7 @@ public class MainVehicleActivity extends AppActivity<VehicleViewModel> {
     @Override
     public void doBusiness() {
         adapter = new VehicleRecordAdapter(getActivity());
-        mViewModel.getAccessInfo("1");
+        mViewModel.getAccessInfo(1);
     }
 
     @Override

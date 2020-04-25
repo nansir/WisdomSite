@@ -111,22 +111,28 @@ public class VehicleUploadActivity extends AppActivity<VehicleViewModel> {
 
     private void submitVehicle() {
         String vehicleOn = mViewHelper.getEditVal(R.id.et_vehicle_on);
-        String vehiclePeople = mViewHelper.getEditVal(R.id.et_vehicle_people);
         String vehicleSize = mViewHelper.getEditVal(R.id.et_vehicle_size);
+        String vehiclePeople = mViewHelper.getEditVal(R.id.et_vehicle_people);
         String vehicleWeight = mViewHelper.getEditVal(R.id.et_vehicle_weight);
 
         if (TextUtils.isEmpty(vehicleOn)) {
             mDialog.showError("未填寫車牌號");
-        } else if (TextUtils.isEmpty(vehiclePeople)) {
-            mDialog.showError("未填寫車輛尺寸");
+            findViewById(R.id.et_vehicle_on).requestFocus();
         } else if (TextUtils.isEmpty(vehicleSize)) {
-            mDialog.showError("未填寫載重量");
+            mDialog.showError("未填寫車輛尺寸");
+            findViewById(R.id.et_vehicle_size).requestFocus();
         } else if (TextUtils.isEmpty(vehicleWeight)) {
+            mDialog.showError("未填寫載重量");
+            findViewById(R.id.et_vehicle_weight).requestFocus();
+        } else if (TextUtils.isEmpty(vehiclePeople)) {
             mDialog.showError("未填寫核載人數");
+            findViewById(R.id.et_vehicle_people).requestFocus();
+        } else if (TextUtils.isEmpty(infoBean.getValidUntil())) {
+            mDialog.showError("未填寫車輛有效期");
         } else {
             infoBean.setCar_No(vehicleOn);
             infoBean.setSize(vehicleSize);
-            infoBean.setDeadweight(vehicleWeight);
+            infoBean.setDeadWeight(vehicleWeight);
             infoBean.setNumberNuclearCarriers(vehiclePeople);
             mViewModel.vehicleAction(infoBean);
         }
@@ -139,6 +145,7 @@ public class VehicleUploadActivity extends AppActivity<VehicleViewModel> {
             @Override
             public void onChanged(List<SubcontractorBean> list) {
                 subs = list;
+                adapterSubcontractor.clear();
                 for (SubcontractorBean bean : list) {
                     adapterSubcontractor.add(bean.getSubcontractorName());
                 }
@@ -150,6 +157,7 @@ public class VehicleUploadActivity extends AppActivity<VehicleViewModel> {
             @Override
             public void onChanged(List<VehicleTypeBean> list) {
                 vehicleTypes = list;
+                adapterVehicleType.clear();
                 for (VehicleTypeBean bean : list) {
                     adapterVehicleType.add(bean.getCar_Type_Name());
                 }
@@ -161,7 +169,7 @@ public class VehicleUploadActivity extends AppActivity<VehicleViewModel> {
     @Override
     protected void notification(ResState state) {
         mDialog.dismiss();
-        if (state.getCode() == VehicleModel.ON_SUCCESS) {
+        if (state.getEvent() == VehicleModel.EVENT_SUCCESS) {
             resultsDialog.show();
             resultsDialog.setSuccess();
             resultsDialog.setBackListener(new View.OnClickListener() {
@@ -178,7 +186,7 @@ public class VehicleUploadActivity extends AppActivity<VehicleViewModel> {
                     finish();
                 }
             }, 3000);
-        } else if (state.getCode() == VehicleModel.ON_FAILURE) {
+        } else if (state.getEvent() == VehicleModel.EVENT_FAILURE) {
             resultsDialog.show();
             resultsDialog.setFailure(state.getMsg());
             resultsDialog.setBackListener(new View.OnClickListener() {

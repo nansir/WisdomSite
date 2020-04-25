@@ -7,10 +7,15 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sir.app.wisdom.R;
+import com.sir.app.wisdom.model.entity.ResponseFaceBean;
+import com.sir.app.wisdom.utils.TimeUtils;
 import com.sir.library.base.BaseDialog;
 
 /**
@@ -48,5 +53,23 @@ public class ScanResultsDialog extends BaseDialog {
         mViewHelper.setOnClickListener(R.id.btn_gate_b, mListener);
         mViewHelper.setOnClickListener(R.id.btn_gate_c, mListener);
         mViewHelper.setOnClickListener(R.id.btn_gate_d, mListener);
+    }
+
+    /**
+     * @param bean
+     */
+    public void loadData(ResponseFaceBean bean) {
+        ImageView photo = findViewById(R.id.iv_personnel_photo);
+        //圖片
+        Glide.with(getContext())
+                .load(bean.getPhoto())
+                .placeholder(R.mipmap.ic_placeholder)//占位图片
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(photo);
+        mViewHelper.setTextVal(R.id.tv_personnel_id, "員工編號：" + bean.getStaffID());
+        mViewHelper.setTextVal(R.id.tv_personnel_name, "員工姓名：" + bean.getCN_FullName());
+        mViewHelper.setTextVal(R.id.tv_personnel_sex, "性別：男");
+        mViewHelper.setTextVal(R.id.tv_personnel_subc, "所屬分包商：" + bean.getSubcontractor());
+        mViewHelper.setTextVal(R.id.tv_personnel_enter, "入場時間：" + TimeUtils.getCurrentTime());
     }
 }

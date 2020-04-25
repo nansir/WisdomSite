@@ -23,8 +23,11 @@ import com.sir.app.wisdom.common.camera.CameraListener;
 import com.sir.app.wisdom.common.camera.CameraManager;
 import com.sir.app.wisdom.dialog.ScanResultsDialog;
 import com.sir.app.wisdom.model.VehicleModel;
+import com.sir.app.wisdom.model.entity.GateBean;
+import com.sir.app.wisdom.model.entity.ResponseFaceBean;
 import com.sir.app.wisdom.utils.FileUtils;
 import com.sir.app.wisdom.utils.ImageUtil;
+import com.sir.app.wisdom.view.weight.Circle;
 import com.sir.app.wisdom.vm.VehicleViewModel;
 import com.sir.library.com.AppLogger;
 import com.sir.library.mvvm.AppActivity;
@@ -50,6 +53,8 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
 
     @BindView(R.id.tv_camera_preview)
     TextureView tvCameraPreview;
+    @BindView(R.id.circle)
+    Circle circle;
 
 
     CameraManager cameraManager;
@@ -81,9 +86,9 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
         initPermission();
         executorService = Executors.newSingleThreadExecutor();
         resultsDialog = new ScanResultsDialog(getActivity());
-        mDialog.setDelay(2400);
+        mDialog.setDelay(3000);
         mDialog.setOnDismissListener(this::onDismiss);
-        resultsDialog.setOnDismissListener(this::onDismiss);
+        circle.start(); //开始动画
     }
 
     /**
@@ -96,6 +101,14 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
         } else {
             EasyPermissions.requestPermissions(this, "需要照相权限", REQUEST_CODE_CAMERA, perms);
         }
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialogInterface) {
+        //提示框消失·继续识别
+        ongoing = false;
+        circle.start(); //开始动画
+        mViewHelper.setVisibility(R.id.tv_scan_content, true);
     }
 
     /**
@@ -247,32 +260,38 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
 
     @Override
     protected void dataObserver() {
-        mViewModel.subscribe(VehicleModel.EVENT_SUCCESS, String.class)
-                .observe(this, new Observer<String>() {
+        //人脸识别成果
+        mViewModel.subscribe(VehicleModel.EVENT_SUCCESS, ResponseFaceBean.class)
+                .observe(this, new Observer<ResponseFaceBean>() {
                     @Override
-                    public void onChanged(String s) {
-                        ongoing = false; //停止识别
+                    public void onChanged(ResponseFaceBean bean) {
+                        ongoing = true; //停止识别
+                        circle.pause(); //停止动画
                         mViewHelper.setVisibility(R.id.tv_scan_content, false);
                         resultsDialog.show();
+                        resultsDialog.loadData(bean);
                         resultsDialog.setOnClick(FaceRecognitionActivity.this::onClick);
                     }
                 });
-
+        //人脸识别失败
         mViewModel.subscribe(VehicleModel.EVENT_FAILURE, String.class)
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
-                        ongoing = false; //停止识别
+                        ongoing = true; //停止识别
+                        circle.pause(); //停止动画
                         mDialog.showWarning(s);
                     }
                 });
-    }
 
-    @Override
-    public void onDismiss(DialogInterface dialogInterface) {
-        //提示框消失·继续识别
-        mViewHelper.setVisibility(R.id.tv_scan_content, true);
-        ongoing = false;
+        //开闸成果
+        mViewModel.subscribe(VehicleModel.EVENT_SUCCESS_GATE, GateBean.class)
+                .observe(this, new Observer<GateBean>() {
+                    @Override
+                    public void onChanged(GateBean bean) {
+                        mDialog.showSuccess("开启：" + bean.getName());
+                    }
+                });
     }
 
     @Override
@@ -281,16 +300,16 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
         resultsDialog.dismiss();
         switch (view.getId()) {
             case R.id.btn_gate_a:
-                AppLogger.toast("开启1号");
+                mViewModel.openGateA(1);
                 break;
             case R.id.btn_gate_b:
-                AppLogger.toast("开启2号");
+                mViewModel.openGateA(2);
                 break;
             case R.id.btn_gate_c:
-                AppLogger.toast("开启3号");
+                mViewModel.openGateA(3);
                 break;
             case R.id.btn_gate_d:
-                AppLogger.toast("开启4号");
+                mViewModel.openGateA(4);
                 break;
         }
     }

@@ -41,7 +41,7 @@ public class VehicleRecordActivity extends HolderActivity<RecyclerSwipeViewHolde
            list.add("");
            list.add("");
            mViewHolder.loadData(list);
-       },1500);
+       },1000);
     }
 
 

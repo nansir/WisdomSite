@@ -30,7 +30,7 @@ public class Circle extends View {
     private float mCenterX;//旋转圆的中心横坐标
     private float mCenterY;//旋转圆的中心纵坐标
 
-    private Bitmap bitmapA,bitmapB;
+    private Bitmap bitmapA, bitmapB;
     private Bitmap bitmapBG;
 
 
@@ -65,6 +65,15 @@ public class Circle extends View {
                 invalidate();
             }
         });
+
+
+    }
+
+    public void pause() {
+        mAnimator.pause();
+    }
+
+    public void start() {
         mAnimator.start();
     }
 
