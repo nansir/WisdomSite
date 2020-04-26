@@ -9,7 +9,5 @@ import java.io.File;
  */
 public class AppConstant {
     public static final String HTTP = "http://120.78.211.126:81";
-
-
     public static final String ROOT_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "wisdom";
 }
