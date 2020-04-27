@@ -88,6 +88,7 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
         resultsDialog = new ScanResultsDialog(getActivity());
         mDialog.setDelay(3000);
         mDialog.setOnDismissListener(this::onDismiss);
+        resultsDialog.setOnDismissListener(this::onDismiss);
         circle.start(); //开始动画
     }
 
@@ -191,7 +192,8 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                     // 预览画面相同的bitmap
                     final Bitmap previewBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, false);
 
-                    File file = FileUtils.saveBitmap(previewBitmap);
+                    File file = FileUtils.saveBitmap(getActivity(),previewBitmap);
+
                     if (file != null && !ongoing) { //开始识别
                         ongoing = true;
                         mViewModel.face(file);

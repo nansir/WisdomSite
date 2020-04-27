@@ -2,12 +2,14 @@ package com.sir.app.wisdom.view;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -48,8 +50,17 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
     ImageView ivInfoPhoto;
     SubmitResultsDialog resultsDialog;
     PhotoSelectDialog photoDialog;
+
+
     private Uri mImageUri;
     private Bitmap bitmap;
+
+    // 用于保存图片的文件路径，Android 10以下使用图片路径访问图片
+    private String mCameraImagePath;
+
+    // 是否是Android 10以上手机
+    private boolean isAndroidQ = Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q;
+
 
     @Override
     public int bindLayout() {
@@ -132,18 +143,40 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
             EasyPermissions.requestPermissions(this, "需要存储照相权限", REQUEST_CODE_CAMERA, perms);
             return;
         }
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//打开相机的Intent
-        File imageFile = FileUtils.createImageFile();//创建用来保存照片的文件
-        if (imageFile != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                /*7.0 以上要通过FileProvider将File转化为Uri*/
-                mImageUri = FileProvider.getUriForFile(this, "com.sir.app.wisdom.fileProvider", imageFile);
+        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//打开相机的Intent
+        // 判断是否有相机
+        if (captureIntent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            if (isAndroidQ) {
+                // 适配android 10
+                mImageUri = createImageUri();
             } else {
-                /*7.0 以下则直接使用Uri的fromFile方法将File转化为Uri*/
-                mImageUri = Uri.fromFile(imageFile);
+                photoFile = FileUtils.createImageFile(this);//创建用来保存照片的文件
+//                if (photoFile != null) {
+//                    mCameraImagePath = photoFile.getAbsolutePath();
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                        //适配Android 7.0文件权限，通过FileProvider创建一个content类型的Uri
+//                        photoUri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", photoFile);
+//                    } else {
+//                        photoUri = Uri.fromFile(photoFile);
+//                    }
+//                }
+                if (photoFile != null) {
+                    mCameraImagePath = photoFile.getAbsolutePath();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        /*7.0 以上要通过FileProvider将File转化为Uri*/
+                        mImageUri = FileProvider.getUriForFile(this, "com.sir.app.wisdom.fileProvider", photoFile);
+                    } else {
+                        /*7.0 以下则直接使用Uri的fromFile方法将File转化为Uri*/
+                        mImageUri = Uri.fromFile(photoFile);
+                    }
+                }
             }
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);//将用于输出的文件Uri传递给相机
-            startActivityForResult(intent, REQUEST_CODE_CAMERA);//打开相机
+            if (mImageUri != null) {
+                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
+                captureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                startActivityForResult(captureIntent, REQUEST_CODE_CAMERA);
+            }
         }
     }
 
@@ -180,22 +213,27 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
         mViewModel.addPersonnel(code, nameCN, nameEN, photo);
     }
 
+    /**
+     * 创建图片地址uri,用于保存拍照后的照片 Android 10以后使用这种方法
+     */
+    private Uri createImageUri() {
+        String status = Environment.getExternalStorageState();
+        // 判断是否有SD卡,优先使用SD卡存储,当没有SD卡时使用手机存储
+        if (status.equals(Environment.MEDIA_MOUNTED)) {
+            return getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
+        } else {
+            return getContentResolver().insert(MediaStore.Images.Media.INTERNAL_CONTENT_URI, new ContentValues());
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK) {
-            try {
-                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mImageUri));
-                /* 将Bitmap设定到ImageView */
-                ivInfoPhoto.setImageBitmap(bitmap);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (requestCode == REQUEST_CODE_ALBUM && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_ALBUM && resultCode == RESULT_OK) { //相册返回
             if (data != null) {
                 // 照片的原始资源地址
                 Uri uri = data.getData();
-                String path = uri.getPath();
+                //String path = uri.getPath();
                 ContentResolver cr = getContentResolver();
                 try {
                     bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
@@ -205,6 +243,20 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
                     Log.e("Exception", e.getMessage(), e);
                 }
             }
+        } else if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK) {//打开相机返回
+            try {
+                // 是否是Android 10以上手机
+                if (isAndroidQ) {
+                    ContentResolver cr = getContentResolver();
+                    bitmap = BitmapFactory.decodeStream(cr.openInputStream(mImageUri));
+                } else {
+                    bitmap = BitmapFactory.decodeFile(mCameraImagePath);
+                }
+            } catch (FileNotFoundException e) {
+                Log.e("Exception", e.getMessage(), e);
+            }
+            /* 将Bitmap设定到ImageView */
+            ivInfoPhoto.setImageBitmap(bitmap);
         }
     }
 

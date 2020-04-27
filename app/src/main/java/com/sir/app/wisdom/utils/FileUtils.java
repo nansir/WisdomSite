@@ -1,7 +1,11 @@
 package com.sir.app.wisdom.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Environment;
 import android.util.Base64;
+
+import androidx.core.os.EnvironmentCompat;
 
 import com.sir.app.wisdom.common.AppConstant;
 
@@ -10,6 +14,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by zhuyinan on 2020/4/9.
@@ -60,25 +67,12 @@ public class FileUtils {
         return base64;
     }
 
-
     /**
      * 保存方法
      */
-    public static File saveBitmap(Bitmap bm) {
-        File file = new File(AppConstant.ROOT_DIR, "NanSir.jpg");
+    public static File saveBitmap(Context context, Bitmap bm) {
+        File file = createImageFile(context);
         try {
-
-            //创建文件夹
-            if (!file.exists()) {
-                //按照指定的路径创建文件夹
-                file.mkdirs();
-            }
-
-            //删除文件
-            if (file.exists()) {
-                file.delete();
-            }
-
             FileOutputStream out = new FileOutputStream(file);
             bm.compress(Bitmap.CompressFormat.PNG, 10, out);
             out.flush();
@@ -89,7 +83,22 @@ public class FileUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return null;
+    }
+
+    /**
+     * 创建保存图片的文件
+     */
+    public static File createImageFile(Context mContext) {
+        String imageName = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        File storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        if (!storageDir.exists()) {
+            storageDir.mkdir();
+        }
+        File tempFile = new File(storageDir, imageName);
+        if (!Environment.MEDIA_MOUNTED.equals(EnvironmentCompat.getStorageState(tempFile))) {
+            return null;
+        }
+        return tempFile;
     }
 }
