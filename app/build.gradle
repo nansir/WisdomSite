@@ -5,11 +5,12 @@ android {
     buildToolsVersion BUILD_TOOLS_VERSION
 
     defaultConfig {
+//        applicationId "com.sir.app.wisdom.test"
         applicationId "com.sir.app.wisdom"
         minSdkVersion MIN_SDK_VERSION
         targetSdkVersion TARGET_SDK_VERSION
-        versionCode 10
-        versionName "1.0.9"
+        versionCode 11
+        versionName "1.1.0"
     }
 
     //添加签名文件配置(将signingConfigs{}放到了buildType{}的后面,导致编译的时候无法找到)
@@ -45,7 +46,8 @@ android {
             //指定release APK名称
             applicationVariants.all { variant ->
                 variant.outputs.all {
-                    def fileName = "Wisdom_V${defaultConfig.versionName}.apk"
+//                    def fileName = "Wisdom_DebV${defaultConfig.versionName}.apk"
+                    def fileName = "Wisdom_RelV${defaultConfig.versionName}.apk"
                     outputFileName = fileName
                 }
             }
