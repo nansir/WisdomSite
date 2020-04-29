@@ -11,6 +11,8 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.camera2.CameraDevice;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Size;
 import android.view.TextureView;
 import android.view.View;
@@ -48,7 +50,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> implements CameraListener, DialogInterface.OnDismissListener, View.OnClickListener {
 
     // 处理的间隔帧
-    final int PROCESS_INTERVAL = 60;
+    final int PROCESS_INTERVAL = 50;
     final int REQUEST_CODE_CAMERA = 1001;
 
     @BindView(R.id.tv_camera_preview)
@@ -58,6 +60,7 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
 
 
     CameraManager cameraManager;
+
     // 图像帧数据，全局变量避免反复创建，降低gc频率
     private byte[] nv21;
     // 当前获取的帧数
@@ -70,9 +73,24 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
     private boolean isMirrorPreview;
     // 实际打开的cameraId
     private String openedCameraId;
-    // 正在进行识别
-    private boolean ongoing = false;
-
+    // 正在进行识别(默认不识别)
+    private boolean ongoing = true;
+    // 啟動標誌
+    boolean flag = false;
+    Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message msg) {
+            if (msg.what == 0) {
+                ongoing = false; //开始识别
+                flag = true; //已經啟動
+                mViewHelper.setTextVal(R.id.tv_scan_content, "開始識別...");
+            } else if (msg.what == 1) {
+                mViewHelper.setTextVal(R.id.tv_toolbar_title, "人臉識別");
+                mViewHelper.setTextVal(R.id.tv_scan_content, "正在識別...");
+            }
+            return false;
+        }
+    });
     private ScanResultsDialog resultsDialog;
 
     @Override
@@ -90,6 +108,9 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
         mDialog.setOnDismissListener(this::onDismiss);
         resultsDialog.setOnDismissListener(this::onDismiss);
         circle.start(); //开始动画
+
+        //启动后三秒开始识别
+        mHandler.sendEmptyMessageDelayed(0, 3000);
     }
 
     /**
@@ -157,7 +178,9 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
 
     @Override
     public void onPreview(byte[] y, byte[] u, byte[] v, Size previewSize, int stride) {
-        if (currentIndex++ % PROCESS_INTERVAL == 0) {
+        if (currentIndex++ % PROCESS_INTERVAL == 0 && !ongoing) {
+            ongoing = true;
+            mHandler.sendEmptyMessage(1);//开始识别
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -192,10 +215,9 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                     // 预览画面相同的bitmap
                     final Bitmap previewBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.getWidth(), originalBitmap.getHeight(), matrix, false);
 
-                    File file = FileUtils.saveBitmap(getActivity(),previewBitmap);
+                    File file = FileUtils.saveBitmap(getActivity(), previewBitmap);
 
-                    if (file != null && !ongoing) { //开始识别
-                        ongoing = true;
+                    if (file != null) {
                         mViewModel.face(file);
                     }
                 }
@@ -267,12 +289,16 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                 .observe(this, new Observer<ResponseFaceBean>() {
                     @Override
                     public void onChanged(ResponseFaceBean bean) {
-                        ongoing = true; //停止识别
-                        circle.pause(); //停止动画
-                        mViewHelper.setVisibility(R.id.tv_scan_content, false);
-                        resultsDialog.show();
-                        resultsDialog.loadData(bean);
-                        resultsDialog.setOnClick(FaceRecognitionActivity.this::onClick);
+                        if (flag) {
+                            ongoing = true; //停止识别
+                            circle.pause(); //停止动画
+                            mViewHelper.setVisibility(R.id.tv_scan_content, false);
+                            resultsDialog.show();
+                            resultsDialog.loadData(bean);
+                            resultsDialog.setOnClick(FaceRecognitionActivity.this::onClick);
+
+                            mViewHelper.setTextVal(R.id.tv_toolbar_title, "識別成功");
+                        }
                     }
                 });
         //人脸识别失败
@@ -280,9 +306,13 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
-                        ongoing = true; //停止识别
-                        circle.pause(); //停止动画
-                        mDialog.showWarning(s);
+                        if (flag) {
+                            ongoing = true; //停止识别
+                            circle.pause(); //停止动画
+                            mDialog.showWarning(s);
+
+                            mViewHelper.setTextVal(R.id.tv_toolbar_title, "識別失敗");
+                        }
                     }
                 });
 

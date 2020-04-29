@@ -51,8 +51,6 @@ public class ScanResultsDialog extends BaseDialog {
     public void setOnClick(View.OnClickListener mListener) {
         mViewHelper.setOnClickListener(R.id.btn_gate_a, mListener);
         mViewHelper.setOnClickListener(R.id.btn_gate_b, mListener);
-        mViewHelper.setOnClickListener(R.id.btn_gate_c, mListener);
-        mViewHelper.setOnClickListener(R.id.btn_gate_d, mListener);
     }
 
     /**

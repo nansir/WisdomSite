@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="100dp"
-        android:text="識別中.."
+        android:text="正在啟動.."
         android:textColor="#ffffffff"
         android:textSize="20sp" />
 
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="人脸识别"
+            android:text="人臉識別"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
