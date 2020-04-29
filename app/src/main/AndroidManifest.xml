@@ -54,8 +54,6 @@
             android:authorities="${applicationId}.com.pgyer.provider"
             android:exported="false" />
 
-
-
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"

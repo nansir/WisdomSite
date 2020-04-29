@@ -12,7 +12,6 @@ import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.camera2.CameraDevice;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Size;
 import android.view.TextureView;
 import android.view.View;
@@ -60,7 +59,8 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
 
 
     CameraManager cameraManager;
-
+    // 啟動標誌
+    boolean flag = false;
     // 图像帧数据，全局变量避免反复创建，降低gc频率
     private byte[] nv21;
     // 当前获取的帧数
@@ -75,21 +75,16 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
     private String openedCameraId;
     // 正在进行识别(默认不识别)
     private boolean ongoing = true;
-    // 啟動標誌
-    boolean flag = false;
-    Handler mHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(@NonNull Message msg) {
-            if (msg.what == 0) {
-                ongoing = false; //开始识别
-                flag = true; //已經啟動
-                mViewHelper.setTextVal(R.id.tv_scan_content, "開始識別...");
-            } else if (msg.what == 1) {
-                mViewHelper.setTextVal(R.id.tv_toolbar_title, "人臉識別");
-                mViewHelper.setTextVal(R.id.tv_scan_content, "正在識別...");
-            }
-            return false;
+    Handler mHandler = new Handler(msg -> {
+        if (msg.what == 0) {
+            ongoing = false; //开始识别
+            flag = true; //已經啟動
+            mViewHelper.setTextVal(R.id.tv_scan_content, "開始識別...");
+        } else if (msg.what == 1) {
+            mViewHelper.setTextVal(R.id.tv_toolbar_title, "人臉識別");
+            mViewHelper.setTextVal(R.id.tv_scan_content, "正在識別...");
         }
+        return false;
     });
     private ScanResultsDialog resultsDialog;
 
@@ -106,11 +101,14 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
         resultsDialog = new ScanResultsDialog(getActivity());
         mDialog.setDelay(3000);
         mDialog.setOnDismissListener(this::onDismiss);
-        resultsDialog.setOnDismissListener(this::onDismiss);
-        circle.start(); //开始动画
+        resultsDialog.setOnDismissListener(this::onResultsDismiss);
 
+        circle.start(); //开始动画
         //启动后三秒开始识别
         mHandler.sendEmptyMessageDelayed(0, 3000);
+
+        mViewHelper.setOnClickListener(R.id.btn_open, this);
+        mViewHelper.setOnClickListener(R.id.btn_close, this);
     }
 
     /**
@@ -128,9 +126,22 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
     @Override
     public void onDismiss(DialogInterface dialogInterface) {
         //提示框消失·继续识别
-        ongoing = false;
-        circle.start(); //开始动画
+        if (flag) {
+            ongoing = false;
+            circle.start(); //开始动画
+        }
+    }
+
+    /**
+     * 结果隐藏
+     *
+     * @param dialogInterface
+     */
+    private void onResultsDismiss(DialogInterface dialogInterface) {
+        mViewHelper.setVisibility(R.id.ll_option, true);
         mViewHelper.setVisibility(R.id.tv_scan_content, true);
+
+        mViewHelper.setTextVal(R.id.tv_scan_content,"識別成功");
     }
 
     /**
@@ -284,19 +295,21 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
 
     @Override
     protected void dataObserver() {
-        //人脸识别成果
+        //人脸识别成功
         mViewModel.subscribe(VehicleModel.EVENT_SUCCESS, ResponseFaceBean.class)
                 .observe(this, new Observer<ResponseFaceBean>() {
                     @Override
                     public void onChanged(ResponseFaceBean bean) {
                         if (flag) {
+                            flag = false;
                             ongoing = true; //停止识别
                             circle.pause(); //停止动画
-                            mViewHelper.setVisibility(R.id.tv_scan_content, false);
+
                             resultsDialog.show();
                             resultsDialog.loadData(bean);
                             resultsDialog.setOnClick(FaceRecognitionActivity.this::onClick);
 
+                            mViewHelper.setVisibility(R.id.tv_scan_content, false);
                             mViewHelper.setTextVal(R.id.tv_toolbar_title, "識別成功");
                         }
                     }
@@ -342,6 +355,16 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                 break;
             case R.id.btn_gate_d:
                 mViewModel.openGateA(4);
+                break;
+            case R.id.btn_open: //继续识别
+                flag = true;
+                ongoing = false; //停止识别
+                circle.start();  //开始动画
+                mViewHelper.setVisibility(R.id.ll_option, false);
+                mViewHelper.setTextVal(R.id.tv_scan_content, "開始識別...");
+                break;
+            case R.id.btn_close:
+                finish();
                 break;
         }
     }
