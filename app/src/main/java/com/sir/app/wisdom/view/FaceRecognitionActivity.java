@@ -24,7 +24,6 @@ import com.sir.app.wisdom.common.camera.CameraListener;
 import com.sir.app.wisdom.common.camera.CameraManager;
 import com.sir.app.wisdom.dialog.ScanResultsDialog;
 import com.sir.app.wisdom.model.VehicleModel;
-import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.ResponseFaceBean;
 import com.sir.app.wisdom.utils.FileUtils;
 import com.sir.app.wisdom.utils.ImageUtil;
@@ -57,10 +56,6 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
     @BindView(R.id.circle)
     Circle circle;
 
-
-    CameraManager cameraManager;
-    // 啟動標誌
-    boolean flag = false;
     // 图像帧数据，全局变量避免反复创建，降低gc频率
     private byte[] nv21;
     // 当前获取的帧数
@@ -73,20 +68,30 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
     private boolean isMirrorPreview;
     // 实际打开的cameraId
     private String openedCameraId;
-    // 正在进行识别(默认不识别)
+
+    // 开始识别
     private boolean ongoing = true;
+    // 启动识别
+    private boolean flag = false;
+
+
+    private CameraManager cameraManager;
+    private ResponseFaceBean responseFace;
+    private ScanResultsDialog resultsDialog;
+
+
     Handler mHandler = new Handler(msg -> {
         if (msg.what == 0) {
-            ongoing = false; //开始识别
-            flag = true; //已經啟動
+            flag = true;     //启动
+            ongoing = false; //未识别
             mViewHelper.setTextVal(R.id.tv_scan_content, "開始識別...");
         } else if (msg.what == 1) {
+            ongoing = true;  //开始识别
             mViewHelper.setTextVal(R.id.tv_toolbar_title, "人臉識別");
             mViewHelper.setTextVal(R.id.tv_scan_content, "正在識別...");
         }
         return false;
     });
-    private ScanResultsDialog resultsDialog;
 
     @Override
     public int bindLayout() {
@@ -127,7 +132,7 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
     public void onDismiss(DialogInterface dialogInterface) {
         //提示框消失·继续识别
         if (flag) {
-            ongoing = false;
+            ongoing = false; //未识别
             circle.start(); //开始动画
         }
     }
@@ -141,7 +146,7 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
         mViewHelper.setVisibility(R.id.ll_option, true);
         mViewHelper.setVisibility(R.id.tv_scan_content, true);
 
-        mViewHelper.setTextVal(R.id.tv_scan_content,"識別成功");
+        mViewHelper.setTextVal(R.id.tv_scan_content, "識別成功");
     }
 
     /**
@@ -190,7 +195,6 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
     @Override
     public void onPreview(byte[] y, byte[] u, byte[] v, Size previewSize, int stride) {
         if (currentIndex++ % PROCESS_INTERVAL == 0 && !ongoing) {
-            ongoing = true;
             mHandler.sendEmptyMessage(1);//开始识别
             executorService.execute(new Runnable() {
                 @Override
@@ -295,13 +299,15 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
 
     @Override
     protected void dataObserver() {
-        //人脸识别成功
+        // 人脸识别成功
         mViewModel.subscribe(VehicleModel.EVENT_SUCCESS, ResponseFaceBean.class)
                 .observe(this, new Observer<ResponseFaceBean>() {
                     @Override
                     public void onChanged(ResponseFaceBean bean) {
+                        responseFace = bean;
                         if (flag) {
-                            flag = false;
+
+                            flag = false;  //停止运行
                             ongoing = true; //停止识别
                             circle.pause(); //停止动画
 
@@ -330,11 +336,11 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                 });
 
         //开闸成果
-        mViewModel.subscribe(VehicleModel.EVENT_SUCCESS_GATE, GateBean.class)
-                .observe(this, new Observer<GateBean>() {
+        mViewModel.subscribe(VehicleModel.EVENT_GATE_B, String.class)
+                .observe(this, new Observer<String>() {
                     @Override
-                    public void onChanged(GateBean bean) {
-                        mDialog.showSuccess("开启：" + bean.getName());
+                    public void onChanged(String bean) {
+                        mDialog.showSuccess("操作成功");
                     }
                 });
     }
@@ -345,20 +351,20 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
         resultsDialog.dismiss();
         switch (view.getId()) {
             case R.id.btn_gate_a:
-                mViewModel.openGateA(1);
+                mViewModel.openGateB(1, new int[]{responseFace.getStaffID()});
                 break;
             case R.id.btn_gate_b:
-                mViewModel.openGateA(2);
+                mViewModel.openGateB(2, new int[]{responseFace.getStaffID()});
                 break;
             case R.id.btn_gate_c:
-                mViewModel.openGateA(3);
+                mViewModel.openGateB(3, new int[]{responseFace.getStaffID()});
                 break;
             case R.id.btn_gate_d:
-                mViewModel.openGateA(4);
+                mViewModel.openGateB(4, new int[]{responseFace.getStaffID()});
                 break;
             case R.id.btn_open: //继续识别
-                flag = true;
-                ongoing = false; //停止识别
+                flag = true;     //已启动
+                ongoing = false; //未识别
                 circle.start();  //开始动画
                 mViewHelper.setVisibility(R.id.ll_option, false);
                 mViewHelper.setTextVal(R.id.tv_scan_content, "開始識別...");

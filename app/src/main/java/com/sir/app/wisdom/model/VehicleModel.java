@@ -29,8 +29,9 @@ import okhttp3.MultipartBody;
 public class VehicleModel extends Repository implements VehicleContract {
 
     public static String EVENT_SUCCESS = getEventKey();
-    public static String EVENT_SUCCESS_GATE = getEventKey();
     public static String EVENT_FAILURE = getEventKey();
+    public static String EVENT_GATE_A = getEventKey();
+    public static String EVENT_GATE_B = getEventKey();
 
     private MutableLiveData<List<SubcontractorBean>> subcontractor;
     private MutableLiveData<List<VehicleTypeBean>> vehicleType;
@@ -63,7 +64,7 @@ public class VehicleModel extends Repository implements VehicleContract {
                 .subscribeWith(new RxSubscriber<List<GateBean>>() {
                     @Override
                     protected void onSuccess(List<GateBean> list) {
-                        postData(EVENT_SUCCESS_GATE, list.size() > 0 ? list.get(0) : new GateBean());
+                        postData(EVENT_GATE_A, list.size() > 0 ? list.get(0) : new GateBean());
                     }
 
                     @Override
@@ -75,17 +76,18 @@ public class VehicleModel extends Repository implements VehicleContract {
 
     @Override
     public void openGateB(int number, int[] staff) {
-        addSubscribe(appServerApi.getAccessInfo(number)
-                .compose(ComposeTransformer.<AccessInfoBean>Flowable())
-                .subscribeWith(new RxSubscriber<AccessInfoBean>() {
+        String json = "{\"type\":\"Open\",\"obj\":{\"Car_Gate_ID\":\"%s\",\"Staff\":%s}}";
+        addSubscribe(appServerApi.openGateB(createBody(String.format(json, number, new Gson().toJson(staff))))
+                .compose(ComposeTransformer.<String>FlowableMsg())
+                .subscribeWith(new RxSubscriber<String>() {
                     @Override
-                    protected void onSuccess(AccessInfoBean bean) {
-                        getAccessInfo().postValue(bean);
+                    protected void onSuccess(String str) {
+                        postData(EVENT_GATE_B, str);
                     }
 
                     @Override
                     protected void onFailure(ResponseThrowable ex) {
-                        postState(ON_FAILURE, ex.message);
+                        postState(ON_FAILURE, "開閘失敗");
                     }
                 }));
     }
