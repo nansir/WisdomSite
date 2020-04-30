@@ -82,11 +82,10 @@ public interface AppServerApi {
     /**
      * 控制开闸的列表
      *
-     * @param number
      * @return
      */
-    @GET("api/Car_Gate/GetEntranceBrake/{number}")
-    Flowable<HttpResponse<List<GateBean>>> openGateA(@Path("number") int number);
+    @GET("api/Car_Gate/GetEntranceBrake/1")
+    Flowable<HttpResponse<List<GateBean>>> gateInfo();
 
     /**
      * 人脸识别成功后，点击开闸

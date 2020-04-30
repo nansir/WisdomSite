@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.sir.app.wisdom.contract.VehicleContract;
 import com.sir.app.wisdom.model.VehicleModel;
 import com.sir.app.wisdom.model.entity.AccessInfoBean;
+import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
 import com.sir.app.wisdom.model.entity.VehicleInfoBean;
 import com.sir.app.wisdom.model.entity.VehicleTypeBean;
@@ -41,6 +42,11 @@ public class VehicleViewModel extends BaseViewModel<VehicleModel> implements Veh
     }
 
     @Override
+    public MutableLiveData<List<GateBean>> getGateInfo() {
+        return mRepository.getGateInfo();
+    }
+
+    @Override
     public void face(File imagePath) {
         mRepository.face(imagePath);
     }
@@ -61,13 +67,13 @@ public class VehicleViewModel extends BaseViewModel<VehicleModel> implements Veh
     }
 
     @Override
-    public void openGateA(int number) {
-        mRepository.openGateA(number);
+    public void gateInfo() {
+        mRepository.gateInfo();
     }
 
     @Override
-    public void openGateB(int number, int[] staff) {
-        mRepository.openGateB(number, staff);
+    public void openGateB(String recordId, int[] staff) {
+        mRepository.openGateB(recordId, staff);
     }
 
     @Override

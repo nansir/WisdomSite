@@ -75,77 +75,10 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp">
-
-        <Button
-            android:id="@+id/btn_gate_a"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_corner_gray"
-            android:drawableLeft="@mipmap/ic_gate"
-            android:drawablePadding="10dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="开启1号"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/btn_gate_b"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/shape_corner_gray"
-            android:drawableLeft="@mipmap/ic_gate"
-            android:drawablePadding="10dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="开启2号"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="20dp"
-        android:visibility="gone">
-
-        <Button
-            android:id="@+id/btn_gate_c"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_corner_gray"
-            android:drawableLeft="@mipmap/ic_gate"
-            android:drawablePadding="10dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="开启3号"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/btn_gate_d"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/shape_corner_gray"
-            android:drawableLeft="@mipmap/ic_gate"
-            android:drawablePadding="10dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="开启4号"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-
-    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp" />
 
 </LinearLayout>

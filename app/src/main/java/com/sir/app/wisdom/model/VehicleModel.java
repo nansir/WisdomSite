@@ -37,6 +37,9 @@ public class VehicleModel extends Repository implements VehicleContract {
     private MutableLiveData<List<VehicleTypeBean>> vehicleType;
     private MutableLiveData<AccessInfoBean> accessInfo;
 
+    //闸口列表
+    private MutableLiveData<List<GateBean>> gateInfo;
+
     @Override
     public void vehicleAction(VehicleInfoBean bean) {
         FormData data = new FormData("AddOrEdit", bean);
@@ -58,13 +61,13 @@ public class VehicleModel extends Repository implements VehicleContract {
     }
 
     @Override
-    public void openGateA(int number) {
-        addSubscribe(appServerApi.openGateA(number)
+    public void gateInfo( ) {
+        addSubscribe(appServerApi.gateInfo()
                 .compose(ComposeTransformer.<List<GateBean>>Flowable())
                 .subscribeWith(new RxSubscriber<List<GateBean>>() {
                     @Override
                     protected void onSuccess(List<GateBean> list) {
-                        postData(EVENT_GATE_A, list.size() > 0 ? list.get(0) : new GateBean());
+                        getGateInfo().postValue(list);
                     }
 
                     @Override
@@ -75,9 +78,9 @@ public class VehicleModel extends Repository implements VehicleContract {
     }
 
     @Override
-    public void openGateB(int number, int[] staff) {
-        String json = "{\"type\":\"Open\",\"obj\":{\"Car_Gate_ID\":\"%s\",\"Staff\":%s}}";
-        addSubscribe(appServerApi.openGateB(createBody(String.format(json, number, new Gson().toJson(staff))))
+    public void openGateB(String recordId, int[] staff) {
+        String json = "{\"type\":\"Open\",\"obj\":{\"Record_ID\":\"%s\",\"Staff\":%s}}";
+        addSubscribe(appServerApi.openGateB(createBody(String.format(json, recordId, new Gson().toJson(staff))))
                 .compose(ComposeTransformer.<String>FlowableMsg())
                 .subscribeWith(new RxSubscriber<String>() {
                     @Override
@@ -99,6 +102,7 @@ public class VehicleModel extends Repository implements VehicleContract {
                 .subscribeWith(new RxSubscriber<AccessInfoBean>() {
                     @Override
                     protected void onSuccess(AccessInfoBean bean) {
+                        //选择的闸口获取车辆信息
                         getAccessInfo().postValue(bean);
                     }
 
@@ -132,6 +136,16 @@ public class VehicleModel extends Repository implements VehicleContract {
         }
         return accessInfo;
     }
+
+
+    @Override
+    public MutableLiveData<List<GateBean>> getGateInfo() {
+        if (gateInfo == null) {
+            gateInfo = new MutableLiveData<>();
+        }
+        return gateInfo;
+    }
+
 
     @Override
     public void face(File file) {

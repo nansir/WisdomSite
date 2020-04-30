@@ -3,6 +3,7 @@ package com.sir.app.wisdom.contract;
 import androidx.lifecycle.MutableLiveData;
 
 import com.sir.app.wisdom.model.entity.AccessInfoBean;
+import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
 import com.sir.app.wisdom.model.entity.VehicleInfoBean;
 import com.sir.app.wisdom.model.entity.VehicleTypeBean;
@@ -21,6 +22,8 @@ public interface VehicleContract {
 
     MutableLiveData<AccessInfoBean> getAccessInfo();
 
+    MutableLiveData<List<GateBean>> getGateInfo();
+
     void face(File imagePath);
 
     void subcontractor(String value); 
@@ -29,9 +32,9 @@ public interface VehicleContract {
 
     void vehicleAction(VehicleInfoBean bean);
 
-    void openGateA(int number);
+    void gateInfo();
 
-    void openGateB(int number, int[] staff);
+    void openGateB(String recordId, int[] staff);
 
     void getAccessInfo(int number);
 }

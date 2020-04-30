@@ -20,15 +20,19 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 
 import com.sir.app.wisdom.R;
+import com.sir.app.wisdom.adapter.GateInfoAdapter;
 import com.sir.app.wisdom.common.camera.CameraListener;
 import com.sir.app.wisdom.common.camera.CameraManager;
 import com.sir.app.wisdom.dialog.ScanResultsDialog;
 import com.sir.app.wisdom.model.VehicleModel;
+import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.ResponseFaceBean;
 import com.sir.app.wisdom.utils.FileUtils;
 import com.sir.app.wisdom.utils.ImageUtil;
 import com.sir.app.wisdom.view.weight.Circle;
 import com.sir.app.wisdom.vm.VehicleViewModel;
+import com.sir.library.base.help.OnItemClickListener;
+import com.sir.library.base.help.ViewHolder;
 import com.sir.library.com.AppLogger;
 import com.sir.library.mvvm.AppActivity;
 
@@ -55,7 +59,7 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
     TextureView tvCameraPreview;
     @BindView(R.id.circle)
     Circle circle;
-
+    GateInfoAdapter gateInfoAdapter;
     // 图像帧数据，全局变量避免反复创建，降低gc频率
     private byte[] nv21;
     // 当前获取的帧数
@@ -68,18 +72,10 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
     private boolean isMirrorPreview;
     // 实际打开的cameraId
     private String openedCameraId;
-
     // 开始识别
     private boolean ongoing = true;
     // 启动识别
     private boolean flag = false;
-
-
-    private CameraManager cameraManager;
-    private ResponseFaceBean responseFace;
-    private ScanResultsDialog resultsDialog;
-
-
     Handler mHandler = new Handler(msg -> {
         if (msg.what == 0) {
             flag = true;     //启动
@@ -93,6 +89,10 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
         return false;
     });
 
+    private CameraManager cameraManager;
+    private ResponseFaceBean responseFace;
+    private ScanResultsDialog resultsDialog;
+
     @Override
     public int bindLayout() {
         return R.layout.activity_face_recognition;
@@ -102,8 +102,11 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
     public void doBusiness() {
         setSwipeBackEnable(true);
         initPermission();
+
         executorService = Executors.newSingleThreadExecutor();
         resultsDialog = new ScanResultsDialog(getActivity());
+
+
         mDialog.setDelay(3000);
         mDialog.setOnDismissListener(this::onDismiss);
         resultsDialog.setOnDismissListener(this::onResultsDismiss);
@@ -114,6 +117,23 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
 
         mViewHelper.setOnClickListener(R.id.btn_open, this);
         mViewHelper.setOnClickListener(R.id.btn_close, this);
+
+
+        //闸口列表
+        gateInfoAdapter = new GateInfoAdapter(getActivity());
+        gateInfoAdapter.addItem(mViewModel.getGateInfo().getValue());
+        gateInfoAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(ViewHolder holder, int position) {
+
+                resultsDialog.dismiss();
+                GateBean bean = gateInfoAdapter.getItem(position);
+
+                //开闸,获取闸口车辆信息
+                mViewModel.getAccessInfo(bean.getTerritoryID());
+
+            }
+        });
     }
 
     /**
@@ -312,14 +332,15 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                             circle.pause(); //停止动画
 
                             resultsDialog.show();
-                            resultsDialog.loadData(bean);
-                            resultsDialog.setOnClick(FaceRecognitionActivity.this::onClick);
+                            resultsDialog.loadData(bean, gateInfoAdapter);
 
                             mViewHelper.setVisibility(R.id.tv_scan_content, false);
                             mViewHelper.setTextVal(R.id.tv_toolbar_title, "識別成功");
                         }
                     }
                 });
+
+
         //人脸识别失败
         mViewModel.subscribe(VehicleModel.EVENT_FAILURE, String.class)
                 .observe(this, new Observer<String>() {
@@ -335,7 +356,16 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                     }
                 });
 
-        //开闸成果
+
+        //获取闸口车辆信息
+        mViewModel.getAccessInfo().observe(this, bean -> {
+            if (responseFace != null) {
+                mViewModel.openGateB(bean.getRecord_ID(), new int[]{responseFace.getStaffID()});
+            }
+        });
+
+
+        //开闸成功
         mViewModel.subscribe(VehicleModel.EVENT_GATE_B, String.class)
                 .observe(this, new Observer<String>() {
                     @Override
@@ -345,23 +375,10 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                 });
     }
 
+
     @Override
     public void onClick(View view) {
-        //开闸
-        resultsDialog.dismiss();
         switch (view.getId()) {
-            case R.id.btn_gate_a:
-                mViewModel.openGateB(1, new int[]{responseFace.getStaffID()});
-                break;
-            case R.id.btn_gate_b:
-                mViewModel.openGateB(2, new int[]{responseFace.getStaffID()});
-                break;
-            case R.id.btn_gate_c:
-                mViewModel.openGateB(3, new int[]{responseFace.getStaffID()});
-                break;
-            case R.id.btn_gate_d:
-                mViewModel.openGateB(4, new int[]{responseFace.getStaffID()});
-                break;
             case R.id.btn_open: //继续识别
                 flag = true;     //已启动
                 ongoing = false; //未识别
