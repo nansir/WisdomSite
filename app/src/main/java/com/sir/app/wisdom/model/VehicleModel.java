@@ -35,7 +35,7 @@ public class VehicleModel extends Repository implements VehicleContract {
 
     private MutableLiveData<List<SubcontractorBean>> subcontractor;
     private MutableLiveData<List<VehicleTypeBean>> vehicleType;
-    private MutableLiveData<AccessInfoBean> accessInfo;
+    private MutableLiveData<List<AccessInfoBean>> accessInfo;
 
     //闸口列表
     private MutableLiveData<List<GateBean>> gateInfo;
@@ -79,7 +79,7 @@ public class VehicleModel extends Repository implements VehicleContract {
 
     @Override
     public void openGateB(String recordId, int[] staff) {
-        String json = "{\"type\":\"Open\",\"obj\":{\"Record_ID\":\"%s\",\"Staff\":%s}}";
+        String json = "{\"type\":\"Open\",\"obj\":{\"Gate_ID\":\"%s\",\"Staff\":%s}}";
         addSubscribe(appServerApi.openGateB(createBody(String.format(json, recordId, new Gson().toJson(staff))))
                 .compose(ComposeTransformer.<String>FlowableMsg())
                 .subscribeWith(new RxSubscriber<String>() {
@@ -98,10 +98,10 @@ public class VehicleModel extends Repository implements VehicleContract {
     @Override
     public void getAccessInfo(int number) {
         addSubscribe(appServerApi.getAccessInfo(number)
-                .compose(ComposeTransformer.<AccessInfoBean>Flowable())
-                .subscribeWith(new RxSubscriber<AccessInfoBean>() {
+                .compose(ComposeTransformer.<List<AccessInfoBean>>Flowable())
+                .subscribeWith(new RxSubscriber<List<AccessInfoBean>>() {
                     @Override
-                    protected void onSuccess(AccessInfoBean bean) {
+                    protected void onSuccess(List<AccessInfoBean> bean) {
                         //选择的闸口获取车辆信息
                         getAccessInfo().postValue(bean);
                     }
@@ -130,7 +130,7 @@ public class VehicleModel extends Repository implements VehicleContract {
     }
 
     @Override
-    public MutableLiveData<AccessInfoBean> getAccessInfo() {
+    public MutableLiveData<List<AccessInfoBean>> getAccessInfo() {
         if (accessInfo == null) {
             accessInfo = new MutableLiveData<>();
         }

@@ -37,7 +37,7 @@ public class VehicleViewModel extends BaseViewModel<VehicleModel> implements Veh
     }
 
     @Override
-    public MutableLiveData<AccessInfoBean> getAccessInfo() {
+    public MutableLiveData<List<AccessInfoBean>> getAccessInfo() {
         return mRepository.getAccessInfo();
     }
 

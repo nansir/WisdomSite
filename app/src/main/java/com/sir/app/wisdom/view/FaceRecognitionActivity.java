@@ -25,6 +25,7 @@ import com.sir.app.wisdom.common.camera.CameraListener;
 import com.sir.app.wisdom.common.camera.CameraManager;
 import com.sir.app.wisdom.dialog.ScanResultsDialog;
 import com.sir.app.wisdom.model.VehicleModel;
+import com.sir.app.wisdom.model.entity.AccessInfoBean;
 import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.ResponseFaceBean;
 import com.sir.app.wisdom.utils.FileUtils;
@@ -38,6 +39,7 @@ import com.sir.library.mvvm.AppActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -130,7 +132,8 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                 GateBean bean = gateInfoAdapter.getItem(position);
 
                 //开闸,获取闸口车辆信息
-                mViewModel.getAccessInfo(bean.getTerritoryID());
+               // mViewModel.getAccessInfo(bean.getCar_Gate_ID());
+                mViewModel.openGateB(String.valueOf(bean.getCar_Gate_ID()), new int[]{responseFace.getStaffID()});
 
             }
         });
@@ -358,9 +361,12 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
 
 
         //获取闸口车辆信息
-        mViewModel.getAccessInfo().observe(this, bean -> {
-            if (responseFace != null) {
-                mViewModel.openGateB(bean.getRecord_ID(), new int[]{responseFace.getStaffID()});
+        mViewModel.getAccessInfo().observe(this, new Observer<List<AccessInfoBean>>() {
+            @Override
+            public void onChanged(List<AccessInfoBean> bean) {
+                if (responseFace != null) {
+                    mViewModel.openGateB(bean.get(0).getRecord_ID(), new int[]{responseFace.getStaffID()});
+                }
             }
         });
 

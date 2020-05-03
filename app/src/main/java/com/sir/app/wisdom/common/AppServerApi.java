@@ -103,7 +103,7 @@ public interface AppServerApi {
      * @return
      */
     @GET("api/Car_Record/Gate/1/{number}")
-    Flowable<HttpResponse<AccessInfoBean>> getAccessInfo(@Path("number") int number);
+    Flowable<HttpResponse<List<AccessInfoBean>>> getAccessInfo(@Path("number") int number);
 
     /**
      * 推送过来记录

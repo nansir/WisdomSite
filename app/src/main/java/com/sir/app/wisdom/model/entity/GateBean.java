@@ -27,4 +27,8 @@ public class GateBean {
     public int getTerritoryID() {
         return TerritoryID;
     }
+
+    public int getCar_Gate_ID() {
+        return Car_Gate_ID;
+    }
 }

@@ -20,7 +20,7 @@ public interface VehicleContract {
 
     MutableLiveData<List<VehicleTypeBean>> getVehicleType();
 
-    MutableLiveData<AccessInfoBean> getAccessInfo();
+    MutableLiveData<List<AccessInfoBean>> getAccessInfo();
 
     MutableLiveData<List<GateBean>> getGateInfo();
 

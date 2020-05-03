@@ -12,7 +12,8 @@ import com.sir.app.wisdom.model.entity.AccessInfoBean;
 import com.sir.app.wisdom.vm.VehicleViewModel;
 import com.sir.library.com.AppLogger;
 import com.sir.library.mvvm.AppActivity;
-import com.sir.library.retrofit.event.ResState;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -42,9 +43,9 @@ public class MainVehicleActivity extends AppActivity<VehicleViewModel> {
 
     @Override
     protected void dataObserver() {
-        mViewModel.getAccessInfo().observe(this, new Observer<AccessInfoBean>() {
+        mViewModel.getAccessInfo().observe(this, new Observer<List<AccessInfoBean>>() {
             @Override
-            public void onChanged(AccessInfoBean bean) {
+            public void onChanged(List<AccessInfoBean> bean) {
                 adapter.addItem(bean);
                 vpContent.setAdapter(adapter);
             }
