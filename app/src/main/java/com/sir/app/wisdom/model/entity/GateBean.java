@@ -20,15 +20,7 @@ public class GateBean {
         return Name == null ? "" : Name;
     }
 
-    public String getAddress() {
-        return Address == null ? "" : Address;
-    }
-
-    public int getTerritoryID() {
-        return TerritoryID;
-    }
-
-    public int getCar_Gate_ID() {
+    public int getGateID() {
         return Car_Gate_ID;
     }
 }

@@ -25,7 +25,6 @@ import com.sir.app.wisdom.common.camera.CameraListener;
 import com.sir.app.wisdom.common.camera.CameraManager;
 import com.sir.app.wisdom.dialog.ScanResultsDialog;
 import com.sir.app.wisdom.model.VehicleModel;
-import com.sir.app.wisdom.model.entity.AccessInfoBean;
 import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.ResponseFaceBean;
 import com.sir.app.wisdom.utils.FileUtils;
@@ -61,7 +60,10 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
     TextureView tvCameraPreview;
     @BindView(R.id.circle)
     Circle circle;
-    GateInfoAdapter gateInfoAdapter;
+
+    GateInfoAdapter gateAdapter;
+
+
     // 图像帧数据，全局变量避免反复创建，降低gc频率
     private byte[] nv21;
     // 当前获取的帧数
@@ -78,6 +80,7 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
     private boolean ongoing = true;
     // 启动识别
     private boolean flag = false;
+
     Handler mHandler = new Handler(msg -> {
         if (msg.what == 0) {
             flag = true;     //启动
@@ -120,21 +123,18 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
         mViewHelper.setOnClickListener(R.id.btn_open, this);
         mViewHelper.setOnClickListener(R.id.btn_close, this);
 
+        gateAdapter = new GateInfoAdapter(getActivity());
 
-        //闸口列表
-        gateInfoAdapter = new GateInfoAdapter(getActivity());
-        gateInfoAdapter.addItem(mViewModel.getGateInfo().getValue());
-        gateInfoAdapter.setOnItemClickListener(new OnItemClickListener() {
+        //获取闸口列表
+        mViewModel.queryGateInfo();
+
+        gateAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(ViewHolder holder, int position) {
-
                 resultsDialog.dismiss();
-                GateBean bean = gateInfoAdapter.getItem(position);
-
-                //开闸,获取闸口车辆信息
-               // mViewModel.getAccessInfo(bean.getCar_Gate_ID());
-                mViewModel.openGateB(String.valueOf(bean.getCar_Gate_ID()), new int[]{responseFace.getStaffID()});
-
+                GateBean bean = gateAdapter.getItem(position);
+                // 开闸
+                mViewModel.openGate(String.valueOf(bean.getGateID()), new int[]{responseFace.getStaffID()});
             }
         });
     }
@@ -322,53 +322,41 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
 
     @Override
     protected void dataObserver() {
+        // 获取闸口列表
+        mViewModel.getGateInfo().observe(this, list -> gateAdapter.addItem(list));
+
         // 人脸识别成功
         mViewModel.subscribe(VehicleModel.EVENT_SUCCESS, ResponseFaceBean.class)
-                .observe(this, new Observer<ResponseFaceBean>() {
-                    @Override
-                    public void onChanged(ResponseFaceBean bean) {
-                        responseFace = bean;
-                        if (flag) {
+                .observe(this, bean -> {
+                    responseFace = bean;
+                    if (flag) {
+                        flag = false;  //停止运行
+                        ongoing = true; //停止识别
+                        circle.pause(); //停止动画
 
-                            flag = false;  //停止运行
-                            ongoing = true; //停止识别
-                            circle.pause(); //停止动画
+                        resultsDialog.show();
+                        resultsDialog.loadData(bean, gateAdapter);
 
-                            resultsDialog.show();
-                            resultsDialog.loadData(bean, gateInfoAdapter);
-
-                            mViewHelper.setVisibility(R.id.tv_scan_content, false);
-                            mViewHelper.setTextVal(R.id.tv_toolbar_title, "識別成功");
-                        }
+                        mViewHelper.setVisibility(R.id.tv_scan_content, false);
+                        mViewHelper.setTextVal(R.id.tv_toolbar_title, "識別成功");
                     }
                 });
 
 
         //人脸识别失败
         mViewModel.subscribe(VehicleModel.EVENT_FAILURE, String.class)
-                .observe(this, new Observer<String>() {
-                    @Override
-                    public void onChanged(String s) {
-                        if (flag) {
-                            ongoing = true; //停止识别
-                            circle.pause(); //停止动画
-                            mDialog.showWarning(s);
+                .observe(this, s -> {
+                    if (flag) {
+                        ongoing = true; //停止识别
+                        circle.pause(); //停止动画
+                        mDialog.showWarning(s);
 
-                            mViewHelper.setTextVal(R.id.tv_toolbar_title, "識別失敗");
-                        }
+                        mViewHelper.setTextVal(R.id.tv_toolbar_title, "識別失敗");
                     }
                 });
 
 
-        //获取闸口车辆信息
-        mViewModel.getAccessInfo().observe(this, new Observer<List<AccessInfoBean>>() {
-            @Override
-            public void onChanged(List<AccessInfoBean> bean) {
-                if (responseFace != null) {
-                    mViewModel.openGateB(bean.get(0).getRecord_ID(), new int[]{responseFace.getStaffID()});
-                }
-            }
-        });
+
 
 
         //开闸成功

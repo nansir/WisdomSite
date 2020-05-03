@@ -32,9 +32,9 @@ public interface VehicleContract {
 
     void vehicleAction(VehicleInfoBean bean);
 
-    void gateInfo();
+    void queryGateInfo();
 
-    void openGateB(String recordId, int[] staff);
+    void openGate(String recordId, int[] staff);
 
     void getAccessInfo(int number);
 }

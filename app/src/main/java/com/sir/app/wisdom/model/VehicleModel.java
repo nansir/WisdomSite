@@ -61,7 +61,7 @@ public class VehicleModel extends Repository implements VehicleContract {
     }
 
     @Override
-    public void gateInfo( ) {
+    public void queryGateInfo() {
         addSubscribe(appServerApi.gateInfo()
                 .compose(ComposeTransformer.<List<GateBean>>Flowable())
                 .subscribeWith(new RxSubscriber<List<GateBean>>() {
@@ -78,9 +78,9 @@ public class VehicleModel extends Repository implements VehicleContract {
     }
 
     @Override
-    public void openGateB(String recordId, int[] staff) {
+    public void openGate(String id, int[] staff) {
         String json = "{\"type\":\"Open\",\"obj\":{\"Gate_ID\":\"%s\",\"Staff\":%s}}";
-        addSubscribe(appServerApi.openGateB(createBody(String.format(json, recordId, new Gson().toJson(staff))))
+        addSubscribe(appServerApi.openGateB(createBody(String.format(json, id, new Gson().toJson(staff))))
                 .compose(ComposeTransformer.<String>FlowableMsg())
                 .subscribeWith(new RxSubscriber<String>() {
                     @Override

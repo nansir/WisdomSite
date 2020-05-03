@@ -67,13 +67,13 @@ public class VehicleViewModel extends BaseViewModel<VehicleModel> implements Veh
     }
 
     @Override
-    public void gateInfo() {
-        mRepository.gateInfo();
+    public void queryGateInfo() {
+        mRepository.queryGateInfo();
     }
 
     @Override
-    public void openGateB(String recordId, int[] staff) {
-        mRepository.openGateB(recordId, staff);
+    public void openGate(String id, int[] staff) {
+        mRepository.openGate(id, staff);
     }
 
     @Override

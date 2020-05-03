@@ -38,17 +38,13 @@ public class MainVehicleActivity extends AppActivity<VehicleViewModel> {
     public void doBusiness() {
         adapter = new VehicleRecordAdapter(getActivity());
         mViewModel.getAccessInfo(1);
-        mViewModel.gateInfo();
     }
 
     @Override
     protected void dataObserver() {
-        mViewModel.getAccessInfo().observe(this, new Observer<List<AccessInfoBean>>() {
-            @Override
-            public void onChanged(List<AccessInfoBean> bean) {
-                adapter.addItem(bean);
-                vpContent.setAdapter(adapter);
-            }
+        mViewModel.getAccessInfo().observe(this, bean -> {
+            adapter.addItem(bean);
+            vpContent.setAdapter(adapter);
         });
     }
 
