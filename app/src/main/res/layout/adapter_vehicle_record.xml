@@ -39,7 +39,7 @@
             <ImageView
                 android:id="@+id/iv_record_plate"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="90dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_test_c" />
 
@@ -73,7 +73,7 @@
             <ImageView
                 android:id="@+id/iv_record_roof"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="90dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_test_d" />
 

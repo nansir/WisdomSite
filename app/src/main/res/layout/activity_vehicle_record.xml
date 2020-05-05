@@ -29,7 +29,7 @@
             android:background="@color/white"
             android:drawableLeft="@mipmap/ic_search"
             android:drawablePadding="6dp"
-            android:hint="请输入分判商/车牌信息查找"
+            android:hint="@string/personnel_hint_a"
             android:padding="6dp"
             android:textSize="12sp" />
 

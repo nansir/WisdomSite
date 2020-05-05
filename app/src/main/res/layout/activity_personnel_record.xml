@@ -29,7 +29,7 @@
             android:background="@color/white"
             android:drawableLeft="@mipmap/ic_search"
             android:drawablePadding="6dp"
-            android:hint="@string/personnel_hint_a"
+            android:hint="@string/personnel_hint_b"
             android:padding="6dp"
             android:textSize="12sp" />
 

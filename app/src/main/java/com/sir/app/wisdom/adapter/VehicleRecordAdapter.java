@@ -1,12 +1,14 @@
 package com.sir.app.wisdom.adapter;
 
 import android.app.Activity;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.sir.app.wisdom.R;
+import com.sir.app.wisdom.dialog.PhotoZoomDialog;
 import com.sir.app.wisdom.model.entity.AccessInfoBean;
 import com.sir.library.base.BasePagerAdapter;
 import com.sir.library.base.help.ViewHolder;
@@ -16,8 +18,11 @@ import com.sir.library.base.help.ViewHolder;
  */
 public class VehicleRecordAdapter extends BasePagerAdapter<AccessInfoBean> {
 
+    PhotoZoomDialog photoZoom;
+
     public VehicleRecordAdapter(@NonNull Activity context) {
         super(context);
+        photoZoom = new PhotoZoomDialog(context);
     }
 
     @Override
@@ -47,5 +52,21 @@ public class VehicleRecordAdapter extends BasePagerAdapter<AccessInfoBean> {
                 .load(bean.getCarRoof())
                 .placeholder(R.mipmap.ic_placeholder)//占位图片
                 .into(carRoof);
+
+        headstock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                photoZoom.show();
+                photoZoom.setImage(bean.getHeadstock());
+            }
+        });
+
+        carRoof.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                photoZoom.show();
+                photoZoom.setImage(bean.getCarRoof());
+            }
+        });
     }
 }
