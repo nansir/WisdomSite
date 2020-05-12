@@ -26,7 +26,7 @@ public interface VehicleContract {
 
     void face(File imagePath);
 
-    void subcontractor(String value); 
+    void subcontractor(String value);
 
     void vehicleType();
 
@@ -37,4 +37,12 @@ public interface VehicleContract {
     void openGate(String recordId, int[] staff);
 
     void getAccessInfo(int number);
+
+    void totalVehicles(int number);
+
+    void vehicleType(int number);
+
+    void statistics(int carType, int dateType, int territoryID);
+
+    void vehicleRecords(int number);
 }

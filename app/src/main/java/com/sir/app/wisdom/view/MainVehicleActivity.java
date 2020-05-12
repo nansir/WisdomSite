@@ -38,6 +38,7 @@ public class MainVehicleActivity extends AppActivity<VehicleViewModel> {
     public void doBusiness() {
         adapter = new VehicleRecordAdapter(getActivity());
         mViewModel.getAccessInfo(1);
+        mViewModel.totalVehicles(1);
     }
 
     @Override

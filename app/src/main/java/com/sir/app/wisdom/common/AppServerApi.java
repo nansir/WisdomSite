@@ -19,6 +19,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by zhuyinan on 2020/1/14.
@@ -113,5 +114,45 @@ public interface AppServerApi {
      */
     @GET("api/Car_Record/Record/1/{number}")
     Flowable<HttpResponse<AccessInfoBean>> record(@Path("number") String number);
+
+
+    /**
+     * 本月进入车辆总数
+     *
+     * @return
+     */
+    @GET("api/GetCarSumByMonth?TerritoryID=1")
+    Flowable<HttpResponse> totalVehicles();
+
+
+    /**
+     * 统计
+     *
+     * @param carType
+     * @param dateType
+     * @param territoryID
+     * @return
+     */
+    @GET("api/GetHHDDMM")
+    Flowable<HttpResponse> statistics(@Query("cartype") int carType, @Query("cartype") int dateType, @Query("TerritoryID") int territoryID);
+
+
+    /**
+     * 所有的车辆类别
+     *
+     * @return
+     */
+    @GET("api/GetAllCarType?TerritoryID=1")
+    Flowable<HttpResponse> vehicleType();
+
+
+    /**
+     * 车辆进出记录
+     *
+     * @return
+     */
+    @GET("api/api/GetCarJilu?TerritoryID=1")
+    Flowable<HttpResponse> vehicleRecords();
+
 
 }

@@ -114,6 +114,79 @@ public class VehicleModel extends Repository implements VehicleContract {
     }
 
     @Override
+    public void totalVehicles(int number) {
+        addSubscribe(appServerApi.totalVehicles()
+                .compose(ComposeTransformer.<String>FlowableMsg())
+                .subscribeWith(new RxSubscriber<String>() {
+                    @Override
+                    protected void onSuccess(String bean) {
+                        //选择的闸口获取车辆信息
+
+                    }
+
+                    @Override
+                    protected void onFailure(ResponseThrowable ex) {
+                        postState(ON_FAILURE, ex.message);
+                    }
+                }));
+    }
+
+    @Override
+    public void vehicleType(int number) {
+        addSubscribe(appServerApi.vehicleType()
+                .compose(ComposeTransformer.<String>FlowableMsg())
+                .subscribeWith(new RxSubscriber<String>() {
+                    @Override
+                    protected void onSuccess(String bean) {
+                        //选择的闸口获取车辆信息
+
+                    }
+
+                    @Override
+                    protected void onFailure(ResponseThrowable ex) {
+                        postState(ON_FAILURE, ex.message);
+                    }
+                }));
+    }
+
+    @Override
+    public void statistics(int carType, int dateType, int territoryID) {
+        addSubscribe(appServerApi.statistics(carType, dateType, territoryID)
+                .compose(ComposeTransformer.<String>FlowableMsg())
+                .subscribeWith(new RxSubscriber<String>() {
+                    @Override
+                    protected void onSuccess(String bean) {
+
+
+                    }
+
+                    @Override
+                    protected void onFailure(ResponseThrowable ex) {
+                        postState(ON_FAILURE, ex.message);
+                    }
+                }));
+    }
+
+    @Override
+    public void vehicleRecords(int number) {
+        addSubscribe(appServerApi.vehicleRecords()
+                .compose(ComposeTransformer.<String>FlowableMsg())
+                .subscribeWith(new RxSubscriber<String>() {
+                    @Override
+                    protected void onSuccess(String bean) {
+
+
+                    }
+
+                    @Override
+                    protected void onFailure(ResponseThrowable ex) {
+                        postState(ON_FAILURE, ex.message);
+                    }
+                }));
+    }
+
+
+    @Override
     public MutableLiveData<List<SubcontractorBean>> getSubcontractor() {
         if (subcontractor == null) {
             subcontractor = new MutableLiveData<>();
@@ -182,8 +255,9 @@ public class VehicleModel extends Repository implements VehicleContract {
                         postState(ON_FAILURE, ex.message);
                     }
                 }));
-
     }
+
+
 
     @Override
     public void vehicleType() {

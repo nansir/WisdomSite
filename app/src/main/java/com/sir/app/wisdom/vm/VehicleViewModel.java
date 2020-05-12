@@ -80,4 +80,24 @@ public class VehicleViewModel extends BaseViewModel<VehicleModel> implements Veh
     public void getAccessInfo(int number) {
         mRepository.getAccessInfo(number);
     }
+
+    @Override
+    public void totalVehicles(int number) {
+        mRepository.totalVehicles(number);
+    }
+
+    @Override
+    public void vehicleType(int number) {
+        mRepository.vehicleType(number);
+    }
+
+    @Override
+    public void statistics(int carType, int dateType, int territoryID) {
+        mRepository.statistics(carType, dateType, territoryID);
+    }
+
+    @Override
+    public void vehicleRecords(int number) {
+        mRepository.vehicleRecords(number);
+    }
 }
