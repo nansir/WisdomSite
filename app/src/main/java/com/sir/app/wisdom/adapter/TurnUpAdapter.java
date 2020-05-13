@@ -5,27 +5,29 @@ import android.app.Activity;
 import androidx.annotation.NonNull;
 
 import com.sir.app.wisdom.R;
-import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
+import com.sir.app.wisdom.model.entity.TurnUpBean;
 import com.sir.library.base.BaseRecyclerAdapter;
 import com.sir.library.base.help.ViewHolder;
 
 /**
- * 车辆信息记录
- * Created by zhuyinan on 2020/4/8.
+ * 到場情況
+ * Created by zhuyinan on 2020/5/13.
  */
-public class VehicleAdapter extends BaseRecyclerAdapter<VehicleRecordsBean> {
+public class TurnUpAdapter extends BaseRecyclerAdapter<TurnUpBean> {
 
-    public VehicleAdapter(@NonNull Activity context) {
+    public TurnUpAdapter(@NonNull Activity context) {
         super(context);
     }
 
     @Override
     public int bindLayout() {
-        return R.layout.adapter_vehicle;
+        return R.layout.adapter_turn_up;
     }
 
     @Override
     public void onBindHolder(ViewHolder holder, int position) {
+        TurnUpBean bean = getItem(position);
+        holder.setText(R.id.tv_sub_name, bean.getSubcontractorName());
 
     }
 }

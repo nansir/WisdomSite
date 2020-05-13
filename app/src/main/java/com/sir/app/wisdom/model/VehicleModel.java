@@ -11,6 +11,7 @@ import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.ResponseFaceBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
 import com.sir.app.wisdom.model.entity.VehicleInfoBean;
+import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
 import com.sir.app.wisdom.model.entity.VehicleTypeBean;
 import com.sir.library.com.AppLogger;
 import com.sir.library.retrofit.callback.RxSubscriber;
@@ -36,6 +37,7 @@ public class VehicleModel extends Repository implements VehicleContract {
     private MutableLiveData<List<SubcontractorBean>> subcontractor;
     private MutableLiveData<List<VehicleTypeBean>> vehicleType;
     private MutableLiveData<List<AccessInfoBean>> accessInfo;
+    private MutableLiveData<List<VehicleRecordsBean>> vehicleRecords;
 
     //闸口列表
     private MutableLiveData<List<GateBean>> gateInfo;
@@ -170,12 +172,11 @@ public class VehicleModel extends Repository implements VehicleContract {
     @Override
     public void vehicleRecords(int number) {
         addSubscribe(appServerApi.vehicleRecords()
-                .compose(ComposeTransformer.<String>FlowableMsg())
-                .subscribeWith(new RxSubscriber<String>() {
+                .compose(ComposeTransformer.<List<VehicleRecordsBean>>Flowable())
+                .subscribeWith(new RxSubscriber<List<VehicleRecordsBean>>() {
                     @Override
-                    protected void onSuccess(String bean) {
-
-
+                    protected void onSuccess(List<VehicleRecordsBean> list) {
+                        getVehicleRecords().postValue(list);
                     }
 
                     @Override
@@ -217,6 +218,14 @@ public class VehicleModel extends Repository implements VehicleContract {
             gateInfo = new MutableLiveData<>();
         }
         return gateInfo;
+    }
+
+    @Override
+    public MutableLiveData<List<VehicleRecordsBean>> getVehicleRecords() {
+        if (vehicleRecords == null) {
+            vehicleRecords = new MutableLiveData<>();
+        }
+        return vehicleRecords;
     }
 
 

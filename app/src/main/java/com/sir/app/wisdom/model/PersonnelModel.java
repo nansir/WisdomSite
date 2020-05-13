@@ -1,11 +1,16 @@
 package com.sir.app.wisdom.model;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.sir.app.wisdom.common.Repository;
 import com.sir.app.wisdom.contract.PersonnelContract;
-import com.sir.library.com.AppLogger;
+import com.sir.app.wisdom.model.entity.PersonnelRecordBean;
+import com.sir.app.wisdom.model.entity.TurnUpBean;
 import com.sir.library.retrofit.callback.RxSubscriber;
 import com.sir.library.retrofit.exception.ResponseThrowable;
 import com.sir.library.retrofit.transformer.ComposeTransformer;
+
+import java.util.List;
 
 /**
  * 人员管理模型
@@ -15,9 +20,14 @@ public class PersonnelModel extends Repository implements PersonnelContract {
 
     public static String EVENT_ADD_PERSONNEL = getEventKey();
 
+    private MutableLiveData<List<PersonnelRecordBean>> personnelRecords;
+
+    private MutableLiveData<List<TurnUpBean>> turnUpBean;
+
     @Override
     public void addPersonnel(String code, String nameCN, String nameEn, String photo) {
         String json = "{\"type\":\"add\",\"obj\":{\"Tid\":\"1\",\"StaffID\":\"0\",\"StaffCode\":\"%s\",\"CNFullName\":\"%s\",\"EN_FullName\":\"%s\",\"Photo\":\"%s\"}}";
+
         postState(ON_LOADING, "正在提交..");
 
         addSubscribe(appServerApi.addPersonnel(createBody(String.format(json, code, nameCN, nameEn, photo)))
@@ -36,13 +46,29 @@ public class PersonnelModel extends Repository implements PersonnelContract {
     }
 
     @Override
+    public MutableLiveData<List<PersonnelRecordBean>> getPersonnelRecord() {
+        if (personnelRecords == null) {
+            personnelRecords = new MutableLiveData<>();
+        }
+        return personnelRecords;
+    }
+
+    @Override
+    public MutableLiveData<List<TurnUpBean>> getTurnUp() {
+        if (turnUpBean == null) {
+            turnUpBean = new MutableLiveData<>();
+        }
+        return turnUpBean;
+    }
+
+    @Override
     public void personnelRecords() {
         addSubscribe(appServerApi.personnelRecords()
-                .compose(ComposeTransformer.<String>FlowableMsg())
-                .subscribeWith(new RxSubscriber<String>() {
+                .compose(ComposeTransformer.<List<PersonnelRecordBean>>Flowable())
+                .subscribeWith(new RxSubscriber<List<PersonnelRecordBean>>() {
                     @Override
-                    protected void onSuccess(String bean) {
-
+                    protected void onSuccess(List<PersonnelRecordBean> list) {
+                        getPersonnelRecord().postValue(list);
                     }
 
                     @Override
@@ -51,6 +77,24 @@ public class PersonnelModel extends Repository implements PersonnelContract {
                     }
                 }));
     }
+
+    @Override
+    public void getPerson() {
+        addSubscribe(appServerApi.getTurnUp()
+                .compose(ComposeTransformer.<List<TurnUpBean>>Flowable())
+                .subscribeWith(new RxSubscriber<List<TurnUpBean>>() {
+                    @Override
+                    protected void onSuccess(List<TurnUpBean> bean) {
+                        getTurnUp().postValue(bean);
+                    }
+
+                    @Override
+                    protected void onFailure(ResponseThrowable ex) {
+                        postState(ON_FAILURE, getLoginMsg(ex.code));
+                    }
+                }));
+    }
+
 
     public String getLoginMsg(int code) {
         switch (code) {

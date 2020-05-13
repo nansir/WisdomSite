@@ -6,6 +6,7 @@ import com.sir.app.wisdom.model.entity.AccessInfoBean;
 import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
 import com.sir.app.wisdom.model.entity.VehicleInfoBean;
+import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
 import com.sir.app.wisdom.model.entity.VehicleTypeBean;
 
 import java.io.File;
@@ -23,6 +24,8 @@ public interface VehicleContract {
     MutableLiveData<List<AccessInfoBean>> getAccessInfo();
 
     MutableLiveData<List<GateBean>> getGateInfo();
+
+    MutableLiveData<List<VehicleRecordsBean>> getVehicleRecords();
 
     void face(File imagePath);
 

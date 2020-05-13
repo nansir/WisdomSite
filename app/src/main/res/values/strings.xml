@@ -19,7 +19,7 @@
     <string name="main_hint_f">在場人數</string>
     <string name="main_hint_g">人員信息上傳</string>
     <string name="main_hint_h">信息上傳記錄</string>
-    <string name="main_hint_i">現場人員進出情況</string>
+    <string name="main_hint_i">各個分包商到場情況</string>
     <string name="main_hint_k">車輛統計</string>
     <string name="main_hint_j">本月車輛進入總數</string>
     <string name="main_hint_l">人臉識別</string>

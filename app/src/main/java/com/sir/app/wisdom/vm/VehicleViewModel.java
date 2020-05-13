@@ -11,6 +11,7 @@ import com.sir.app.wisdom.model.entity.AccessInfoBean;
 import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
 import com.sir.app.wisdom.model.entity.VehicleInfoBean;
+import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
 import com.sir.app.wisdom.model.entity.VehicleTypeBean;
 import com.sir.library.mvvm.base.BaseViewModel;
 
@@ -44,6 +45,11 @@ public class VehicleViewModel extends BaseViewModel<VehicleModel> implements Veh
     @Override
     public MutableLiveData<List<GateBean>> getGateInfo() {
         return mRepository.getGateInfo();
+    }
+
+    @Override
+    public MutableLiveData<List<VehicleRecordsBean>> getVehicleRecords() {
+        return mRepository.getVehicleRecords();
     }
 
     @Override
