@@ -121,7 +121,7 @@ public interface AppServerApi {
      *
      * @return
      */
-    @GET("api/GetCarSumByMonth?TerritoryID=1")
+    @POST("api/GetCarSumByMonth?TerritoryID=1")
     Flowable<HttpResponse> totalVehicles();
 
 
@@ -151,8 +151,17 @@ public interface AppServerApi {
      *
      * @return
      */
-    @GET("api/api/GetCarJilu?TerritoryID=1")
+    @GET("api/GetCarJilu?TerritoryID=1")
     Flowable<HttpResponse> vehicleRecords();
+
+
+    /**
+     * 人員统计
+     *
+     * @return
+     */
+    @GET("GetTongji/GetLastT?TerritoryID=1")
+    Flowable<HttpResponse> personnelRecords();
 
 
 }

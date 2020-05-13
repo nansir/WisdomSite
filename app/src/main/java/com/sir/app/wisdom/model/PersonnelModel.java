@@ -35,6 +35,23 @@ public class PersonnelModel extends Repository implements PersonnelContract {
                 }));
     }
 
+    @Override
+    public void personnelRecords() {
+        addSubscribe(appServerApi.personnelRecords()
+                .compose(ComposeTransformer.<String>FlowableMsg())
+                .subscribeWith(new RxSubscriber<String>() {
+                    @Override
+                    protected void onSuccess(String bean) {
+
+                    }
+
+                    @Override
+                    protected void onFailure(ResponseThrowable ex) {
+                        postState(ON_FAILURE, getLoginMsg(ex.code));
+                    }
+                }));
+    }
+
     public String getLoginMsg(int code) {
         switch (code) {
             case 0:

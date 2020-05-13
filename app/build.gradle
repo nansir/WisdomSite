@@ -75,7 +75,7 @@ dependencies {
     implementation material
 
     implementation 'com.pgyersdk:sdk:3.0.10'
-    implementation 'com.sir.library:baseapp:1.5.2'
+    implementation 'com.sir.library:baseapp:1.5.4'
     implementation 'android.arch.paging:runtime:1.0.1'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'pub.devrel:easypermissions:1.2.0'

@@ -258,7 +258,6 @@ public class VehicleModel extends Repository implements VehicleContract {
     }
 
 
-
     @Override
     public void vehicleType() {
         addSubscribe(appServerApi.carType()

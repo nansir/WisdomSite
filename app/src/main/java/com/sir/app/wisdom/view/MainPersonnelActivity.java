@@ -1,6 +1,5 @@
 package com.sir.app.wisdom.view;
 
-import android.os.Bundle;
 import android.view.View;
 
 import androidx.viewpager.widget.ViewPager;
@@ -9,18 +8,19 @@ import com.sir.app.wisdom.LoginActivity;
 import com.sir.app.wisdom.R;
 import com.sir.app.wisdom.adapter.CardFragmentPagerAdapter;
 import com.sir.app.wisdom.view.card.ShadowTransformer;
+import com.sir.app.wisdom.vm.PersonnelViewModel;
 import com.sir.library.com.AppBaseActivity;
 import com.sir.library.com.AppLogger;
+import com.sir.library.mvvm.AppActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * 劳务首页
  * Created by zhuyinan on 2020/4/8.
  */
-public class MainPersonnelActivity extends AppBaseActivity {
+public class MainPersonnelActivity extends AppActivity<PersonnelViewModel> {
 
     long mBeforeTouchTime;
 
@@ -40,6 +40,13 @@ public class MainPersonnelActivity extends AppBaseActivity {
         ivPersonnelRecord.setAdapter(adapter);
         ivPersonnelRecord.setPageTransformer(true, transformer);
         ivPersonnelRecord.setOffscreenPageLimit(3);
+
+        mViewModel.personnelRecords();
+    }
+
+    @Override
+    protected void dataObserver() {
+
     }
 
     @OnClick({R.id.btn_login_out, R.id.tv_info_upload, R.id.tv_info_record})
@@ -84,4 +91,6 @@ public class MainPersonnelActivity extends AppBaseActivity {
             finish();
         }
     }
+
+
 }

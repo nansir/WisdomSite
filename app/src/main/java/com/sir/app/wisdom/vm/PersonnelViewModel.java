@@ -21,4 +21,9 @@ public class PersonnelViewModel extends BaseViewModel<PersonnelModel> implements
     public void addPersonnel(String code, String nameCN, String nameEn, String photo) {
         mRepository.addPersonnel(code, nameCN, nameEn, photo);
     }
+
+    @Override
+    public void personnelRecords() {
+        mRepository.personnelRecords();
+    }
 }

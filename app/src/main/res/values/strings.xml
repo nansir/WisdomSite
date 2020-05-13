@@ -24,7 +24,7 @@
     <string name="main_hint_j">本月車輛進入總數</string>
     <string name="main_hint_l">人臉識別</string>
     <string name="main_hint_m">車輛信息錄入</string>
-    <string name="main_hint_n">信息上傳記錄</string>
+    <string name="main_hint_n">進出記錄</string>
     <string name="main_hint_o">現場車輛進出情況</string>
     <string name="personnel_hint_a">請輸入分判商/車牌信息查找</string>
     <string name="personnel_hint_b">請輸入分判商/人員信息查找</string>

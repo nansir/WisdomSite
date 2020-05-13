@@ -5,4 +5,6 @@ package com.sir.app.wisdom.contract;
  */
 public interface PersonnelContract {
     void addPersonnel(String code, String nameCN, String nameEn, String photo);
+
+    void personnelRecords();
 }
