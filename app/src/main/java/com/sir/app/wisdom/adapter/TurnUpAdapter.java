@@ -1,6 +1,7 @@
 package com.sir.app.wisdom.adapter;
 
 import android.app.Activity;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 
@@ -28,5 +29,14 @@ public class TurnUpAdapter extends BaseRecyclerAdapter<TurnUpBean> {
     public void onBindHolder(ViewHolder holder, int position) {
         TurnUpBean bean = getItem(position);
         holder.setText(R.id.tv_sub_name, bean.getSubcontractorName());
+
+        holder.setText(R.id.tv_sub_record_dali, "(" + bean.getDaodali() + "/" + bean.getCountdali() + ")");
+        holder.setText(R.id.tv_sub_record_safe, "(" + bean.getDaoSafe() + "/" + bean.getCountanquan() + ")");
+        ProgressBar dali = holder.getView(R.id.pb_sub_record_dali);
+        ProgressBar safe = holder.getView(R.id.pb_sub_record_safe);
+        dali.setMax(bean.getCountdali());
+        dali.setProgress(bean.getDaodali());
+        safe.setMax(bean.getCountanquan());
+        safe.setProgress(bean.getDaoSafe());
     }
 }

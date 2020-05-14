@@ -1,13 +1,12 @@
 package com.sir.app.wisdom.common;
 
-import com.sir.app.wisdom.model.entity.AccessInfoBean;
+import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
 import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.LoginBean;
 import com.sir.app.wisdom.model.entity.PersonnelRecordBean;
 import com.sir.app.wisdom.model.entity.ResponseFaceBean;
 import com.sir.app.wisdom.model.entity.StatisticsBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
-import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
 import com.sir.app.wisdom.model.entity.VehicleTypeBean;
 import com.sir.app.wisdom.model.entity.TurnUpBean;
 import com.sir.library.retrofit.response.HttpResponse;
@@ -108,7 +107,7 @@ public interface AppServerApi {
      * @return
      */
     @GET("api/Car_Record/Gate/1/{number}")
-    Flowable<HttpResponse<List<AccessInfoBean>>> getAccessInfo(@Path("number") int number);
+    Flowable<HttpResponse<List<VehicleRecordsBean>>> getAccessInfo(@Path("number") int number);
 
     /**
      * 推送过来记录
@@ -117,7 +116,7 @@ public interface AppServerApi {
      * @return
      */
     @GET("api/Car_Record/Record/1/{number}")
-    Flowable<HttpResponse<AccessInfoBean>> record(@Path("number") String number);
+    Flowable<HttpResponse<VehicleRecordsBean>> record(@Path("number") String number);
 
 
     /**
@@ -126,7 +125,7 @@ public interface AppServerApi {
      * @return
      */
     @POST("api/GetCarSumByMonth?TerritoryID=1")
-    Flowable<HttpResponse> totalVehicles();
+    Flowable<HttpResponse<Integer>> totalVehicles();
 
 
     /**

@@ -1,61 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:background="@mipmap/ic_bg_d"
+    android:padding="10dp"
     tools:context=".adapter.VehicleAdapter">
 
     <TextView
         android:id="@+id/tv_info_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginBottom="4dp"
         android:text="2020/03/23 14:54"
         android:textColor="@color/white"
         android:textSize="12sp" />
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/tv_info_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="出入口：1#出口"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@mipmap/ic_bg_d"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:layout_below="@id/tv_info_time"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_info_name"
+        <ImageView
+            android:id="@+id/iv_record_roof"
+            android:layout_width="110dp"
+            android:layout_height="60dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_test_d" />
+
+        <ImageView
+            android:id="@+id/iv_record_plate"
+            android:layout_width="110dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="8dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_test_c" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="分判商：中建"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_info_plate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_info_name"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="車牌：ZA00001"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_info_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分判商：中建"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/selector_click_oval"
-            android:padding="10dp"
-            android:text="@string/edit"
-            android:textColor="@color/white"
-            android:textSize="13sp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_info_plate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_info_name"
+                android:layout_marginTop="10dp"
+                android:text="車牌：ZA00001"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
 
-    </RelativeLayout>
-
-</LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
 

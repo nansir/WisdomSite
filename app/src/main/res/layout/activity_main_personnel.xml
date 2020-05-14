@@ -146,12 +146,13 @@
 
         </LinearLayout>
 
-
     </LinearLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -216,10 +217,10 @@
 
             </LinearLayout>
 
-            <include layout="@layout/view_loading_recycler"/>
+            <include layout="@layout/view_loading_recycler" />
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

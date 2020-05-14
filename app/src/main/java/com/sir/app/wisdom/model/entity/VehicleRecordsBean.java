@@ -1,97 +1,74 @@
 package com.sir.app.wisdom.model.entity;
 
 /**
- * 车辆记录
- * Created by zhuyinan on 2020/5/13.
+ * 车辆出入信息
+ * Created by zhuyinan on 2020/4/20.
  */
 public class VehicleRecordsBean {
-    private int SubcontractorID;
 
-    private String Creator;
+    private String Record_ID;
 
-    private int Creator_ID;
+    private String CarNo;
 
-    private String Creator_Time;
+    private String Subcontractor;
 
-    private String Editor;
+    private String CaptureTime;
 
-    private int Editor_ID;
+    private String Car_Gate_ID;
 
-    private String Editor_Time;
+    private String BrakeType;
 
-    private int CompanyID;
+    private String Address;
 
-    private String CompanyName;
+    private String Headstock;
+
+    private String CarRoof;
+
+    private String RecordDate;
 
     private String SubcontractorName;
 
-    private String Introduce;
-
-    private int IsDesignatedSubcontractor;
-
-    private int IsPrefabrication;
-
-    private int DeleteMark;
-
-    private int Enabled;
-
-    public int getSubcontractorID() {
-        return SubcontractorID;
+    public String getRecord_ID() {
+        return Record_ID == null ? "" : Record_ID;
     }
 
-    public String getCreator() {
-        return Creator == null ? "" : Creator;
+    public String getCarNo() {
+        return CarNo == null ? "" : CarNo;
     }
 
-    public int getCreator_ID() {
-        return Creator_ID;
+    public String getSubcontractor() {
+        return Subcontractor == null ? "" : Subcontractor;
     }
 
-    public String getCreator_Time() {
-        return Creator_Time == null ? "" : Creator_Time;
+    public String getCaptureTime() {
+        return CaptureTime == null ? "" : CaptureTime;
     }
 
-    public String getEditor() {
-        return Editor == null ? "" : Editor;
+    public String getCar_Gate_ID() {
+        return Car_Gate_ID;
     }
 
-    public int getEditor_ID() {
-        return Editor_ID;
+    public String getBrakeType() {
+        return BrakeType;
     }
 
-    public String getEditor_Time() {
-        return Editor_Time == null ? "" : Editor_Time;
+    public String getAddress() {
+        return Address == null ? "" : Address;
     }
 
-    public int getCompanyID() {
-        return CompanyID;
+    public String getHeadstock() {
+        return Headstock == null ? "" : Headstock;
     }
 
-    public String getCompanyName() {
-        return CompanyName == null ? "" : CompanyName;
+    public String getCarRoof() {
+        return CarRoof == null ? "" : CarRoof;
+    }
+
+    public String getRecordDate() {
+        return RecordDate == null ? "" : RecordDate;
     }
 
     public String getSubcontractorName() {
         return SubcontractorName == null ? "" : SubcontractorName;
-    }
-
-    public String getIntroduce() {
-        return Introduce == null ? "" : Introduce;
-    }
-
-    public int getIsDesignatedSubcontractor() {
-        return IsDesignatedSubcontractor;
-    }
-
-    public int getIsPrefabrication() {
-        return IsPrefabrication;
-    }
-
-    public int getDeleteMark() {
-        return DeleteMark;
-    }
-
-    public int getEnabled() {
-        return Enabled;
     }
 }

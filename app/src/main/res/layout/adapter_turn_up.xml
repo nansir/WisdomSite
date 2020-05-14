@@ -39,12 +39,14 @@
                 android:textSize="10sp" />
 
             <ProgressBar
+                android:id="@+id/pb_sub_record_dali"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:layout_weight="1" />
 
             <TextView
+                android:id="@+id/tv_sub_record_dali"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
@@ -70,6 +72,7 @@
                 android:textSize="10sp" />
 
             <ProgressBar
+                android:id="@+id/pb_sub_record_safe"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
@@ -77,6 +80,7 @@
                 android:progress="20" />
 
             <TextView
+                android:id="@+id/tv_sub_record_safe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"

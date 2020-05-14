@@ -5,14 +5,13 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.gson.Gson;
 import com.sir.app.wisdom.common.Repository;
 import com.sir.app.wisdom.contract.VehicleContract;
-import com.sir.app.wisdom.model.entity.AccessInfoBean;
+import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
 import com.sir.app.wisdom.model.entity.FormData;
 import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.ResponseFaceBean;
 import com.sir.app.wisdom.model.entity.StatisticsBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
 import com.sir.app.wisdom.model.entity.VehicleInfoBean;
-import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
 import com.sir.app.wisdom.model.entity.VehicleTypeBean;
 import com.sir.library.com.AppLogger;
 import com.sir.library.retrofit.callback.RxSubscriber;
@@ -40,7 +39,7 @@ public class VehicleModel extends Repository implements VehicleContract {
 
     private MutableLiveData<List<SubcontractorBean>> subcontractor;
     private MutableLiveData<List<VehicleTypeBean>> vehicleType;
-    private MutableLiveData<List<AccessInfoBean>> accessInfo;
+    private MutableLiveData<List<VehicleRecordsBean>> accessInfo;
     private MutableLiveData<List<VehicleRecordsBean>> vehicleRecords;
     private MutableLiveData<List<StatisticsBean>> statistics;
 
@@ -105,10 +104,10 @@ public class VehicleModel extends Repository implements VehicleContract {
     @Override
     public void getAccessInfo(int number) {
         addSubscribe(appServerApi.getAccessInfo(number)
-                .compose(ComposeTransformer.<List<AccessInfoBean>>Flowable())
-                .subscribeWith(new RxSubscriber<List<AccessInfoBean>>() {
+                .compose(ComposeTransformer.<List<VehicleRecordsBean>>Flowable())
+                .subscribeWith(new RxSubscriber<List<VehicleRecordsBean>>() {
                     @Override
-                    protected void onSuccess(List<AccessInfoBean> bean) {
+                    protected void onSuccess(List<VehicleRecordsBean> bean) {
                         //选择的闸口获取车辆信息
                         getAccessInfo().postValue(bean);
                     }
@@ -123,13 +122,12 @@ public class VehicleModel extends Repository implements VehicleContract {
     @Override
     public void totalVehicles() {
         addSubscribe(appServerApi.totalVehicles()
-                .compose(ComposeTransformer.<String>FlowableMsg())
-                .subscribeWith(new RxSubscriber<String>() {
+                .compose(ComposeTransformer.<Integer>Flowable())
+                .subscribeWith(new RxSubscriber<Integer>() {
                     @Override
-                    protected void onSuccess(String bean) {
+                    protected void onSuccess(Integer bean) {
                         //当月车辆进入总数
                         postData(EVENT_VEHICLES_TOTAL, bean);
-
                     }
 
                     @Override
@@ -176,7 +174,7 @@ public class VehicleModel extends Repository implements VehicleContract {
     }
 
     @Override
-    public void vehicleRecords(int number) {
+    public void vehicleRecords() {
         addSubscribe(appServerApi.vehicleRecords()
                 .compose(ComposeTransformer.<List<VehicleRecordsBean>>Flowable())
                 .subscribeWith(new RxSubscriber<List<VehicleRecordsBean>>() {
@@ -210,7 +208,7 @@ public class VehicleModel extends Repository implements VehicleContract {
     }
 
     @Override
-    public MutableLiveData<List<AccessInfoBean>> getAccessInfo() {
+    public MutableLiveData<List<VehicleRecordsBean>> getAccessInfo() {
         if (accessInfo == null) {
             accessInfo = new MutableLiveData<>();
         }

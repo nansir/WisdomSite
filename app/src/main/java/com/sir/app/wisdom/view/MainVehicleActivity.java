@@ -48,16 +48,14 @@ public class MainVehicleActivity extends AppHolderActivity<VehicleViewModel, Mai
     @Override
     public void doBusiness() {
         adapter = new VehicleRecordAdapter(getActivity());
-//        mViewModel.getAccessInfo(1); //进出情况
+        mViewModel.getAccessInfo(1); //进出情况
         mViewModel.totalVehicles();//本月进入车辆总数
-//        mViewModel.GetAllCarType();//获取所以车辆类型
-
+        mViewModel.GetAllCarType();//获取所以车辆类型
 
         //图表日期选择
         rgData.setOnCheckedChangeListener(this);
         rgVehicleType.setOnCheckedChangeListener(this);
     }
-
 
     @Override
     protected void dataObserver() {
@@ -68,11 +66,11 @@ public class MainVehicleActivity extends AppHolderActivity<VehicleViewModel, Mai
         });
 
         //当月车辆进入总数
-        mViewModel.subscribe(VehicleModel.EVENT_VEHICLES_TOTAL, List.class)
-                .observe(this, new Observer<List>() {
+        mViewModel.subscribe(VehicleModel.EVENT_VEHICLES_TOTAL, Integer.class)
+                .observe(this, new Observer<Integer>() {
                     @Override
-                    public void onChanged(List list) {
-
+                    public void onChanged(Integer data) {
+                        mViewHelper.setTextVal(R.id.tv_vehicle_toast, String.valueOf(data));
                     }
                 });
 
@@ -89,7 +87,8 @@ public class MainVehicleActivity extends AppHolderActivity<VehicleViewModel, Mai
         mViewModel.getStatistics().observe(this, new Observer<List<StatisticsBean>>() {
             @Override
             public void onChanged(List<StatisticsBean> statisticsBeans) {
-
+                //显示随机数据
+                mViewHolder.showLineChart("ss", 13);
             }
         });
     }

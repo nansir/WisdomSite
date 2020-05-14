@@ -10,6 +10,8 @@ import android.widget.ProgressBar;
 
 import com.sir.app.wisdom.R;
 
+import java.time.temporal.ValueRange;
+
 /**
  * Created by zhuyinan on 2020/5/13.
  */
@@ -64,6 +66,10 @@ public class ProgressView extends ProgressBar {
     protected int mRealWidth;
     protected boolean mIfDrawText = true;
 
+    public ProgressView(Context context) {
+        this(context, null);
+    }
+
     public ProgressView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
@@ -74,6 +80,8 @@ public class ProgressView extends ProgressBar {
         mPaint.setTextSize(mTextSize);//文本大小
         mPaint.setColor(mTextColor);//文本颜色
     }
+
+
 
     /**
      * get the styled attributes  获取属性的样式
@@ -98,6 +106,9 @@ public class ProgressView extends ProgressBar {
         }
         attributes.recycle();
     }
+
+
+
 
     /**
      * dp 2 px
@@ -129,8 +140,9 @@ public class ProgressView extends ProgressBar {
      */
     @Override
     protected synchronized void onDraw(Canvas canvas) {
-
+        super.onDraw(canvas);
         canvas.save();
+
         /**
          * 设置偏移后的坐标原点 以原来为基础上偏移后， 例如： (100,100), translate(1,1), 坐标原点(101,101);
          */
@@ -177,6 +189,7 @@ public class ProgressView extends ProgressBar {
 
     @Override
     protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec,heightMeasureSpec);
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = measureHeight(heightMeasureSpec);//高度
         setMeasuredDimension(width, height);//必须调用该方法来存储View经过测量的到的宽度和高度

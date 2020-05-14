@@ -7,12 +7,11 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.sir.app.wisdom.contract.VehicleContract;
 import com.sir.app.wisdom.model.VehicleModel;
-import com.sir.app.wisdom.model.entity.AccessInfoBean;
+import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
 import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.StatisticsBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
 import com.sir.app.wisdom.model.entity.VehicleInfoBean;
-import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
 import com.sir.app.wisdom.model.entity.VehicleTypeBean;
 import com.sir.library.mvvm.base.BaseViewModel;
 
@@ -39,7 +38,7 @@ public class VehicleViewModel extends BaseViewModel<VehicleModel> implements Veh
     }
 
     @Override
-    public MutableLiveData<List<AccessInfoBean>> getAccessInfo() {
+    public MutableLiveData<List<VehicleRecordsBean>> getAccessInfo() {
         return mRepository.getAccessInfo();
     }
 
@@ -109,7 +108,7 @@ public class VehicleViewModel extends BaseViewModel<VehicleModel> implements Veh
     }
 
     @Override
-    public void vehicleRecords(int number) {
-        mRepository.vehicleRecords(number);
+    public void vehicleRecords() {
+        mRepository.vehicleRecords();
     }
 }

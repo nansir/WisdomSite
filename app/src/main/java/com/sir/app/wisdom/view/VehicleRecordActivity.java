@@ -29,8 +29,9 @@ public class VehicleRecordActivity extends AppHolderActivity<VehicleViewModel, R
         setSwipeBackEnable(true);
 
         mViewHolder.setAdapter(new VehicleAdapter(getActivity()));
+        mViewHolder.setEmptyMsg("暫無車輛進入記錄");
         mViewHolder.setOnRefreshListener(this);
-        mViewModel.vehicleRecords(1);
+        mViewModel.vehicleRecords();
     }
 
     @Override
@@ -45,6 +46,6 @@ public class VehicleRecordActivity extends AppHolderActivity<VehicleViewModel, R
 
     @Override
     public void onRefresh() {
-        mViewModel.vehicleRecords(1);
+        mViewModel.vehicleRecords();
     }
 }

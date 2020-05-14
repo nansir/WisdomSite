@@ -3,7 +3,6 @@ package com.sir.app.wisdom.view;
 import android.view.View;
 
 import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.sir.app.wisdom.LoginActivity;
 import com.sir.app.wisdom.R;
@@ -42,14 +41,12 @@ public class MainPersonnelActivity extends AppHolderActivity<PersonnelViewModel,
 
     @Override
     public void doBusiness() {
-
         mViewHolder.setAdapter(new TurnUpAdapter(getActivity()));
-
-        //人员统计
-        mViewModel.personnelRecords();
-
+        mViewHolder.swipeRecyclerView.setNestedScrollingEnabled(false);
         //各分包商到场情况
         mViewModel.getPerson();
+        //人员统计
+        mViewModel.personnelRecords();
     }
 
     @Override
@@ -59,6 +56,9 @@ public class MainPersonnelActivity extends AppHolderActivity<PersonnelViewModel,
             @Override
             public void onChanged(List<PersonnelRecordBean> list) {
                 updateTurnUp(list.get(0));
+
+//                NestedScrollView svscrollouter = findViewById(R.id.nsv);
+//                svscrollouter.fullScroll(NestedScrollView.FOCUS_UP);
             }
         });
 
@@ -132,6 +132,4 @@ public class MainPersonnelActivity extends AppHolderActivity<PersonnelViewModel,
             finish();
         }
     }
-
-
 }
