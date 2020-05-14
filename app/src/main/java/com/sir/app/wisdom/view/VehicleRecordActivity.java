@@ -13,7 +13,7 @@ import com.sir.library.refresh.holder.RecyclerSwipeViewHolder;
 import java.util.List;
 
 /**
- * 车辆信息上传记录
+ * 车辆进出记录
  * Created by zhuyinan on 2020/4/8.
  */
 public class VehicleRecordActivity extends AppHolderActivity<VehicleViewModel, RecyclerSwipeViewHolder> implements OnRefreshListener {

@@ -9,6 +9,7 @@ import com.sir.app.wisdom.model.entity.AccessInfoBean;
 import com.sir.app.wisdom.model.entity.FormData;
 import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.ResponseFaceBean;
+import com.sir.app.wisdom.model.entity.StatisticsBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
 import com.sir.app.wisdom.model.entity.VehicleInfoBean;
 import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
@@ -34,10 +35,14 @@ public class VehicleModel extends Repository implements VehicleContract {
     public static String EVENT_GATE_A = getEventKey();
     public static String EVENT_GATE_B = getEventKey();
 
+    public static String EVENT_VEHICLE_TYPE = getEventKey();
+    public static String EVENT_VEHICLES_TOTAL = getEventKey();
+
     private MutableLiveData<List<SubcontractorBean>> subcontractor;
     private MutableLiveData<List<VehicleTypeBean>> vehicleType;
     private MutableLiveData<List<AccessInfoBean>> accessInfo;
     private MutableLiveData<List<VehicleRecordsBean>> vehicleRecords;
+    private MutableLiveData<List<StatisticsBean>> statistics;
 
     //闸口列表
     private MutableLiveData<List<GateBean>> gateInfo;
@@ -116,13 +121,14 @@ public class VehicleModel extends Repository implements VehicleContract {
     }
 
     @Override
-    public void totalVehicles(int number) {
+    public void totalVehicles() {
         addSubscribe(appServerApi.totalVehicles()
                 .compose(ComposeTransformer.<String>FlowableMsg())
                 .subscribeWith(new RxSubscriber<String>() {
                     @Override
                     protected void onSuccess(String bean) {
-                        //选择的闸口获取车辆信息
+                        //当月车辆进入总数
+                        postData(EVENT_VEHICLES_TOTAL, bean);
 
                     }
 
@@ -134,14 +140,14 @@ public class VehicleModel extends Repository implements VehicleContract {
     }
 
     @Override
-    public void vehicleType(int number) {
-        addSubscribe(appServerApi.vehicleType()
-                .compose(ComposeTransformer.<String>FlowableMsg())
-                .subscribeWith(new RxSubscriber<String>() {
+    public void GetAllCarType() {
+        addSubscribe(appServerApi.GetAllCarType()
+                .compose(ComposeTransformer.<List<VehicleTypeBean>>Flowable())
+                .subscribeWith(new RxSubscriber<List<VehicleTypeBean>>() {
                     @Override
-                    protected void onSuccess(String bean) {
-                        //选择的闸口获取车辆信息
-
+                    protected void onSuccess(List<VehicleTypeBean> bean) {
+                        //首页所以车辆类型
+                        postData(EVENT_VEHICLE_TYPE, bean);
                     }
 
                     @Override
@@ -154,12 +160,12 @@ public class VehicleModel extends Repository implements VehicleContract {
     @Override
     public void statistics(int carType, int dateType, int territoryID) {
         addSubscribe(appServerApi.statistics(carType, dateType, territoryID)
-                .compose(ComposeTransformer.<String>FlowableMsg())
-                .subscribeWith(new RxSubscriber<String>() {
+                .compose(ComposeTransformer.<List<StatisticsBean>>Flowable())
+                .subscribeWith(new RxSubscriber<List<StatisticsBean>>() {
                     @Override
-                    protected void onSuccess(String bean) {
-
-
+                    protected void onSuccess(List<StatisticsBean> bean) {
+                        //车辆进入统计
+                        getStatistics().postValue(bean);
                     }
 
                     @Override
@@ -226,6 +232,14 @@ public class VehicleModel extends Repository implements VehicleContract {
             vehicleRecords = new MutableLiveData<>();
         }
         return vehicleRecords;
+    }
+
+    @Override
+    public MutableLiveData<List<StatisticsBean>> getStatistics() {
+        if (statistics == null) {
+            statistics = new MutableLiveData<>();
+        }
+        return statistics;
     }
 
 

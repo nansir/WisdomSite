@@ -5,6 +5,7 @@ import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.LoginBean;
 import com.sir.app.wisdom.model.entity.PersonnelRecordBean;
 import com.sir.app.wisdom.model.entity.ResponseFaceBean;
+import com.sir.app.wisdom.model.entity.StatisticsBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
 import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
 import com.sir.app.wisdom.model.entity.VehicleTypeBean;
@@ -137,7 +138,7 @@ public interface AppServerApi {
      * @return
      */
     @GET("api/GetHHDDMM")
-    Flowable<HttpResponse> statistics(@Query("cartype") int carType, @Query("cartype") int dateType, @Query("TerritoryID") int territoryID);
+    Flowable<HttpResponse<List<StatisticsBean>>> statistics(@Query("cartype") int carType, @Query("cartype") int dateType, @Query("TerritoryID") int territoryID);
 
 
     /**
@@ -146,7 +147,7 @@ public interface AppServerApi {
      * @return
      */
     @GET("api/GetAllCarType?TerritoryID=1")
-    Flowable<HttpResponse> vehicleType();
+    Flowable<HttpResponse<List<VehicleTypeBean>>> GetAllCarType();
 
 
     /**
@@ -156,7 +157,6 @@ public interface AppServerApi {
      */
     @GET("api/GetCarJilu?TerritoryID=1")
     Flowable<HttpResponse<List<VehicleRecordsBean>>> vehicleRecords();
-
 
     /**
      * 人員统计

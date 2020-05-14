@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.sir.app.wisdom.model.entity.AccessInfoBean;
 import com.sir.app.wisdom.model.entity.GateBean;
+import com.sir.app.wisdom.model.entity.StatisticsBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
 import com.sir.app.wisdom.model.entity.VehicleInfoBean;
 import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
@@ -27,6 +28,8 @@ public interface VehicleContract {
 
     MutableLiveData<List<VehicleRecordsBean>> getVehicleRecords();
 
+    MutableLiveData<List<StatisticsBean>> getStatistics();
+
     void face(File imagePath);
 
     void subcontractor(String value);
@@ -41,9 +44,9 @@ public interface VehicleContract {
 
     void getAccessInfo(int number);
 
-    void totalVehicles(int number);
+    void totalVehicles();
 
-    void vehicleType(int number);
+    void GetAllCarType();
 
     void statistics(int carType, int dateType, int territoryID);
 

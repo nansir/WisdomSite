@@ -28,6 +28,5 @@ public class TurnUpAdapter extends BaseRecyclerAdapter<TurnUpBean> {
     public void onBindHolder(ViewHolder holder, int position) {
         TurnUpBean bean = getItem(position);
         holder.setText(R.id.tv_sub_name, bean.getSubcontractorName());
-
     }
 }

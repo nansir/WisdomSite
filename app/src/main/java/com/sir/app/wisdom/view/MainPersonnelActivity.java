@@ -3,18 +3,18 @@ package com.sir.app.wisdom.view;
 import android.view.View;
 
 import androidx.lifecycle.Observer;
-import androidx.viewpager.widget.ViewPager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.sir.app.wisdom.LoginActivity;
 import com.sir.app.wisdom.R;
-import com.sir.app.wisdom.adapter.CardFragmentPagerAdapter;
+import com.sir.app.wisdom.adapter.TurnUpAdapter;
 import com.sir.app.wisdom.model.entity.PersonnelRecordBean;
 import com.sir.app.wisdom.model.entity.TurnUpBean;
-import com.sir.app.wisdom.view.card.ShadowTransformer;
+import com.sir.app.wisdom.view.weight.ProgressView;
 import com.sir.app.wisdom.vm.PersonnelViewModel;
-import com.sir.library.com.AppBaseActivity;
 import com.sir.library.com.AppLogger;
-import com.sir.library.mvvm.AppActivity;
+import com.sir.library.mvvm.AppHolderActivity;
+import com.sir.library.refresh.holder.RecyclerStateViewHolder;
 
 import java.util.List;
 
@@ -25,12 +25,15 @@ import butterknife.OnClick;
  * 劳务首页
  * Created by zhuyinan on 2020/4/8.
  */
-public class MainPersonnelActivity extends AppActivity<PersonnelViewModel> {
+public class MainPersonnelActivity extends AppHolderActivity<PersonnelViewModel, RecyclerStateViewHolder> {
 
     long mBeforeTouchTime;
-
-//    @BindView(R.id.iv_personnel_record)
-//    ViewPager ivPersonnelRecord;
+    @BindView(R.id.pv_jinkai)
+    ProgressView pvJinkai;
+    @BindView(R.id.pv_yinwai)
+    ProgressView pvYinwai;
+    @BindView(R.id.pv_enter)
+    ProgressView pvEnter;
 
     @Override
     public int bindLayout() {
@@ -39,12 +42,8 @@ public class MainPersonnelActivity extends AppActivity<PersonnelViewModel> {
 
     @Override
     public void doBusiness() {
-//        CardFragmentPagerAdapter adapter = new CardFragmentPagerAdapter(getSupportFragmentManager(), 6f);
-//        ShadowTransformer transformer = new ShadowTransformer(ivPersonnelRecord, adapter);
-//        transformer.enableScaling(false);
-//        ivPersonnelRecord.setAdapter(adapter);
-//        ivPersonnelRecord.setPageTransformer(true, transformer);
-//        ivPersonnelRecord.setOffscreenPageLimit(3);
+
+        mViewHolder.setAdapter(new TurnUpAdapter(getActivity()));
 
         //人员统计
         mViewModel.personnelRecords();
@@ -55,23 +54,41 @@ public class MainPersonnelActivity extends AppActivity<PersonnelViewModel> {
 
     @Override
     protected void dataObserver() {
-
         //人员统计
         mViewModel.getPersonnelRecord().observe(this, new Observer<List<PersonnelRecordBean>>() {
             @Override
-                public void onChanged(List<PersonnelRecordBean> list) {
-
-                }
+            public void onChanged(List<PersonnelRecordBean> list) {
+                updateTurnUp(list.get(0));
+            }
         });
 
         //各分包商到场情况
         mViewModel.getTurnUp().observe(this, new Observer<List<TurnUpBean>>() {
             @Override
             public void onChanged(List<TurnUpBean> turnUpBeans) {
-
+                mViewHolder.loadData(turnUpBeans);
             }
         });
     }
+
+    /**
+     * 各分包商到场情况
+     *
+     * @param bean
+     */
+    private void updateTurnUp(PersonnelRecordBean bean) {
+        if (bean != null) {
+            pvJinkai.setMax(bean.getSumJinKai());
+            pvJinkai.setProgress(bean.getJinKai());
+
+            pvYinwai.setMax(bean.getSumYinWai());
+            pvYinwai.setProgress(bean.getYinWai());
+
+            pvEnter.setMax(bean.getSumR());
+            pvEnter.setProgress(bean.getR());
+        }
+    }
+
 
     @OnClick({R.id.btn_login_out, R.id.tv_info_upload, R.id.tv_info_record})
     public void onViewClicked(View view) {
@@ -115,4 +132,6 @@ public class MainPersonnelActivity extends AppActivity<PersonnelViewModel> {
             finish();
         }
     }
+
+
 }

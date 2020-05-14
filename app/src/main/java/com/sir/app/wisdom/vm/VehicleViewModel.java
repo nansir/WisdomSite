@@ -9,6 +9,7 @@ import com.sir.app.wisdom.contract.VehicleContract;
 import com.sir.app.wisdom.model.VehicleModel;
 import com.sir.app.wisdom.model.entity.AccessInfoBean;
 import com.sir.app.wisdom.model.entity.GateBean;
+import com.sir.app.wisdom.model.entity.StatisticsBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
 import com.sir.app.wisdom.model.entity.VehicleInfoBean;
 import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
@@ -53,6 +54,11 @@ public class VehicleViewModel extends BaseViewModel<VehicleModel> implements Veh
     }
 
     @Override
+    public MutableLiveData<List<StatisticsBean>> getStatistics() {
+        return mRepository.getStatistics();
+    }
+
+    @Override
     public void face(File imagePath) {
         mRepository.face(imagePath);
     }
@@ -88,13 +94,13 @@ public class VehicleViewModel extends BaseViewModel<VehicleModel> implements Veh
     }
 
     @Override
-    public void totalVehicles(int number) {
-        mRepository.totalVehicles(number);
+    public void totalVehicles() {
+        mRepository.totalVehicles();
     }
 
     @Override
-    public void vehicleType(int number) {
-        mRepository.vehicleType(number);
+    public void GetAllCarType() {
+        mRepository.GetAllCarType();
     }
 
     @Override

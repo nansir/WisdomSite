@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -38,38 +39,115 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@mipmap/ic_bg_a">
+        android:background="@mipmap/ic_bg_a"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="17dp"
-            android:gravity="left"
             android:text="@string/main_hint_c"
             android:textColor="#ffffff"
             android:textSize="15sp"
             android:textStyle="bold" />
 
-
-        <ProgressBar
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="30dp"
-            android:progress="60" />
+            android:layout_marginRight="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <ProgressBar
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="6dp"
+                android:gravity="right"
+                android:text="今日開工人數："
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <com.sir.app.wisdom.view.weight.ProgressView
+                android:id="@+id/pv_jinkai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:progress="40"
+                app:progress_reached_color="#91EE28"
+                app:progress_text_color="@color/white"
+                app:progress_text_size="12sp"
+                app:progress_unreached_color="@color/white" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:progress="40" />
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-    </RelativeLayout>
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="6dp"
+                android:gravity="right"
+                android:text="應在職外勞人數："
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <com.sir.app.wisdom.view.weight.ProgressView
+                android:id="@+id/pv_yinwai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:progress="40"
+                app:progress_reached_color="#42A3E2"
+                app:progress_text_color="@color/white"
+                app:progress_text_size="12sp"
+                app:progress_unreached_color="@color/white" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="6dp"
+                android:gravity="right"
+                android:text="入場外勞人數："
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <com.sir.app.wisdom.view.weight.ProgressView
+                android:id="@+id/pv_enter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:progress="20"
+                app:progress_reached_color="#E50808"
+                app:progress_text_color="@color/white"
+                app:progress_text_size="12sp"
+                app:progress_unreached_color="@color/white" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -138,21 +216,7 @@
 
             </LinearLayout>
 
-<!--            <androidx.viewpager.widget.ViewPager-->
-<!--                android:id="@+id/iv_personnel_record"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="180dp"-->
-<!--                android:clipToPadding="false"-->
-<!--                android:overScrollMode="never"-->
-<!--                android:paddingLeft="@dimen/card_padding"-->
-<!--                android:paddingRight="@dimen/card_padding" />-->
-
-
-
-
-
-
-
+            <include layout="@layout/view_loading_recycler"/>
 
         </LinearLayout>
 
