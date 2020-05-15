@@ -1,7 +1,9 @@
 package com.sir.app.wisdom.view;
 
+import android.os.Handler;
 import android.view.View;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.Observer;
 
 import com.sir.app.wisdom.LoginActivity;
@@ -56,9 +58,6 @@ public class MainPersonnelActivity extends AppHolderActivity<PersonnelViewModel,
             @Override
             public void onChanged(List<PersonnelRecordBean> list) {
                 updateTurnUp(list.get(0));
-
-//                NestedScrollView svscrollouter = findViewById(R.id.nsv);
-//                svscrollouter.fullScroll(NestedScrollView.FOCUS_UP);
             }
         });
 
@@ -67,6 +66,15 @@ public class MainPersonnelActivity extends AppHolderActivity<PersonnelViewModel,
             @Override
             public void onChanged(List<TurnUpBean> turnUpBeans) {
                 mViewHolder.loadData(turnUpBeans);
+
+                //NestedScrollView滚动到顶部
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        NestedScrollView svscrollouter = findViewById(R.id.nsv);
+                        svscrollouter.fullScroll(NestedScrollView.FOCUS_UP);
+                    }
+                }, 1000);
             }
         });
     }

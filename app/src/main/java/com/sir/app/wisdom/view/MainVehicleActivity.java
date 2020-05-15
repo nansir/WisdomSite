@@ -87,8 +87,8 @@ public class MainVehicleActivity extends AppHolderActivity<VehicleViewModel, Mai
         mViewModel.getStatistics().observe(this, new Observer<List<StatisticsBean>>() {
             @Override
             public void onChanged(List<StatisticsBean> statisticsBeans) {
-                //显示随机数据
-                mViewHolder.showLineChart("ss", 13);
+                //显示刷新图表数据
+                mViewHolder.showLineChart("ss", statisticsBeans);
             }
         });
     }

@@ -14,7 +14,9 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.sir.app.wisdom.R;
+import com.sir.app.wisdom.model.entity.StatisticsBean;
 import com.sir.app.wisdom.model.entity.VehicleTypeBean;
 import com.sir.app.wisdom.view.weight.MyMarkerView;
 import com.sir.library.com.base.BaseViewHolder;
@@ -34,7 +36,7 @@ public class MainVehicleHolder extends BaseViewHolder {
     RadioGroup rgVehicleType;
     @BindView(R.id.line_chart)
     LineChart lineChart;
-
+    List<StatisticsBean> statistics;
     private XAxis xAxis;                //X轴
     private YAxis leftYAxis;            //左侧Y轴
     private YAxis rightYAxis;           //右侧Y轴
@@ -43,11 +45,7 @@ public class MainVehicleHolder extends BaseViewHolder {
     @Override
     public void doBusiness() {
         initChart();
-
-        //显示随机数据
-        showLineChart("ss", 13);
     }
-
 
     /**
      * 初始化图表
@@ -82,6 +80,23 @@ public class MainVehicleHolder extends BaseViewHolder {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setAxisMinimum(0f);
         xAxis.setGranularity(1f);
+
+        //格式化数据
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                try {
+                    if (statistics == null || statistics.size() == 0) {
+                        return "0";
+                    }
+                    return statistics.get((int) value).getDate();
+                } catch (Exception ex) {
+                    return "0";
+                }
+            }
+        });
+
+
         //保证Y轴从0开始，不然会上移一点
         leftYAxis.setAxisMinimum(0f);
         leftYAxis.setTextColor(Color.WHITE);
@@ -116,17 +131,16 @@ public class MainVehicleHolder extends BaseViewHolder {
         rightYAxis.setEnabled(false);
     }
 
-
     /**
      * 展示曲线
      *
      * @param name 曲线名称
      */
-    public void showLineChart(String name, int data) {
+    public void showLineChart(String name, List<StatisticsBean> statistics) {
+        this.statistics = statistics;
         List<Entry> entries = new ArrayList<>();
-        for (int i = 0; i < data; i++) {
-            float val = (float) (Math.random() * 80);
-            Entry entry = new Entry(i, val);
+        for (int i = 0; i < statistics.size(); i++) {
+            Entry entry = new Entry(i, statistics.get(i).getCount());
             entries.add(entry);
         }
 
