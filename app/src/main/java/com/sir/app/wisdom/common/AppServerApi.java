@@ -132,12 +132,12 @@ public interface AppServerApi {
      * 统计
      *
      * @param carType
-     * @param dateType
+     * @param riqi
      * @param territoryID
      * @return
      */
     @GET("api/GetHHDDMM")
-    Flowable<HttpResponse<List<StatisticsBean>>> statistics(@Query("cartype") int carType, @Query("cartype") int dateType, @Query("TerritoryID") int territoryID);
+    Flowable<HttpResponse<List<StatisticsBean>>> statistics(@Query("cartype") int carType, @Query("riqi") int riqi, @Query("TerritoryID") int territoryID);
 
 
     /**
