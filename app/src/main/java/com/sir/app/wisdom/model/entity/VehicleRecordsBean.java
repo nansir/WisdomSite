@@ -10,6 +10,8 @@ public class VehicleRecordsBean {
 
     private String CarNo;
 
+    private String Car_No;
+
     private String Subcontractor;
 
     private String CaptureTime;
@@ -70,5 +72,9 @@ public class VehicleRecordsBean {
 
     public String getSubcontractorName() {
         return SubcontractorName == null ? "" : SubcontractorName;
+    }
+
+    public String getCar_No() {
+        return Car_No == null ? "" : Car_No;
     }
 }
