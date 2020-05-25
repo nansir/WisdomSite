@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.widget.TextView;
 
 import com.sir.app.wisdom.utils.AppUtils;
+import com.sir.app.wisdom.view.MainPersonnelActivity;
 import com.sir.library.com.AppBaseActivity;
 
 /**
@@ -14,7 +15,7 @@ import com.sir.library.com.AppBaseActivity;
 public class SplashActivity extends AppBaseActivity {
 
     private Handler handler = new Handler(msg -> {
-        mOperation.forward(LoginActivity.class);
+        mOperation.forward(MainPersonnelActivity.class);
         finish();
         return false;
     });

@@ -23,5 +23,9 @@ public class MyApplication extends BaseApplication {
 
         //注册Crash接口,上报 Crash 异常
         PgyCrashManager.register();
+
+        //全部捕获异常之后重启程序
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(getApplicationContext());
     }
 }

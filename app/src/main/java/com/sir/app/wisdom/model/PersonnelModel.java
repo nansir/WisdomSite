@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.sir.app.wisdom.common.Repository;
 import com.sir.app.wisdom.contract.PersonnelContract;
 import com.sir.app.wisdom.model.entity.PersonnelRecordBean;
+import com.sir.app.wisdom.model.entity.RecordPersonnelBean;
 import com.sir.app.wisdom.model.entity.TurnUpBean;
 import com.sir.library.retrofit.callback.RxSubscriber;
 import com.sir.library.retrofit.exception.ResponseThrowable;
@@ -18,15 +19,18 @@ import java.util.List;
  */
 public class PersonnelModel extends Repository implements PersonnelContract {
 
-    public static String EVENT_ADD_PERSONNEL = getEventKey();
+    public static String EVENT_SEARCH_PERSONNEL = getEventKey();
 
     private MutableLiveData<List<PersonnelRecordBean>> personnelRecords;
 
     private MutableLiveData<List<TurnUpBean>> turnUpBean;
 
+    private MutableLiveData<List<RecordPersonnelBean>> recordPersonnel;
+
+
     @Override
     public void addPersonnel(String code, String nameCN, String nameEn, String photo) {
-        String json = "{\"type\":\"add\",\"obj\":{\"Tid\":\"1\",\"StaffID\":\"0\",\"StaffCode\":\"%s\",\"CNFullName\":\"%s\",\"EN_FullName\":\"%s\",\"Photo\":\"%s\"}}";
+        String json = "{\"type\":\"add\",\"obj\":{\"Tid\":\"1\",\"StaffID\":\"0\",\"StaffCode\":\"%s\",\"CNFullName\":\"%s\",\"EN_FullName\":\"%s\",\"Photo\":\"%s\",\"SourceType\":2}}";
 
         postState(ON_LOADING, "正在提交..");
 
@@ -36,6 +40,63 @@ public class PersonnelModel extends Repository implements PersonnelContract {
                     @Override
                     protected void onSuccess(String bean) {
                         postState(ON_SUCCESS, bean);
+                    }
+
+                    @Override
+                    protected void onFailure(ResponseThrowable ex) {
+                        postState(ON_FAILURE, getLoginMsg(ex.code));
+                    }
+                }));
+    }
+
+    @Override
+    public void editPersonnel(int id, String code, String nameCN, String nameEn, String photo) {
+        String json = "{\"type\":\"edit\",\"obj\":{\"Tid\":\"1\",\"StaffID\":\"%s\",\"StaffCode\":\"%s\",\"CNFullName\":\"%s\",\"EN_FullName\":\"%s\",\"Photo\":\"%s\",\"SourceType\":2}}";
+
+        postState(ON_LOADING, "正在提交..");
+
+        addSubscribe(appServerApi.addPersonnel(createBody(String.format(json, id, code, nameCN, nameEn, photo)))
+                .compose(ComposeTransformer.<String>FlowableMsg())
+                .subscribeWith(new RxSubscriber<String>() {
+                    @Override
+                    protected void onSuccess(String bean) {
+                        postState(ON_SUCCESS, bean);
+                    }
+
+                    @Override
+                    protected void onFailure(ResponseThrowable ex) {
+                        postState(ON_FAILURE, getLoginMsg(ex.code));
+                    }
+                }));
+    }
+
+    @Override
+    public void searchPersonnel(String staffCode) {
+        String json = "{\"type\":\"search\",\"obj\":{\"Tid\":\"1\" ,\"StaffCode\":\"%s\"}}";
+        addSubscribe(appServerApi.searchPersonnel(createBody(String.format(json, staffCode)))
+                .compose(ComposeTransformer.<RecordPersonnelBean>Flowable())
+                .subscribeWith(new RxSubscriber<RecordPersonnelBean>() {
+                    @Override
+                    protected void onSuccess(RecordPersonnelBean bean) {
+                        postData(EVENT_SEARCH_PERSONNEL, bean);
+                    }
+
+                    @Override
+                    protected void onFailure(ResponseThrowable ex) {
+                        postData(EVENT_SEARCH_PERSONNEL, null);
+                    }
+                }));
+    }
+
+    @Override
+    public void recordPersonnel() {
+        String json = "{\"type\":\"m_user_list\",\"obj\":{\"Tid\":\"1\",\"Key\":\"\" }}";
+        addSubscribe(appServerApi.recordPersonnel(createBody(json))
+                .compose(ComposeTransformer.<List<RecordPersonnelBean>>Flowable())
+                .subscribeWith(new RxSubscriber<List<RecordPersonnelBean>>() {
+                    @Override
+                    protected void onSuccess(List<RecordPersonnelBean> list) {
+                        getRecordPersonnel().postValue(list);
                     }
 
                     @Override
@@ -59,6 +120,14 @@ public class PersonnelModel extends Repository implements PersonnelContract {
             turnUpBean = new MutableLiveData<>();
         }
         return turnUpBean;
+    }
+
+    @Override
+    public MutableLiveData<List<RecordPersonnelBean>> getRecordPersonnel() {
+        if (recordPersonnel == null) {
+            recordPersonnel = new MutableLiveData<>();
+        }
+        return recordPersonnel;
     }
 
     @Override

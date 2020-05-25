@@ -3,6 +3,7 @@ package com.sir.app.wisdom.contract;
 import androidx.lifecycle.MutableLiveData;
 
 import com.sir.app.wisdom.model.entity.PersonnelRecordBean;
+import com.sir.app.wisdom.model.entity.RecordPersonnelBean;
 import com.sir.app.wisdom.model.entity.TurnUpBean;
 
 import java.util.List;
@@ -14,9 +15,17 @@ public interface PersonnelContract {
 
     void addPersonnel(String code, String nameCN, String nameEn, String photo);
 
+    void editPersonnel(int id, String code, String nameCN, String nameEn, String photo);
+
+    void searchPersonnel(String staffCode);
+
+    void recordPersonnel();
+
     MutableLiveData<List<PersonnelRecordBean>> getPersonnelRecord();
 
     MutableLiveData<List<TurnUpBean>> getTurnUp();
+
+    MutableLiveData<List<RecordPersonnelBean>> getRecordPersonnel();
 
     void personnelRecords();
 

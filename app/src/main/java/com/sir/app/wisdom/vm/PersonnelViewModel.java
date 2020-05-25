@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.sir.app.wisdom.contract.PersonnelContract;
 import com.sir.app.wisdom.model.PersonnelModel;
 import com.sir.app.wisdom.model.entity.PersonnelRecordBean;
+import com.sir.app.wisdom.model.entity.RecordPersonnelBean;
 import com.sir.app.wisdom.model.entity.TurnUpBean;
 import com.sir.library.mvvm.base.BaseViewModel;
 
@@ -28,6 +29,21 @@ public class PersonnelViewModel extends BaseViewModel<PersonnelModel> implements
     }
 
     @Override
+    public void editPersonnel(int id, String code, String nameCN, String nameEn, String photo) {
+        mRepository.editPersonnel(id, code, nameCN, nameEn, photo);
+    }
+
+    @Override
+    public void searchPersonnel(String staffCode) {
+        mRepository.searchPersonnel(staffCode);
+    }
+
+    @Override
+    public void recordPersonnel() {
+        mRepository.recordPersonnel();
+    }
+
+    @Override
     public MutableLiveData<List<PersonnelRecordBean>> getPersonnelRecord() {
         return mRepository.getPersonnelRecord();
     }
@@ -35,6 +51,11 @@ public class PersonnelViewModel extends BaseViewModel<PersonnelModel> implements
     @Override
     public MutableLiveData<List<TurnUpBean>> getTurnUp() {
         return mRepository.getTurnUp();
+    }
+
+    @Override
+    public MutableLiveData<List<RecordPersonnelBean>> getRecordPersonnel() {
+        return mRepository.getRecordPersonnel();
     }
 
     @Override

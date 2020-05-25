@@ -21,9 +21,11 @@ import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 
 import com.sir.app.wisdom.R;
+import com.sir.app.wisdom.common.AppKey;
 import com.sir.app.wisdom.dialog.PhotoSelectDialog;
 import com.sir.app.wisdom.dialog.SubmitResultsDialog;
 import com.sir.app.wisdom.model.PersonnelModel;
+import com.sir.app.wisdom.model.entity.RecordPersonnelBean;
 import com.sir.app.wisdom.utils.FileUtils;
 import com.sir.app.wisdom.vm.PersonnelViewModel;
 import com.sir.library.com.AppLogger;
@@ -50,17 +52,13 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
     ImageView ivInfoPhoto;
     SubmitResultsDialog resultsDialog;
     PhotoSelectDialog photoDialog;
-
-
+    int staffID = 0;
     private Uri mImageUri;
     private Bitmap bitmap;
-
     // 用于保存图片的文件路径，Android 10以下使用图片路径访问图片
     private String mCameraImagePath;
-
     // 是否是Android 10以上手机
     private boolean isAndroidQ = Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q;
-
 
     @Override
     public int bindLayout() {
@@ -71,6 +69,17 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
     public void doBusiness() {
         setToolbarTitle(getTitle());
         setSwipeBackEnable(true);
+
+        RecordPersonnelBean bean = (RecordPersonnelBean) getIntent().getSerializableExtra(AppKey.ValA);
+
+        //编辑模式
+        if (bean != null) {
+            staffID = bean.getStaffID();
+            mViewHelper.setEditVal(R.id.et_personnel_name_cn, bean.getCN_FullName());
+            mViewHelper.setEditVal(R.id.et_personnel_name_en, bean.getEN_FullName());
+            mViewHelper.setEditVal(R.id.et_personnel_number, bean.getStaffCode());
+            setToolbarTitle("编辑人員信息");
+        }
     }
 
     @Override
@@ -199,9 +208,9 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
         if (TextUtils.isEmpty(nameCN)) {
             mDialog.showError("未填寫中文姓名");
             return;
-        } else if (TextUtils.isEmpty(nameEN)) {
-            mDialog.showError("未填寫英文姓名");
-            return;
+//       } else if (TextUtils.isEmpty(nameEN)) {
+//          mDialog.showError("未填寫英文姓名");
+//          return;
         } else if (TextUtils.isEmpty(nameCN)) {
             mDialog.showError("未填寫員工編號");
             return;
@@ -210,7 +219,11 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
             return;
         }
         String photo = FileUtils.bitmapToString(bitmap);
-        mViewModel.addPersonnel(code, nameCN, nameEN, photo);
+        if (staffID == 0) {
+            mViewModel.addPersonnel(code, nameCN, nameEN, photo);
+        } else {
+            mViewModel.editPersonnel(staffID, code, nameCN, nameEN, photo);
+        }
     }
 
     /**

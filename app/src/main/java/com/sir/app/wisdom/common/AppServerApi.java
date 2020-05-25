@@ -1,5 +1,6 @@
 package com.sir.app.wisdom.common;
 
+import com.sir.app.wisdom.model.entity.RecordPersonnelBean;
 import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
 import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.LoginBean;
@@ -39,13 +40,34 @@ public interface AppServerApi {
     Flowable<HttpResponse<LoginBean>> singing(@Body RequestBody body);
 
     /**
-     * 添加人员资料
+     * 添加/编辑人员资料
      *
      * @param body
      * @return
      */
     @POST("api/Staff")
     Flowable<HttpResponse> addPersonnel(@Body RequestBody body);
+
+
+    /**
+     * 人员上传记录
+     *
+     * @param body
+     * @return
+     */
+    @POST("api/Staff")
+    Flowable<HttpResponse<List<RecordPersonnelBean>>> recordPersonnel(@Body RequestBody body);
+
+    /**
+     * 搜索人员上传记录
+     *
+     * @param body
+     * @return
+     */
+    @POST("api/Staff")
+    Flowable<HttpResponse<RecordPersonnelBean>> searchPersonnel(@Body RequestBody body);
+
+
 
     /**
      * 分判商列表
