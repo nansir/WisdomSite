@@ -37,8 +37,8 @@ public class VehicleAdapter extends BaseRecyclerAdapter<VehicleRecordsBean> {
         VehicleRecordsBean bean = getItem(position);
         holder.setText(R.id.tv_info_time, bean.getRecordDate());
         holder.setText(R.id.tv_info_address, "出入口：" + bean.getAddress());
-        holder.setText(R.id.tv_info_name, "分包商：" + bean.getSubcontractorName());
-        holder.setText(R.id.tv_info_plate, "車牌：" + bean.getCarNo());
+        holder.setText(R.id.tv_info_name, "分判商：" + bean.getSubcontractorName());
+        holder.setText(R.id.tv_info_plate, "車牌：" + bean.getCar_No());
 
 
         ImageView carRoof = holder.getView(R.id.iv_record_roof);
