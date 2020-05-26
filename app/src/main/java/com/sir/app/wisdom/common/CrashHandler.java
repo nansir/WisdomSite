@@ -54,7 +54,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             @Override
             public void run() {
                 Looper.prepare();
-                AppLogger.toast("很抱歉,程序出现异常,3秒后将重启.");
+                AppLogger.toast("很抱歉,3秒后将重启.");
                 //收集设备信息和错误日志上传到服务器
                 reportError(deviceInfo(), e.getMessage());
                 Looper.loop();

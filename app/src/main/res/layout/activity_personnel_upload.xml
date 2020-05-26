@@ -26,12 +26,12 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/ic_required"
                 android:drawablePadding="4dp"
-                android:text="姓名(中文)："
+                android:text="員工編號："
                 android:textColor="@color/white"
                 android:textSize="13sp" />
 
             <EditText
-                android:id="@+id/et_personnel_name_cn"
+                android:id="@+id/et_personnel_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -65,13 +65,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="姓名(英文)："
-                android:layout_marginLeft="8dp"
+                android:drawableLeft="@mipmap/ic_required"
+                android:drawablePadding="4dp"
+                android:text="姓名(中文)："
                 android:textColor="@color/white"
                 android:textSize="13sp" />
 
             <EditText
-                android:id="@+id/et_personnel_name_en"
+                android:id="@+id/et_personnel_name_cn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -111,14 +112,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/ic_required"
-            android:drawablePadding="4dp"
-            android:text="員工編號："
+            android:layout_marginLeft="10dp"
+            android:text="姓名(英文)："
             android:textColor="@color/white"
             android:textSize="13sp" />
 
         <EditText
-            android:id="@+id/et_personnel_number"
+            android:id="@+id/et_personnel_name_en"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.sir.app.wisdom.R;
 import com.sir.app.wisdom.common.AppKey;
+import com.sir.app.wisdom.glide.GlideCut;
 import com.sir.app.wisdom.model.entity.RecordPersonnelBean;
 import com.sir.app.wisdom.view.PersonnelUploadActivity;
 import com.sir.library.base.BaseRecyclerAdapter;
@@ -41,6 +42,7 @@ public class PersonnelAdapter extends BaseRecyclerAdapter<RecordPersonnelBean> {
         ImageView head = holder.getView(R.id.iv_info_head);
         Glide.with(mContext)
                 .load(bean.getPhoto())
+                .apply(GlideCut.ROUND())
                 .placeholder(R.mipmap.ic_placeholder)//占位图片
                 .into(head);
 

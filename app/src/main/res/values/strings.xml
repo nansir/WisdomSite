@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">智慧工地(测试)</string>
+    <string name="app_name">智慧工地</string>
     <string name="login_hint_a">歡迎來到智慧工地</string>
     <string name="login_hint_b">勞務人員管理請登錄賬號密碼</string>
     <string name="account">賬號</string>
@@ -27,7 +27,7 @@
     <string name="main_hint_n">進出記錄</string>
     <string name="main_hint_o">現場車輛進出情況</string>
     <string name="personnel_hint_a">請輸入分判商/車牌信息查找</string>
-    <string name="personnel_hint_b">請輸入人員編號查找</string>
+    <string name="personnel_hint_b">請輸入分判商/人員信息查找</string>
     <string name="search">搜索</string>
     <string name="please_enter">請輸入</string>
     <string name="submit_Info">提交信息</string>

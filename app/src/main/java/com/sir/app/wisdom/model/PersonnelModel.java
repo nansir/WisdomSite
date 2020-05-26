@@ -12,6 +12,7 @@ import com.sir.library.retrofit.exception.ResponseThrowable;
 import com.sir.library.retrofit.transformer.ComposeTransformer;
 
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * 人员管理模型
@@ -89,9 +90,9 @@ public class PersonnelModel extends Repository implements PersonnelContract {
     }
 
     @Override
-    public void recordPersonnel() {
-        String json = "{\"type\":\"m_user_list\",\"obj\":{\"Tid\":\"1\",\"Key\":\"\" }}";
-        addSubscribe(appServerApi.recordPersonnel(createBody(json))
+    public void recordPersonnel(String key) {
+        String json = "{\"type\":\"m_user_list\",\"obj\":{\"Tid\":\"1\",\"Key\":\"%s\" }}";
+        addSubscribe(appServerApi.recordPersonnel(createBody(String.format(json, key)))
                 .compose(ComposeTransformer.<List<RecordPersonnelBean>>Flowable())
                 .subscribeWith(new RxSubscriber<List<RecordPersonnelBean>>() {
                     @Override

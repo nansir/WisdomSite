@@ -39,8 +39,8 @@ public class PersonnelViewModel extends BaseViewModel<PersonnelModel> implements
     }
 
     @Override
-    public void recordPersonnel() {
-        mRepository.recordPersonnel();
+    public void recordPersonnel(String key) {
+        mRepository.recordPersonnel(key);
     }
 
     @Override

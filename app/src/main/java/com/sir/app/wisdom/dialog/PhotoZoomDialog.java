@@ -44,7 +44,6 @@ public class PhotoZoomDialog extends BaseDialog {
         imageView.enable();
         Glide.with(getContext())
                 .load(uri)
-                .asBitmap()
                 .thumbnail(0.1f)
                 .dontAnimate()
                 .dontTransform()

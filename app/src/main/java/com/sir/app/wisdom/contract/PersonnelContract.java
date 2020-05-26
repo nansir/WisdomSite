@@ -19,7 +19,7 @@ public interface PersonnelContract {
 
     void searchPersonnel(String staffCode);
 
-    void recordPersonnel();
+    void recordPersonnel(String key);
 
     MutableLiveData<List<PersonnelRecordBean>> getPersonnelRecord();
 
