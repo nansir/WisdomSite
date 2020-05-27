@@ -355,10 +355,6 @@ public class FaceRecognitionActivity extends AppActivity<VehicleViewModel> imple
                     }
                 });
 
-
-
-
-
         //开闸成功
         mViewModel.subscribe(VehicleModel.EVENT_GATE_B, String.class)
                 .observe(this, new Observer<String>() {

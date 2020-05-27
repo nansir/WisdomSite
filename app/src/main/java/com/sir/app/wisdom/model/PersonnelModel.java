@@ -12,7 +12,6 @@ import com.sir.library.retrofit.exception.ResponseThrowable;
 import com.sir.library.retrofit.transformer.ComposeTransformer;
 
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * 人员管理模型
@@ -45,7 +44,7 @@ public class PersonnelModel extends Repository implements PersonnelContract {
 
                     @Override
                     protected void onFailure(ResponseThrowable ex) {
-                        postState(ON_FAILURE, getLoginMsg(ex.code));
+                        postState(ON_FAILURE, ex.message);
                     }
                 }));
     }
@@ -66,7 +65,7 @@ public class PersonnelModel extends Repository implements PersonnelContract {
 
                     @Override
                     protected void onFailure(ResponseThrowable ex) {
-                        postState(ON_FAILURE, getLoginMsg(ex.code));
+                        postState(ON_FAILURE, ex.message);
                     }
                 }));
     }
@@ -102,7 +101,7 @@ public class PersonnelModel extends Repository implements PersonnelContract {
 
                     @Override
                     protected void onFailure(ResponseThrowable ex) {
-                        postState(ON_FAILURE, getLoginMsg(ex.code));
+                        postState(ON_FAILURE, ex.message);
                     }
                 }));
     }
@@ -143,7 +142,7 @@ public class PersonnelModel extends Repository implements PersonnelContract {
 
                     @Override
                     protected void onFailure(ResponseThrowable ex) {
-                        postState(ON_FAILURE, getLoginMsg(ex.code));
+                        postState(ON_FAILURE, ex.message);
                     }
                 }));
     }
@@ -160,28 +159,8 @@ public class PersonnelModel extends Repository implements PersonnelContract {
 
                     @Override
                     protected void onFailure(ResponseThrowable ex) {
-                        postState(ON_FAILURE, getLoginMsg(ex.code));
+                        postState(ON_FAILURE, ex.message);
                     }
                 }));
-    }
-
-
-    public String getLoginMsg(int code) {
-        switch (code) {
-            case 0:
-                return "解析失敗";
-            case 2:
-                return "員工編號沒有填寫";
-            case 3:
-                return "姓名沒有填寫";
-            case 4:
-                return "登錄權限不足";
-            case 5:
-                return "照片解析失敗";
-            case 6:
-                return "員工編號已經存在";
-            default:
-                return "未知錯誤";
-        }
     }
 }
