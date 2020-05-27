@@ -20,10 +20,12 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 
+import com.bumptech.glide.Glide;
 import com.sir.app.wisdom.R;
 import com.sir.app.wisdom.common.AppKey;
 import com.sir.app.wisdom.dialog.PhotoSelectDialog;
 import com.sir.app.wisdom.dialog.SubmitResultsDialog;
+import com.sir.app.wisdom.glide.GlideCut;
 import com.sir.app.wisdom.model.PersonnelModel;
 import com.sir.app.wisdom.model.entity.RecordPersonnelBean;
 import com.sir.app.wisdom.utils.FileUtils;
@@ -78,6 +80,11 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
             mViewHelper.setEditVal(R.id.et_personnel_name_cn, bean.getCN_FullName());
             mViewHelper.setEditVal(R.id.et_personnel_name_en, bean.getEN_FullName());
             mViewHelper.setEditVal(R.id.et_personnel_number, bean.getStaffCode());
+            Glide.with(this)
+                    .load(bean.getPhoto())
+                    .placeholder(R.mipmap.ic_placeholder)//占位图片
+                    .into(ivInfoPhoto);
+            bitmap = Bitmap.createBitmap(ivInfoPhoto.getDrawingCache());
             setToolbarTitle("编辑人員信息");
         }
     }
