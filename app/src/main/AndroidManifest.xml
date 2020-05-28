@@ -40,6 +40,7 @@
             android:name="PGYER_APPID"
             android:value="645c1cda35d7dee1e273d820b7865828" />
 
+
         <!--测试
         <meta-data
             android:name="PGYER_APPID"

@@ -31,9 +31,6 @@ public class PersonnelModel extends Repository implements PersonnelContract {
     @Override
     public void addPersonnel(String code, String nameCN, String nameEn, String photo) {
         String json = "{\"type\":\"add\",\"obj\":{\"Tid\":\"1\",\"StaffID\":\"0\",\"StaffCode\":\"%s\",\"CNFullName\":\"%s\",\"EN_FullName\":\"%s\",\"Photo\":\"%s\",\"SourceType\":2}}";
-
-        postState(ON_LOADING, "正在提交..");
-
         addSubscribe(appServerApi.addPersonnel(createBody(String.format(json, code, nameCN, nameEn, photo)))
                 .compose(ComposeTransformer.<String>FlowableMsg())
                 .subscribeWith(new RxSubscriber<String>() {
@@ -52,9 +49,6 @@ public class PersonnelModel extends Repository implements PersonnelContract {
     @Override
     public void editPersonnel(int id, String code, String nameCN, String nameEn, String photo) {
         String json = "{\"type\":\"edit\",\"obj\":{\"Tid\":\"1\",\"StaffID\":\"%s\",\"StaffCode\":\"%s\",\"CNFullName\":\"%s\",\"EN_FullName\":\"%s\",\"Photo\":\"%s\",\"SourceType\":2}}";
-
-        postState(ON_LOADING, "正在提交..");
-
         addSubscribe(appServerApi.addPersonnel(createBody(String.format(json, id, code, nameCN, nameEn, photo)))
                 .compose(ComposeTransformer.<String>FlowableMsg())
                 .subscribeWith(new RxSubscriber<String>() {

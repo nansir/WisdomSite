@@ -20,17 +20,19 @@ public class AccountModel extends Repository implements AccountContract {
 
     @Override
     public void singIn(String account, String password) {
-        String json = "{\"type\":\"login\",\"obj\":{\"LoginName\":\"%s\",\"Password\":\"%s\"}}";
+        String json = String.format("{\"type\":\"login\",\"obj\":{\"LoginName\":\"%s\",\"Password\":\"%s\"}}", account, password);
         postState(ON_LOADING, "登錄..");
-        addSubscribe(appServerApi.singing(createBody(String.format(json, account, password)))
+        addSubscribe(appServerApi.singing(createBody(json))
                 .compose(ComposeTransformer.<LoginBean>Flowable())
                 .subscribeWith(new RxSubscriber<LoginBean>() {
                     @Override
                     protected void onSuccess(LoginBean bean) {
-                        HttpUtils.getInstance(MyApplication.getContext()).setAuthToken(bean.getAccessToken());
+                        HttpUtils.getInstance(MyApplication.getContext()).setAuthToken("Bearer " + bean.getAccessToken());
                         HttpUtils.getInstance(MyApplication.getContext()).setToken(bean.getRefreshToken());
-                        SPUtils.getInstance().put(AppKey.AUTH_TOKEN, bean.getAccessToken());
+
+                        SPUtils.getInstance().put(AppKey.AUTH_TOKEN, "Bearer " + bean.getAccessToken());
                         SPUtils.getInstance().put(AppKey.TOKEN, bean.getRefreshToken());
+                        SPUtils.getInstance().put(AppKey.LOGIN, json);
                         postData(EVENT_LOGIN, bean);
                     }
 

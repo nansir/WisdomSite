@@ -9,8 +9,8 @@ android {
         applicationId "com.sir.app.wisdom"
         minSdkVersion MIN_SDK_VERSION
         targetSdkVersion TARGET_SDK_VERSION
-        versionCode 25
-        versionName "1.2.5"
+        versionCode 26
+        versionName "1.2.6"
     }
 
     //添加签名文件配置(将signingConfigs{}放到了buildType{}的后面,导致编译的时候无法找到)
@@ -79,7 +79,7 @@ dependencies {
     implementation 'android.arch.paging:runtime:1.0.1'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'pub.devrel:easypermissions:1.2.0'
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
 
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'

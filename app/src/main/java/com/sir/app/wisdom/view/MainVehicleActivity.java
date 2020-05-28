@@ -55,6 +55,7 @@ public class MainVehicleActivity extends AppHolderActivity<VehicleViewModel, Mai
         //图表日期选择
         rgData.setOnCheckedChangeListener(this);
         rgVehicleType.setOnCheckedChangeListener(this);
+
     }
 
     @Override

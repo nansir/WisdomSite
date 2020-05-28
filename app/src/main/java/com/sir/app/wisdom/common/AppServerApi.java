@@ -17,6 +17,7 @@ import java.util.List;
 import io.reactivex.Flowable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
@@ -38,6 +39,14 @@ public interface AppServerApi {
      */
     @POST("api/SysLogin")
     Flowable<HttpResponse<LoginBean>> singing(@Body RequestBody body);
+
+
+    /**
+     * 登录(理应还有个获取token接口)
+     */
+    @POST("api/SysLogin")
+    Call<HttpResponse<LoginBean>> token(@Body RequestBody body);
+
 
     /**
      * 添加/编辑人员资料

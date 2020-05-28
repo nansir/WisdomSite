@@ -57,15 +57,18 @@ public class FileUtils {
      * @return
      */
     public static String bitmapToString(Bitmap bitmap) {
-        String base64 = "";
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
         //将bitmap转成字节数组流.
-        boolean compress = bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bos);
-        if (compress) {
-            base64 = Base64.encodeToString(bos.toByteArray(), Base64.NO_WRAP);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
+        int options = 90;
+        while (bao.toByteArray().length / 1024 > 160) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            bao.reset(); // 重置bao
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, bao);// 这里压缩options%，把压缩后的数据存放到baos中
+            options -= 10;// 每次都减少10
         }
-        return base64;
+        return Base64.encodeToString(bao.toByteArray(), Base64.NO_WRAP);
     }
+
 
     /**
      * 保存方法

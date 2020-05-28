@@ -1,10 +1,14 @@
 package com.sir.app.wisdom.interceptor;
 
-import android.os.Looper;
-
 import com.google.gson.Gson;
-
-import org.greenrobot.eventbus.EventBus;
+import com.sir.app.wisdom.common.AppKey;
+import com.sir.app.wisdom.common.AppServerApi;
+import com.sir.app.wisdom.common.MyApplication;
+import com.sir.app.wisdom.model.entity.LoginBean;
+import com.sir.library.com.utils.SPUtils;
+import com.sir.library.retrofit.HttpUtils;
+import com.sir.library.retrofit.request.RetrofitClient;
+import com.sir.library.retrofit.response.HttpResponse;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -19,45 +23,42 @@ import okio.Buffer;
 import okio.BufferedSource;
 
 /**
- * Created by zhuyinan on 2020/5/27.
+ * Token 过期拦截器
+ * Created by zhuyinan on 2019/8/20.
  */
 public class TokenInterceptor implements Interceptor {
 
+    private Gson mGson = new Gson();
+
     @Override
     public Response intercept(Chain chain) throws IOException {
-
         Request originalRequest = chain.request();
         Response response = chain.proceed(originalRequest);
-
         try {
             ResponseBody responseBody = response.body();
-            //解决response.body().string();只能打印一次
+            //解决response.body().string();只能获取一次的。
             BufferedSource source = responseBody.source();
-            source.request(Long.MAX_VALUE); // Buffer the entire body.
+            source.request(Long.MAX_VALUE);
             Buffer buffer = source.buffer();
             Charset UTF8 = Charset.forName("UTF-8");
-            String string = buffer.clone().readString(UTF8);
+            String json = buffer.clone().readString(UTF8);
 
-            BaseResponseBean baseResponseBean = new Gson().fromJson(string, BaseResponseBean.class);
+            HttpResponse res = mGson.fromJson(json, HttpResponse.class);
 
-            if (baseResponseBean != null) {
-                if (baseResponseBean.getCode().equals(ResponseCode.TOKEN_ERROR)) {
-                    //token过期
-                    //根据RefreshToken同步请求，获取最新的Token
-                    String newToken = getNewToken();
+            if (res.getResCode() == 401) {
 
-                    //使用新的Token，创建新的请求
-                    Request newRequest = chain.request()
-                            .newBuilder()
-                            .header("authToken", newToken)
-                            .build();
-                    //重新请求
-                    return chain.proceed(newRequest);
-                } else if (baseResponseBean.getCode().equals(ResponseCode.REFRESH_TOKEN_ERROR)) {
-                    //refreshToken过期
-                    EventBus.getDefault().post(new Handler(Looper.getMainLooper()).obtainMessage(Constants
-                            .Key_EventBus_Msg.EVENT_TOKEN_OVERDUE));
-                }
+                //根据RefreshToken同步请求，获取最新的Token
+                LoginBean bean = getNewToken();
+
+                //使用新的Token，创建新的请求
+                Request newRequest = chain.request()
+                        .newBuilder()
+                        .header("Token", bean.getRefreshToken())
+                        .header("Authorization", "Bearer " + bean.getAccessToken())
+                        .build();
+
+                //重新请求
+                return chain.proceed(newRequest);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,33 +66,29 @@ public class TokenInterceptor implements Interceptor {
         return response;
     }
 
-
     /**
-     * 同步请求方式，根据RefreshToken获取最新的Token
+     * 同步请求方式，获取最新的Token
      *
      * @return
      */
-    private synchronized String getNewToken() throws IOException {
-//        通过一个特定的接口获取新的token，此处要用到同步的retrofit请求
-        String newToken = "";
-        String paramsRefresh = "";
+    private LoginBean getNewToken() throws IOException {
+        // 同步请求接口通过一个特定的接口获取新的token,此处要用到同步的retrofit请求
 
-        TokenInfoBean oldTokenBean = TokenInfoBean.readToken();
-        if (oldTokenBean != null && !BaseUtils.isEmpty(oldTokenBean.getRefreshToken())) {
-            paramsRefresh = oldTokenBean.getRefreshToken();
-        }
+        String JSON = SPUtils.getInstance().get(AppKey.LOGIN);
 
-        ApiService apiService = ApiRetrofit.create(ApiService.class);
-        RequestBody requestBody = RequestBody.create(MediaType.parse(ContentTypeConstant.Content_TYPE_JSON), "");
-        Call<BaseResponseBean<TokenInfoBean>> call = apiService.refreshToken(paramsRefresh, requestBody);
-        BaseResponseBean<TokenInfoBean> responseBean = call.execute().body();
-        if (responseBean != null && responseBean.getCode().equals(ResponseCode.RESPONSE_SUCCES) && responseBean.getData() != null && !BaseUtils.isEmpty(responseBean.getData().getToken())) {
-            //获取新的token成功
-            TokenInfoBean infoBean = responseBean.getData();
-            TokenInfoBean.saveToken(infoBean);
-            newToken = infoBean.getToken();
-        }
-        return newToken;
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), JSON);
+
+        RetrofitClient client = HttpUtils.getInstance(MyApplication.getContext()).getRetrofitClient();
+
+        HttpResponse<LoginBean> response = client.builder(AppServerApi.class).token(body).execute().body();
+        LoginBean bean = response.getResBody();
+
+        HttpUtils.getInstance(MyApplication.getContext()).setAuthToken("Bearer " + bean.getAccessToken());
+        HttpUtils.getInstance(MyApplication.getContext()).setToken(bean.getRefreshToken());
+
+        SPUtils.getInstance().put(AppKey.AUTH_TOKEN, "Bearer " + bean.getAccessToken());
+        SPUtils.getInstance().put(AppKey.TOKEN, bean.getRefreshToken());
+
+        return bean;
     }
-
 }

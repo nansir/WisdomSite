@@ -25,7 +25,6 @@ import com.sir.app.wisdom.R;
 import com.sir.app.wisdom.common.AppKey;
 import com.sir.app.wisdom.dialog.PhotoSelectDialog;
 import com.sir.app.wisdom.dialog.SubmitResultsDialog;
-import com.sir.app.wisdom.glide.GlideCut;
 import com.sir.app.wisdom.model.PersonnelModel;
 import com.sir.app.wisdom.model.entity.RecordPersonnelBean;
 import com.sir.app.wisdom.utils.FileUtils;
@@ -36,6 +35,7 @@ import com.sir.library.retrofit.event.ResState;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -77,15 +77,35 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
         //编辑模式
         if (bean != null) {
             staffID = bean.getStaffID();
+            setToolbarTitle("编辑人員信息");
             mViewHelper.setEditVal(R.id.et_personnel_name_cn, bean.getCN_FullName());
             mViewHelper.setEditVal(R.id.et_personnel_name_en, bean.getEN_FullName());
             mViewHelper.setEditVal(R.id.et_personnel_number, bean.getStaffCode());
+
             Glide.with(this)
                     .load(bean.getPhoto())
+                    .asBitmap()
+                    .centerCrop()
                     .placeholder(R.mipmap.ic_placeholder)//占位图片
                     .into(ivInfoPhoto);
-            bitmap = Bitmap.createBitmap(ivInfoPhoto.getDrawingCache());
-            setToolbarTitle("编辑人員信息");
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        bitmap = Glide.with(getActivity())
+                                .load(bean.getPhoto())
+                                .asBitmap() //必须
+                                .centerCrop()
+                                .into(720, 1280)
+                                .get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
         }
     }
 
@@ -209,6 +229,9 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
      * 提交數據
      */
     private void submitData() {
+
+        mDialog.showLoading("正在提交..");
+
         String nameCN = mViewHelper.getEditVal(R.id.et_personnel_name_cn);
         String nameEN = mViewHelper.getEditVal(R.id.et_personnel_name_en);
         String code = mViewHelper.getEditVal(R.id.et_personnel_number);
@@ -223,13 +246,21 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
             mDialog.showError("未添加照片");
             return;
         }
-        String photo = FileUtils.bitmapToString(bitmap);
 
-        if (staffID == 0) {
-            mViewModel.addPersonnel(code, nameCN, nameEN, photo);
-        } else {
-            mViewModel.editPersonnel(staffID, code, nameCN, nameEN, photo);
-        }
+        //开启线程压缩图片
+       new Thread(new Runnable() {
+           @Override
+           public void run() {
+
+               String photo = FileUtils.bitmapToString(bitmap);
+
+               if (staffID == 0) {
+                   mViewModel.addPersonnel(code, nameCN, nameEN, photo);
+               } else {
+                   mViewModel.editPersonnel(staffID, code, nameCN, nameEN, photo);
+               }
+           }
+       }).start();
     }
 
     /**
