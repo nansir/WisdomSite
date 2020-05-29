@@ -35,7 +35,6 @@ import com.sir.library.retrofit.event.ResState;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -89,23 +88,6 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
                     .placeholder(R.mipmap.ic_placeholder)//占位图片
                     .into(ivInfoPhoto);
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        bitmap = Glide.with(getActivity())
-                                .load(bean.getPhoto())
-                                .asBitmap() //必须
-                                .centerCrop()
-                                .into(720, 1280)
-                                .get();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
         }
     }
 
@@ -242,25 +224,26 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
         } else if (TextUtils.isEmpty(nameCN)) {
             mDialog.showError("未填寫中文姓名");
             return;
-        } else if (bitmap == null) {
+        } else if (staffID == 0 && bitmap == null) {
             mDialog.showError("未添加照片");
             return;
         }
 
         //开启线程压缩图片
-       new Thread(new Runnable() {
-           @Override
-           public void run() {
-
-               String photo = FileUtils.bitmapToString(bitmap);
-
-               if (staffID == 0) {
-                   mViewModel.addPersonnel(code, nameCN, nameEN, photo);
-               } else {
-                   mViewModel.editPersonnel(staffID, code, nameCN, nameEN, photo);
-               }
-           }
-       }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String photo = "";
+                if (bitmap != null) {
+                    photo = FileUtils.bitmapToString(bitmap);
+                }
+                if (staffID == 0) {
+                    mViewModel.addPersonnel(code, nameCN, nameEN, photo);
+                } else {
+                    mViewModel.editPersonnel(staffID, code, nameCN, nameEN, photo);
+                }
+            }
+        }).start();
     }
 
     /**
