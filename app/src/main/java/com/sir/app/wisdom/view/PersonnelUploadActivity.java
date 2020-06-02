@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,14 +28,17 @@ import com.sir.app.wisdom.dialog.PhotoSelectDialog;
 import com.sir.app.wisdom.dialog.SubmitResultsDialog;
 import com.sir.app.wisdom.model.PersonnelModel;
 import com.sir.app.wisdom.model.entity.RecordPersonnelBean;
+import com.sir.app.wisdom.utils.BitmapUtil;
 import com.sir.app.wisdom.utils.FileUtils;
 import com.sir.app.wisdom.vm.PersonnelViewModel;
 import com.sir.library.com.AppLogger;
 import com.sir.library.mvvm.AppActivity;
 import com.sir.library.retrofit.event.ResState;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -55,7 +59,7 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
     PhotoSelectDialog photoDialog;
     int staffID = 0;
     private Uri mImageUri;
-    private Bitmap bitmap;
+
     // 用于保存图片的文件路径，Android 10以下使用图片路径访问图片
     private String mCameraImagePath;
     // 是否是Android 10以上手机
@@ -183,7 +187,7 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
                     mCameraImagePath = photoFile.getAbsolutePath();
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         /*7.0 以上要通过FileProvider将File转化为Uri*/
-                        mImageUri = FileProvider.getUriForFile(this, "com.sir.app.wisdom.fileProvider", photoFile);
+                        mImageUri = FileProvider.getUriForFile(this, "com.sir.app.wisdom.test.fileProvider", photoFile);
                     } else {
                         /*7.0 以下则直接使用Uri的fromFile方法将File转化为Uri*/
                         mImageUri = Uri.fromFile(photoFile);
@@ -224,7 +228,7 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
         } else if (TextUtils.isEmpty(nameCN)) {
             mDialog.showError("未填寫中文姓名");
             return;
-        } else if (staffID == 0 && bitmap == null) {
+        } else if (staffID == 0 && mCameraImagePath == null) {
             mDialog.showError("未添加照片");
             return;
         }
@@ -234,8 +238,19 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
             @Override
             public void run() {
                 String photo = "";
-                if (bitmap != null) {
-                    photo = FileUtils.bitmapToString(bitmap);
+                if (mCameraImagePath != null) {
+                    //压缩
+                    String imageUrl = BitmapUtil.compressImage(mCameraImagePath);
+                    Bitmap bitmap = BitmapFactory.decodeFile(imageUrl);
+                    ByteArrayOutputStream bao = new ByteArrayOutputStream();
+                    //将bitmap转成字节数组流.
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
+                    photo = Base64.encodeToString(bao.toByteArray(), Base64.NO_WRAP);
+                    try {
+                        bao.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 if (staffID == 0) {
                     mViewModel.addPersonnel(code, nameCN, nameEN, photo);
@@ -262,6 +277,7 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Bitmap bitmap = null;
         if (requestCode == REQUEST_CODE_ALBUM && resultCode == RESULT_OK) { //相册返回
             if (data != null) {
                 // 照片的原始资源地址
@@ -272,6 +288,7 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
                     bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
                     /* 将Bitmap设定到ImageView */
                     ivInfoPhoto.setImageBitmap(bitmap);
+                    mCameraImagePath = uri.getPath();
                 } catch (FileNotFoundException e) {
                     Log.e("Exception", e.getMessage(), e);
                 }
@@ -282,6 +299,7 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
                 if (isAndroidQ) {
                     ContentResolver cr = getContentResolver();
                     bitmap = BitmapFactory.decodeStream(cr.openInputStream(mImageUri));
+                    mCameraImagePath = mImageUri.getPath();
                 } else {
                     bitmap = BitmapFactory.decodeFile(mCameraImagePath);
                 }

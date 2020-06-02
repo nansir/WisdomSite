@@ -8,6 +8,7 @@ import android.util.Base64;
 import androidx.core.os.EnvironmentCompat;
 
 import com.sir.app.wisdom.common.AppConstant;
+import com.sir.library.com.AppLogger;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -61,7 +62,7 @@ public class FileUtils {
         //将bitmap转成字节数组流.
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
         int options = 90;
-        while (bao.toByteArray().length / 1024 > 160) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
+        while (bao.toByteArray().length / 1024 > 120) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
             bao.reset(); // 重置bao
             bitmap.compress(Bitmap.CompressFormat.JPEG, options, bao);// 这里压缩options%，把压缩后的数据存放到baos中
             options -= 10;// 每次都减少10
