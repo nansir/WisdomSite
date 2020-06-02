@@ -8,10 +8,13 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.media.ExifInterface;
+import android.util.Base64;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by zhuyinan on 2020/6/2.
@@ -34,13 +37,43 @@ public class BitmapUtil {
     }
 
     /**
+     * 将图片转换成Base64编码的字符串
+     */
+    public static String imageToBase64(String path) {
+        InputStream is = null;
+        byte[] data;
+        String result = null;
+        try {
+            is = new FileInputStream(path);
+            //创建一个字符流大小的数组。
+            data = new byte[is.available()];
+            //写入数组
+            is.read(data);
+            //用默认的编码格式进行编码
+            result = Base64.encodeToString(data, Base64.NO_CLOSE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (null != is) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
+    }
+
+
+    /**
      * 图片压缩-质量压缩
      *
      * @param filePath 源图片路径
      * @return 压缩后的路径
      */
 
-    public static String compressImage(String filePath) {
+    public static Bitmap compressImage(String filePath) {
         //原文件
         File oldFile = new File(filePath);
         //压缩文件路径 照片路径/
@@ -55,7 +88,7 @@ public class BitmapUtil {
         try {
             if (!outputFile.exists()) {
                 outputFile.getParentFile().mkdirs();
-                //outputFile.createNewFile();
+                outputFile.createNewFile();
             } else {
                 outputFile.delete();
             }
@@ -64,9 +97,8 @@ public class BitmapUtil {
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
-            return filePath;
         }
-        return outputFile.getPath();
+        return bm;
     }
 
     /**

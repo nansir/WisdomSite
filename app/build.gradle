@@ -5,8 +5,8 @@ android {
     buildToolsVersion BUILD_TOOLS_VERSION
 
     defaultConfig {
-        applicationId "com.sir.app.wisdom.test"
-//        applicationId "com.sir.app.wisdom"
+//        applicationId "com.sir.app.wisdom.test"
+        applicationId "com.sir.app.wisdom"
         minSdkVersion MIN_SDK_VERSION
         targetSdkVersion TARGET_SDK_VERSION
         versionCode 29
@@ -80,6 +80,7 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'pub.devrel:easypermissions:1.2.0'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.zhihu.android:matisse:0.5.1-beta1'
 
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'

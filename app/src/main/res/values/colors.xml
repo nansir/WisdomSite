@@ -6,4 +6,5 @@
     <color name="colorAccent">#178a7f</color>
     <!--状态栏-->
     <color name="colorStatusBar">#178a7f</color>
+    <color name="black">#333333</color>
 </resources>

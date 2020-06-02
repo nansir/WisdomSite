@@ -22,6 +22,13 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <style name="my_matisse_style" parent="Matisse.Zhihu">
+        <item name="colorPrimary">@color/white</item>
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="album.element.color">@color/black</item>
+    </style>
 
 
 

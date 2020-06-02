@@ -34,4 +34,9 @@
     <string name="edit">編輯</string>
     <string name="got_it">知道了</string>
 
+    <plurals name="error_over_count">
+        <item quantity="one">You can only select one media file</item>
+        <item quantity="many">You can only select up to %1$d media files</item>
+    </plurals>
+
 </resources>

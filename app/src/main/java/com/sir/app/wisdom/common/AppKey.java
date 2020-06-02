@@ -13,4 +13,7 @@ public class AppKey extends AppBaseKey {
     public static final String LOGIN = "login";
     public static final String AUTH_TOKEN = "AuthToken";
     public static final String REMEMBER = "remember";
+
+    public static final String AUTHORITY = "com.sir.app.electric.fileprovider";
+
 }
