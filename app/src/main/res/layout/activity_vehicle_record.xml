@@ -31,6 +31,7 @@
             android:drawablePadding="6dp"
             android:hint="@string/personnel_hint_a"
             android:padding="6dp"
+            android:singleLine="true"
             android:textSize="12sp" />
 
         <Button

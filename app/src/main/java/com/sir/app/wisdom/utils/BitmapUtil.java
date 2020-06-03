@@ -73,7 +73,7 @@ public class BitmapUtil {
      * @return 压缩后的路径
      */
 
-    public static Bitmap compressImage(String filePath) {
+    public static String compressImage(String filePath) {
         //原文件
         File oldFile = new File(filePath);
         //压缩文件路径 照片路径/
@@ -88,7 +88,7 @@ public class BitmapUtil {
         try {
             if (!outputFile.exists()) {
                 outputFile.getParentFile().mkdirs();
-                outputFile.createNewFile();
+                //outputFile.createNewFile();
             } else {
                 outputFile.delete();
             }
@@ -97,8 +97,9 @@ public class BitmapUtil {
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
+            return filePath;
         }
-        return bm;
+        return outputFile.getPath();
     }
 
     /**

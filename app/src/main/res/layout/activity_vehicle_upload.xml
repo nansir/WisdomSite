@@ -42,8 +42,8 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="請輸入"
-                    android:lines="1"
                     android:padding="8dp"
+                    android:singleLine="true"
                     android:textColor="#D8D8D8"
                     android:textColorHint="#D8D8D8"
                     android:textSize="14sp" />
@@ -143,8 +143,8 @@
                     android:background="@null"
                     android:hint="@string/please_enter"
                     android:inputType="number"
-                    android:lines="1"
                     android:padding="6dp"
+                    android:singleLine="true"
                     android:textColor="#D8D8D8"
                     android:textColorHint="#D8D8D8"
                     android:textSize="12sp" />
@@ -229,8 +229,8 @@
                     android:background="@null"
                     android:hint="@string/please_enter"
                     android:inputType="number"
-                    android:lines="1"
                     android:padding="6dp"
+                    android:singleLine="true"
                     android:textColor="#D8D8D8"
                     android:textColorHint="#D8D8D8"
                     android:textSize="12sp" />
