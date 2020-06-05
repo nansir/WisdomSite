@@ -1,15 +1,15 @@
 package com.sir.app.wisdom.common;
 
-import com.sir.app.wisdom.model.entity.RecordPersonnelBean;
-import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
 import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.LoginBean;
 import com.sir.app.wisdom.model.entity.PersonnelRecordBean;
+import com.sir.app.wisdom.model.entity.RecordPersonnelBean;
 import com.sir.app.wisdom.model.entity.ResponseFaceBean;
 import com.sir.app.wisdom.model.entity.StatisticsBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
-import com.sir.app.wisdom.model.entity.VehicleTypeBean;
 import com.sir.app.wisdom.model.entity.TurnUpBean;
+import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
+import com.sir.app.wisdom.model.entity.VehicleTypeBean;
 import com.sir.library.retrofit.response.HttpResponse;
 
 import java.util.List;
@@ -75,7 +75,6 @@ public interface AppServerApi {
      */
     @POST("api/Staff")
     Flowable<HttpResponse<RecordPersonnelBean>> searchPersonnel(@Body RequestBody body);
-
 
 
     /**
@@ -155,8 +154,8 @@ public interface AppServerApi {
      *
      * @return
      */
-    @GET("api/GetCarSumByMonth?TerritoryID=1")
-    Flowable<HttpResponse<Integer>> totalVehicles();
+    @GET("api/GetCarSum?TerritoryID=1")
+    Flowable<HttpResponse<Integer>> totalVehicles(@Query("type") int type);
 
 
     /**

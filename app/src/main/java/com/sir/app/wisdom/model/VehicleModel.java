@@ -120,8 +120,8 @@ public class VehicleModel extends Repository implements VehicleContract {
     }
 
     @Override
-    public void totalVehicles() {
-        addSubscribe(appServerApi.totalVehicles()
+    public void totalVehicles(int type) {
+        addSubscribe(appServerApi.totalVehicles(type)
                 .compose(ComposeTransformer.<Integer>Flowable())
                 .subscribeWith(new RxSubscriber<Integer>() {
                     @Override

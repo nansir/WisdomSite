@@ -2,11 +2,11 @@ package com.sir.app.wisdom.contract;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
 import com.sir.app.wisdom.model.entity.GateBean;
 import com.sir.app.wisdom.model.entity.StatisticsBean;
 import com.sir.app.wisdom.model.entity.SubcontractorBean;
 import com.sir.app.wisdom.model.entity.VehicleInfoBean;
+import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
 import com.sir.app.wisdom.model.entity.VehicleTypeBean;
 
 import java.io.File;
@@ -43,7 +43,7 @@ public interface VehicleContract {
 
     void getAccessInfo(int number);
 
-    void totalVehicles();
+    void totalVehicles(int type);
 
     void GetAllCarType();
 

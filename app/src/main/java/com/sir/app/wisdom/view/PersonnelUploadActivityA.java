@@ -1,24 +1,27 @@
 package com.sir.app.wisdom.view;
 
-import android.Manifest;
-import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
+import androidx.core.os.EnvironmentCompat;
 
 import com.bumptech.glide.Glide;
 import com.sir.app.wisdom.R;
@@ -27,39 +30,60 @@ import com.sir.app.wisdom.dialog.PhotoSelectDialog;
 import com.sir.app.wisdom.dialog.SubmitResultsDialog;
 import com.sir.app.wisdom.model.PersonnelModel;
 import com.sir.app.wisdom.model.entity.RecordPersonnelBean;
-import com.sir.app.wisdom.utils.FileUtils;
+import com.sir.app.wisdom.utils.BitmapUtil;
 import com.sir.app.wisdom.vm.PersonnelViewModel;
 import com.sir.library.com.AppLogger;
 import com.sir.library.mvvm.AppActivity;
 import com.sir.library.retrofit.event.ResState;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileDescriptor;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * 人员信息上传
  * Created by zhuyinan on 2020/4/8.
  */
-public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
+public class PersonnelUploadActivityA extends AppActivity<PersonnelViewModel> {
 
+    // 申请相机权限的requestCode
+    private static final int PERMISSION_CAMERA_REQUEST_CODE = 0x00000012;
     final int REQUEST_CODE_ALBUM = 100;//打开相册
-    final int REQUEST_CODE_CAMERA = 101;//打开相机
-
+    final int CAMERA_REQUEST_CODE = 101;//打开相机
     @BindView(R.id.iv_personnel_photo)
-    ImageView ivInfoPhoto;
+    ImageView ivPhoto;
     SubmitResultsDialog resultsDialog;
     PhotoSelectDialog photoDialog;
     int staffID = 0;
-    Bitmap mBitmap = null;
-    private Uri mImageUri;
+
+    //用于保存拍照图片的uri
+    private Uri mCameraUri;
     // 用于保存图片的文件路径，Android 10以下使用图片路径访问图片
     private String mCameraImagePath;
     // 是否是Android 10以上手机
     private boolean isAndroidQ = Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q;
+
+    // 通过uri加载图片
+    public static Bitmap getBitmapFromUri(Context context, Uri uri) {
+        try {
+            ParcelFileDescriptor parcelFileDescriptor =
+                    context.getContentResolver().openFileDescriptor(uri, "r");
+            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+            Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+            parcelFileDescriptor.close();
+            return image;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     public int bindLayout() {
@@ -98,7 +122,7 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
                 .centerCrop()
                 .dontTransform()
                 .placeholder(R.mipmap.ic_placeholder)//占位图片
-                .into(ivInfoPhoto);
+                .into(ivPhoto);
     }
 
     @Override
@@ -162,40 +186,42 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
     }
 
     /**
-     * 判断权限并打开摄像机
+     * 调起相机拍照
      */
     private void openCamera() {
-        String[] perms = new String[]{Manifest.permission.CAMERA};
-        if (!EasyPermissions.hasPermissions(this, perms)) {
-            // 申请权限
-            EasyPermissions.requestPermissions(this, "需要存储照相权限", REQUEST_CODE_CAMERA, perms);
-            return;
-        }
-        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//打开相机的Intent
+        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // 判断是否有相机
         if (captureIntent.resolveActivity(getPackageManager()) != null) {
             File photoFile = null;
+            Uri photoUri = null;
+
             if (isAndroidQ) {
                 // 适配android 10
-                mImageUri = createImageUri();
+                photoUri = createImageUri();
             } else {
-                photoFile = FileUtils.createImageFile(this);//创建用来保存照片的文件
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 if (photoFile != null) {
                     mCameraImagePath = photoFile.getAbsolutePath();
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        /*7.0 以上要通过FileProvider将File转化为Uri*/
-                        //mImageUri = FileProvider.getUriForFile(this, getPackageName() + "te.fileProvider", photoFile);
-                        mImageUri = FileProvider.getUriForFile(this, "com.sir.app.wisdom.fileProvider", photoFile);
+                        //适配Android 7.0文件权限，通过FileProvider创建一个content类型的Uri
+                        photoUri = FileProvider.getUriForFile(this, " com.sir.app.wisdom.fileProvider", photoFile);
                     } else {
-                        /*7.0 以下则直接使用Uri的fromFile方法将File转化为Uri*/
-                        mImageUri = Uri.fromFile(photoFile);
+                        photoUri = Uri.fromFile(photoFile);
                     }
                 }
             }
-            if (mImageUri != null) {
-                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
+
+            mCameraUri = photoUri;
+
+            if (photoUri != null) {
+                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 captureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                startActivityForResult(captureIntent, REQUEST_CODE_CAMERA);
+                startActivityForResult(captureIntent, CAMERA_REQUEST_CODE);
             }
         }
     }
@@ -226,7 +252,7 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
         } else if (TextUtils.isEmpty(nameCN)) {
             mDialog.showError("未填寫中文姓名");
             return;
-        } else if (staffID == 0 && mBitmap == null) {
+        } else if (staffID == 0 && mCameraImagePath == null) {
             mDialog.showError("未添加照片");
             return;
         }
@@ -236,25 +262,25 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
             @Override
             public void run() {
                 String photo = "";
-                if (mBitmap != null) {
-                    photo = FileUtils.bitmapToString(mBitmap);
+
+                if (isAndroidQ) {
+                    // Android 10 使用图片uri加载
+                    mCameraImagePath = getImageContentUri(PersonnelUploadActivityA.this, mCameraUri.getPath()).getPath();
                 }
-//                if (mCameraImagePath != null) {
-//                    //压缩
-//                    String imageUrl = BitmapUtil.compressImage(mCameraImagePath);
-//                    Bitmap bitmap = BitmapFactory.decodeFile(imageUrl);
-//                    ByteArrayOutputStream bao = new ByteArrayOutputStream();
-//                    //将bitmap转成字节数组流.
-//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
-//                    photo = Base64.encodeToString(bao.toByteArray(), Base64.NO_WRAP);
-//                    try {
-//                        bao.close();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                } else if (mBitmap != null) {
-//                    photo = FileUtils.bitmapToString(mBitmap);
-//                }
+
+                String filePath = BitmapUtil.compressImage(mCameraImagePath);
+                Bitmap mBitmap = BitmapUtil.getSmallBitmap(filePath);
+                ByteArrayOutputStream bao = new ByteArrayOutputStream();
+                //将bitmap转成字节数组流.
+                mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
+                photo = Base64.encodeToString(bao.toByteArray(), Base64.NO_WRAP);
+
+                try {
+                    bao.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 if (staffID == 0) {
                     mViewModel.addPersonnel(code, nameCN, nameEN, photo);
                 } else {
@@ -277,60 +303,79 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    /**
+     * 创建保存图片的文件
+     */
+    private File createImageFile() throws IOException {
+        String imageName = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        if (!storageDir.exists()) {
+            storageDir.mkdir();
+        }
+        File tempFile = new File(storageDir, imageName);
+        if (!Environment.MEDIA_MOUNTED.equals(EnvironmentCompat.getStorageState(tempFile))) {
+            return null;
+        }
+        return tempFile;
+    }
 
-        if (requestCode == REQUEST_CODE_ALBUM && resultCode == RESULT_OK) { //相册返回
-            if (data != null) {
-                // 照片的原始资源地址
-                Uri uri = data.getData();
-                //String path = uri.getPath();
-                ContentResolver cr = getContentResolver();
-                try {
-                    mBitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
-                    /* 将Bitmap设定到ImageView */
-                    ivInfoPhoto.setImageBitmap(mBitmap);
-                    mCameraImagePath = null;
-                } catch (FileNotFoundException e) {
-                    Log.e("Exception", e.getMessage(), e);
-                }
+    /**
+     * 加载图片地址
+     *
+     * @param context
+     * @param path
+     * @return
+     */
+    public static Uri getImageContentUri(Context context, String path) {
+        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[]{MediaStore.Images.Media._ID}, MediaStore.Images.Media.DATA + "=? ",
+                new String[]{path}, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
+            Uri baseUri = Uri.parse("content://media/external/images/media");
+            return Uri.withAppendedPath(baseUri, "" + id);
+        } else {
+            // 如果图片不在手机的共享图片数据库，就先把它插入。
+            if (new File(path).exists()) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATA, path);
+                return context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            } else {
+                return null;
             }
-        } else if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK) {//打开相机返回
-            // 是否是Android 10以上手机
-            try {
-                // 是否是Android 10以上手机
-                if (isAndroidQ) {
-                    ContentResolver cr = getContentResolver();
-                    mBitmap = BitmapFactory.decodeStream(cr.openInputStream(mImageUri));
-                    ivInfoPhoto.setImageBitmap(mBitmap);
-                } else {
-                    mBitmap = BitmapFactory.decodeFile(mCameraImagePath);
-                }
-            } catch (FileNotFoundException e) {
-                Log.e("Exception", e.getMessage(), e);
-            }
-            /* 将Bitmap设定到ImageView */
-            ivInfoPhoto.setImageBitmap(mBitmap);
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_CODE_CAMERA:
-                //grantResults数组存储的申请的返回结果，
-                //PERMISSION_GRANTED 表示申请成功
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    openCamera();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAMERA_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                if (isAndroidQ) {
+                    // Android 10 使用图片uri加载
+                    ivPhoto.setImageURI(mCameraUri);
+                    mCameraImagePath = mCameraUri.getPath();
                 } else {
-                    //授权失败，简单提示用户
-                    AppLogger.toast("授权失败,无法使用照相");
+                    // 使用图片路径加载
+                    ivPhoto.setImageBitmap(BitmapFactory.decodeFile(mCameraImagePath));
                 }
-                break;
-            default:
-                break;
+            } else {
+                Toast.makeText(this, "取消", Toast.LENGTH_LONG).show();
+            }
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_CAMERA_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //允许权限，有调起相机拍照。
+                openCamera();
+            } else {
+                //拒绝权限，弹出提示框。
+                Toast.makeText(this, "拍照权限被拒绝", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

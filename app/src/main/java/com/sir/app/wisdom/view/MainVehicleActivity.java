@@ -49,7 +49,7 @@ public class MainVehicleActivity extends AppHolderActivity<VehicleViewModel, Mai
     public void doBusiness() {
         adapter = new VehicleRecordAdapter(getActivity());
         mViewModel.getAccessInfo(1); //进出情况
-        mViewModel.totalVehicles();//本月进入车辆总数
+        mViewModel.totalVehicles(1);//本月进入车辆总数
         mViewModel.GetAllCarType();//获取所以车辆类型
 
         //图表日期选择
@@ -152,12 +152,14 @@ public class MainVehicleActivity extends AppHolderActivity<VehicleViewModel, Mai
             switch (checkedId) {
                 case R.id.rbtn_day://1.天，2.周，3.月
                     mViewModel.statistics(carType, 1, 1);
+                    mViewModel.totalVehicles(2);//本月进入车辆总数
                     break;
                 case R.id.rbtn_week://1.天，2.周，3.月
                     mViewModel.statistics(carType, 2, 1);
                     break;
                 case R.id.rbtn_month://1.天，2.周，3.月
                     mViewModel.statistics(carType, 3, 1);
+                    mViewModel.totalVehicles(1);//本月进入车辆总数
                     break;
             }
         } else if (group.getId() == R.id.rg_vehicle_type) {//选择车辆类型
