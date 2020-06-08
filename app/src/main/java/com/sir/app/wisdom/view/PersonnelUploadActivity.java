@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -70,9 +71,8 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
     public void doBusiness() {
         setToolbarTitle(getTitle());
         setSwipeBackEnable(true);
-
         RecordPersonnelBean bean = (RecordPersonnelBean) getIntent().getSerializableExtra(AppKey.ValA);
-
+        mDialog.setCanceledOnTouchOutside(false);
         //编辑模式
         if (bean != null) {
             staffID = bean.getStaffID();
@@ -80,7 +80,8 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
             mViewHelper.setEditVal(R.id.et_personnel_name_cn, bean.getCN_FullName());
             mViewHelper.setEditVal(R.id.et_personnel_name_en, bean.getEN_FullName());
             mViewHelper.setEditVal(R.id.et_personnel_number, bean.getStaffCode());
-
+            EditText et = findViewById(R.id.et_personnel_number);
+            et.setEnabled(false);
             previewPhotos(bean.getPhoto());
         }
     }
@@ -239,22 +240,6 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
                 if (mBitmap != null) {
                     photo = FileUtils.bitmapToString(mBitmap);
                 }
-//                if (mCameraImagePath != null) {
-//                    //压缩
-//                    String imageUrl = BitmapUtil.compressImage(mCameraImagePath);
-//                    Bitmap bitmap = BitmapFactory.decodeFile(imageUrl);
-//                    ByteArrayOutputStream bao = new ByteArrayOutputStream();
-//                    //将bitmap转成字节数组流.
-//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
-//                    photo = Base64.encodeToString(bao.toByteArray(), Base64.NO_WRAP);
-//                    try {
-//                        bao.close();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                } else if (mBitmap != null) {
-//                    photo = FileUtils.bitmapToString(mBitmap);
-//                }
                 if (staffID == 0) {
                     mViewModel.addPersonnel(code, nameCN, nameEN, photo);
                 } else {
@@ -291,7 +276,6 @@ public class PersonnelUploadActivity extends AppActivity<PersonnelViewModel> {
                     mBitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
                     /* 将Bitmap设定到ImageView */
                     ivInfoPhoto.setImageBitmap(mBitmap);
-                    mCameraImagePath = null;
                 } catch (FileNotFoundException e) {
                     Log.e("Exception", e.getMessage(), e);
                 }

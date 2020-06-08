@@ -2,6 +2,7 @@ package com.sir.app.wisdom.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.os.Environment;
 import android.util.Base64;
 
@@ -61,10 +62,20 @@ public class FileUtils {
         //将bitmap转成字节数组流.
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
         int options = 90;
-        while (bao.toByteArray().length / 1024 > 110) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
-            bao.reset(); // 重置bao
-            bitmap.compress(Bitmap.CompressFormat.JPEG, options, bao);// 这里压缩options%，把压缩后的数据存放到baos中
-            options -= 10;// 每次都减少10
+        while (bao.toByteArray().length / 1024 > 120) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            try {
+                bao.reset(); // 重置bao
+                bitmap.compress(Bitmap.CompressFormat.JPEG, options, bao);// 这里压缩options%，把压缩后的数据存放到baos中
+                options -= 10;// 每次都减少10
+            } catch (IllegalArgumentException ex) {
+                ex.printStackTrace();
+
+                Matrix matrix = new Matrix();
+                matrix.setScale(0.5f, 0.5f);
+                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                bitmap = Bitmap.createScaledBitmap(bitmap, 480, 800, true);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
+            }
         }
         return Base64.encodeToString(bao.toByteArray(), Base64.NO_WRAP);
     }
