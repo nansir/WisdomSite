@@ -62,7 +62,7 @@ public class VehicleAdapter extends BaseRecyclerAdapter<VehicleRecordsBean> {
             @Override
             public void onClick(View view) {
                 photoZoom.show();
-                photoZoom.setImage(bean.getHeadstock());
+                photoZoom.setImage(bean.getHeadstock_Big());
             }
         });
 
@@ -70,7 +70,7 @@ public class VehicleAdapter extends BaseRecyclerAdapter<VehicleRecordsBean> {
             @Override
             public void onClick(View view) {
                 photoZoom.show();
-                photoZoom.setImage(bean.getCarRoof());
+                photoZoom.setImage(bean.getCarRoof_Big());
             }
         });
     }

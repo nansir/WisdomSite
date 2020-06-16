@@ -1,9 +1,12 @@
 package com.sir.app.wisdom.view;
 
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.viewpager.widget.ViewPager;
 
@@ -40,6 +43,18 @@ public class MainVehicleActivity extends AppHolderActivity<VehicleViewModel, Mai
     boolean flagType = true;
     int carType = 0; //车辆类型ID
 
+
+    //定时刷新首页信息
+    private Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message msg) {
+            mViewModel.getAccessInfo(1); //进出情况
+            mViewModel.totalVehicles(1);//本月进入车辆总数
+            mHandler.sendEmptyMessageDelayed(0, 30000);
+            return false;
+        }
+    });
+
     @Override
     public int bindLayout() {
         return R.layout.activity_main_vehicle;
@@ -48,9 +63,9 @@ public class MainVehicleActivity extends AppHolderActivity<VehicleViewModel, Mai
     @Override
     public void doBusiness() {
         adapter = new VehicleRecordAdapter(getActivity());
-        mViewModel.getAccessInfo(1); //进出情况
-        mViewModel.totalVehicles(1);//本月进入车辆总数
+
         mViewModel.GetAllCarType();//获取所以车辆类型
+        mHandler.sendEmptyMessage(0);//刷新首页信息
 
         //图表日期选择
         rgData.setOnCheckedChangeListener(this);
@@ -62,6 +77,7 @@ public class MainVehicleActivity extends AppHolderActivity<VehicleViewModel, Mai
     protected void dataObserver() {
         //选择的闸口获取车辆信息
         mViewModel.getAccessInfo().observe(this, bean -> {
+            adapter.clearAllItem();
             adapter.addItem(bean);
             vpContent.setAdapter(adapter);
         });

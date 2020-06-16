@@ -57,7 +57,7 @@ public class VehicleRecordAdapter extends BasePagerAdapter<VehicleRecordsBean> {
             @Override
             public void onClick(View view) {
                 photoZoom.show();
-                photoZoom.setImage(bean.getHeadstock());
+                photoZoom.setImage(bean.getHeadstock_Big());
             }
         });
 
@@ -65,7 +65,7 @@ public class VehicleRecordAdapter extends BasePagerAdapter<VehicleRecordsBean> {
             @Override
             public void onClick(View view) {
                 photoZoom.show();
-                photoZoom.setImage(bean.getCarRoof());
+                photoZoom.setImage(bean.getCarRoof_Big());
             }
         });
     }

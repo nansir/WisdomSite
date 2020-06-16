@@ -22,7 +22,11 @@ public class VehicleRecordsBean {
 
     private String Address;
 
+    private String Headstock_Big;
+
     private String Headstock;
+
+    private String CarRoof_Big;
 
     private String CarRoof;
 
@@ -76,5 +80,13 @@ public class VehicleRecordsBean {
 
     public String getCar_No() {
         return Car_No == null ? "" : Car_No;
+    }
+
+    public String getHeadstock_Big() {
+        return Headstock_Big == null ? "" : Headstock_Big;
+    }
+
+    public String getCarRoof_Big() {
+        return CarRoof_Big == null ? "" : CarRoof_Big;
     }
 }
