@@ -36,16 +36,14 @@
             android:id="@+id/iv_record_roof"
             android:layout_width="110dp"
             android:layout_height="60dp"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_test_d" />
+            android:scaleType="fitXY" />
 
         <ImageView
             android:id="@+id/iv_record_plate"
             android:layout_width="110dp"
             android:layout_height="60dp"
             android:layout_marginLeft="8dp"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_test_c" />
+            android:scaleType="fitXY" />
 
         <LinearLayout
             android:layout_width="wrap_content"

@@ -31,7 +31,9 @@ public class VehicleRecordActivity extends AppHolderActivity<VehicleViewModel, R
         mViewHolder.setAdapter(new VehicleAdapter(getActivity()));
         mViewHolder.setEmptyMsg("暫無車輛進入記錄");
         mViewHolder.setOnRefreshListener(this);
-        mViewModel.vehicleRecords();
+        if (mViewModel.getVehicleRecords().getValue() == null) {
+            mViewModel.vehicleRecords();
+        }
     }
 
     @Override

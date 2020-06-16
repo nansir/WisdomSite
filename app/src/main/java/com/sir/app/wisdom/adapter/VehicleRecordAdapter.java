@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sir.app.wisdom.R;
 import com.sir.app.wisdom.dialog.PhotoZoomDialog;
 import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
@@ -45,11 +46,13 @@ public class VehicleRecordAdapter extends BasePagerAdapter<VehicleRecordsBean> {
         //车牌
         Glide.with(mContext)
                 .load(bean.getHeadstock())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.mipmap.ic_placeholder)//占位图片
                 .into(headstock);
         //车顶
         Glide.with(mContext)
                 .load(bean.getCarRoof())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.mipmap.ic_placeholder)//占位图片
                 .into(carRoof);
 

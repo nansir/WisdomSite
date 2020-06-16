@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sir.app.wisdom.R;
 import com.sir.app.wisdom.dialog.PhotoZoomDialog;
 import com.sir.app.wisdom.model.entity.VehicleRecordsBean;
@@ -44,17 +45,20 @@ public class VehicleAdapter extends BaseRecyclerAdapter<VehicleRecordsBean> {
         ImageView carRoof = holder.getView(R.id.iv_record_roof);
         ImageView headstock = holder.getView(R.id.iv_record_plate);
 
-        carRoof.setVisibility(TextUtils.isEmpty(bean.getHeadstock()) ? View.INVISIBLE : View.VISIBLE);
-        holder.setVisible(R.id.iv_record_plate, !TextUtils.isEmpty(bean.getCarRoof()));
+        carRoof.setVisibility(TextUtils.isEmpty(bean.getCarRoof()) ? View.GONE : View.VISIBLE);
+        holder.setVisible(R.id.iv_record_plate, !TextUtils.isEmpty(bean.getHeadstock()));
+
 
         //车牌
         Glide.with(mContext)
                 .load(bean.getHeadstock())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.mipmap.ic_placeholder)//占位图片
                 .into(headstock);
         //车顶
         Glide.with(mContext)
                 .load(bean.getCarRoof())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.mipmap.ic_placeholder)//占位图片
                 .into(carRoof);
 

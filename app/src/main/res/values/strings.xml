@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">智慧工地(测试)</string>
+    <string name="app_name">智慧工地</string>
     <string name="login_hint_a">歡迎來到智慧工地</string>
     <string name="login_hint_b">勞務人員管理請登錄賬號密碼</string>
     <string name="account">賬號</string>
