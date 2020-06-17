@@ -151,10 +151,10 @@ public interface AppServerApi {
 
     /**
      * 本月进入车辆总数
-     *
+     * Type = 1  每月数量，2 每天数量
      * @return
      */
-    @GET("api/GetCarSumByMonth?TerritoryID=1")
+    @GET("api/GetCarSum?TerritoryID=1")
     Flowable<HttpResponse<Integer>> totalVehicles(@Query("type") int type);
 
 

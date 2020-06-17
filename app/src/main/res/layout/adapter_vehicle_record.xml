@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:scaleType="fitXY"
-                android:src="@mipmap/ic_test_c" />
+                />
 
             <TextView
                 android:id="@+id/tv_record_car_no"
@@ -75,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:scaleType="fitXY"
-                android:src="@mipmap/ic_test_d" />
+                 />
 
             <TextView
                 android:id="@+id/tv_record_subcontractor"
