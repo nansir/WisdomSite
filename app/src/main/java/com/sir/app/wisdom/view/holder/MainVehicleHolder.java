@@ -24,6 +24,7 @@ import com.sir.library.com.base.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import butterknife.BindView;
 
@@ -164,8 +165,12 @@ public class MainVehicleHolder extends BaseViewHolder {
         }
 
         //右边轴显示的数字是最大数字加10
-        yAxis.setAxisMaximum(Collections.max(threshold) + 10);
-        //yAxis.enableGridDashedLine(10f, 10f, 0f);
+        try {
+            yAxis.setAxisMaximum(Collections.max(threshold) + 10);
+            //yAxis.enableGridDashedLine(10f, 10f, 0f);
+        } catch (NoSuchElementException ex) {
+
+        }
 
 
         LineDataSet lineDataSet;
