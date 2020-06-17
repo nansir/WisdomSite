@@ -42,7 +42,7 @@ public class MainVehicleActivity extends AppHolderActivity<VehicleViewModel, Mai
 
     boolean flagType = true;
     int carType = 0; //车辆类型ID
-
+    int dataType = 2; //1月2天
 
     //定时刷新首页信息
     private Handler mHandler = new Handler(new Handler.Callback() {
@@ -64,7 +64,7 @@ public class MainVehicleActivity extends AppHolderActivity<VehicleViewModel, Mai
         adapter = new VehicleRecordAdapter(getActivity());
 
         mViewModel.GetAllCarType();//获取所以车辆类型
-        mViewModel.totalVehicles(1);//本月进入车辆总数
+        mViewModel.totalVehicles(dataType);//当天进入车辆总数
         mHandler.sendEmptyMessage(0);//刷新首页信息
 
         //图表日期选择
@@ -164,18 +164,19 @@ public class MainVehicleActivity extends AppHolderActivity<VehicleViewModel, Mai
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (group.getId() == R.id.rg_data) { //选择日期
-
             switch (checkedId) {
                 case R.id.rbtn_day://1.天，2.周，3.月
                     mViewModel.statistics(carType, 1, 1);
-                    mViewModel.totalVehicles(2);//本月进入车辆总数
+                    mViewModel.totalVehicles(dataType = 2);//本月进入车辆总数
+                    mViewHelper.setTextVal(R.id.tv_data_hint, R.string.main_hint_r);
                     break;
                 case R.id.rbtn_week://1.天，2.周，3.月
                     mViewModel.statistics(carType, 2, 1);
                     break;
                 case R.id.rbtn_month://1.天，2.周，3.月
                     mViewModel.statistics(carType, 3, 1);
-                    mViewModel.totalVehicles(1);//本月进入车辆总数
+                    mViewModel.totalVehicles(dataType = 1);//本月进入车辆总数
+                    mViewHelper.setTextVal(R.id.tv_data_hint, R.string.main_hint_j);
                     break;
             }
         } else if (group.getId() == R.id.rg_vehicle_type) {//选择车辆类型

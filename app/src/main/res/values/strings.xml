@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">智慧工地(测试)</string>
+    <string name="app_name">智慧工地</string>
     <string name="login_hint_a">歡迎來到智慧工地</string>
     <string name="login_hint_b">勞務人員管理請登錄賬號密碼</string>
     <string name="account">賬號</string>
@@ -22,6 +22,7 @@
     <string name="main_hint_i">各個分判商到場情況</string>
     <string name="main_hint_k">車輛統計</string>
     <string name="main_hint_j">本月車輛進入總數</string>
+    <string name="main_hint_r">當日車輛進入總數</string>
     <string name="main_hint_l">人臉識別</string>
     <string name="main_hint_m">車輛信息錄入</string>
     <string name="main_hint_n">進出記錄</string>

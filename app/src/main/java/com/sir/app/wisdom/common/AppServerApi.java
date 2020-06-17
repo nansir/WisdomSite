@@ -154,7 +154,7 @@ public interface AppServerApi {
      *
      * @return
      */
-    @GET("api/GetCarSum?TerritoryID=1")
+    @GET("api/GetCarSumByMonth?TerritoryID=1")
     Flowable<HttpResponse<Integer>> totalVehicles(@Query("type") int type);
 
 

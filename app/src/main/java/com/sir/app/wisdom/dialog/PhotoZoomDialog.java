@@ -44,10 +44,9 @@ public class PhotoZoomDialog extends BaseDialog {
         imageView.enable();
         Glide.with(getContext())
                 .load(uri)
-                .thumbnail(0.1f)
+                .thumbnail(Glide.with(getContext()).load(R.mipmap.ic_loading))
                 .dontAnimate()
                 .dontTransform()
-                .placeholder(R.mipmap.ic_loading)
                 .error(R.mipmap.ic_placeholder)
                 .into(imageView);
 

@@ -92,10 +92,11 @@
                             android:textSize="30sp" />
 
                         <TextView
+                            android:id="@+id/tv_data_hint"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tv_vehicle_toast"
-                            android:text="@string/main_hint_j"
+                            android:text="@string/main_hint_r"
                             android:textColor="@color/white"
                             android:textSize="12sp" />
 
