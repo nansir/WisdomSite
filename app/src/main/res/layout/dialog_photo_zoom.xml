@@ -15,7 +15,9 @@
         android:id="@+id/ibtn_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
         android:background="@drawable/selector_click_oval"
         android:padding="10dp"
         android:src="@mipmap/ic_close" />

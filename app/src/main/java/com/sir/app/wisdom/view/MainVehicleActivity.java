@@ -49,7 +49,6 @@ public class MainVehicleActivity extends AppHolderActivity<VehicleViewModel, Mai
         @Override
         public boolean handleMessage(@NonNull Message msg) {
             mViewModel.getAccessInfo(1); //进出情况
-            mViewModel.totalVehicles(1);//本月进入车辆总数
             mHandler.sendEmptyMessageDelayed(0, 30000);
             return false;
         }
@@ -65,6 +64,7 @@ public class MainVehicleActivity extends AppHolderActivity<VehicleViewModel, Mai
         adapter = new VehicleRecordAdapter(getActivity());
 
         mViewModel.GetAllCarType();//获取所以车辆类型
+        mViewModel.totalVehicles(1);//本月进入车辆总数
         mHandler.sendEmptyMessage(0);//刷新首页信息
 
         //图表日期选择

@@ -22,6 +22,7 @@ import com.sir.app.wisdom.view.weight.MyMarkerView;
 import com.sir.library.com.base.BaseViewHolder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -137,12 +138,35 @@ public class MainVehicleHolder extends BaseViewHolder {
      * @param name 曲线名称
      */
     public void showLineChart(String name, List<StatisticsBean> statistics) {
+
+        YAxis yAxis;
+        {   // // Y-Axis Style // //
+            yAxis = lineChart.getAxisLeft();
+
+            // disable dual axis (only use LEFT axis)
+            lineChart.getAxisRight().setEnabled(false);
+
+            // horizontal grid lines
+            //yAxis.enableGridDashedLine(10f, 10f, 0f);
+
+            // axis range
+            //yAxis.setAxisMaximum(100f);
+            yAxis.setAxisMinimum(0f);
+        }
+
         this.statistics = statistics;
         List<Entry> entries = new ArrayList<>();
+        List<Integer> threshold = new ArrayList<>();
         for (int i = 0; i < statistics.size(); i++) {
             Entry entry = new Entry(i, statistics.get(i).getCount());
             entries.add(entry);
+            threshold.add(statistics.get(i).getCount());
         }
+
+        //右边轴显示的数字是最大数字加10
+        yAxis.setAxisMaximum(Collections.max(threshold) + 10);
+        //yAxis.enableGridDashedLine(10f, 10f, 0f);
+
 
         LineDataSet lineDataSet;
         if (lineChart.getData() != null && lineChart.getData().getDataSetCount() > 0) {

@@ -31,7 +31,7 @@ public class PhotoZoomDialog extends BaseDialog {
         //设置window背景，默认的背景会有Padding值。
         getWindow().setBackgroundDrawableResource(R.mipmap.ic_bg);
         //在setContentView之后调用
-        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class PhotoZoomDialog extends BaseDialog {
                 .thumbnail(0.1f)
                 .dontAnimate()
                 .dontTransform()
-                .placeholder(R.mipmap.ic_placeholder)
+                .placeholder(R.mipmap.ic_loading)
                 .error(R.mipmap.ic_placeholder)
                 .into(imageView);
 

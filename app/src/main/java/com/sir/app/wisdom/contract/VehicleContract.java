@@ -49,5 +49,5 @@ public interface VehicleContract {
 
     void statistics(int carType, int dateType, int territoryID);
 
-    void vehicleRecords();
+    void vehicleRecords(String key);
 }

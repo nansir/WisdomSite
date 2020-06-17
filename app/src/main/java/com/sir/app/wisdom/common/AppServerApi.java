@@ -185,7 +185,7 @@ public interface AppServerApi {
      * @return
      */
     @GET("api/GetCarJilu?TerritoryID=1")
-    Flowable<HttpResponse<List<VehicleRecordsBean>>> vehicleRecords();
+    Flowable<HttpResponse<List<VehicleRecordsBean>>> vehicleRecords(@Query("key") String key);
 
     /**
      * 人員统计

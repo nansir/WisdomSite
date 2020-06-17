@@ -108,7 +108,7 @@ public class VehicleViewModel extends BaseViewModel<VehicleModel> implements Veh
     }
 
     @Override
-    public void vehicleRecords() {
-        mRepository.vehicleRecords();
+    public void vehicleRecords(String key) {
+        mRepository.vehicleRecords(key);
     }
 }

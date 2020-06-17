@@ -12,6 +12,8 @@ import com.sir.library.refresh.holder.RecyclerSwipeViewHolder;
 
 import java.util.List;
 
+import butterknife.OnClick;
+
 /**
  * 车辆进出记录
  * Created by zhuyinan on 2020/4/8.
@@ -31,9 +33,7 @@ public class VehicleRecordActivity extends AppHolderActivity<VehicleViewModel, R
         mViewHolder.setAdapter(new VehicleAdapter(getActivity()));
         mViewHolder.setEmptyMsg("暫無車輛進入記錄");
         mViewHolder.setOnRefreshListener(this);
-        if (mViewModel.getVehicleRecords().getValue() == null) {
-            mViewModel.vehicleRecords();
-        }
+        mViewModel.vehicleRecords("");
     }
 
     @Override
@@ -41,13 +41,20 @@ public class VehicleRecordActivity extends AppHolderActivity<VehicleViewModel, R
         mViewModel.getVehicleRecords().observe(this, new Observer<List<VehicleRecordsBean>>() {
             @Override
             public void onChanged(List<VehicleRecordsBean> list) {
+                mViewHolder.adapter.clearAllItem();
                 mViewHolder.loadData(list);
             }
         });
     }
 
+    @OnClick(R.id.btn_search)
+    public void onViewClicked() {
+        String key = mViewHelper.getEditVal(R.id.et_search);
+        mViewModel.vehicleRecords(key);
+    }
+
     @Override
     public void onRefresh() {
-        mViewModel.vehicleRecords();
+        mViewModel.vehicleRecords("");
     }
 }

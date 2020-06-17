@@ -174,8 +174,8 @@ public class VehicleModel extends Repository implements VehicleContract {
     }
 
     @Override
-    public void vehicleRecords() {
-        addSubscribe(appServerApi.vehicleRecords()
+    public void vehicleRecords(String key) {
+        addSubscribe(appServerApi.vehicleRecords(key)
                 .compose(ComposeTransformer.<List<VehicleRecordsBean>>Flowable())
                 .subscribeWith(new RxSubscriber<List<VehicleRecordsBean>>() {
                     @Override
